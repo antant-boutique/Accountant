@@ -2,7 +2,6 @@
 <html>
 <head>
   <title>Material Form</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -38,13 +37,18 @@
     }
     
     /* Image Input Styles */
+    .image-input-container {
+      text-align: center;
+      margin-bottom: 40px; /* Increased margin for a larger gap */
+    }
+    
     .image-input {
       width: 200px;
       height: 200px;
       position: relative;
       background: #f0f0f0;
       border: 1px dashed #ccc;
-      margin: 0 auto;
+      display: inline-block;
       cursor: pointer;
       overflow: hidden;
     }
@@ -72,15 +76,13 @@
 </head>
 <body>
   <form action="submit.php" method="post" enctype="multipart/form-data">
-    <div class="image-input">
-      <input type="file" id="picture" name="picture" accept="image/*" required>
+    <div class="image-input-container">
+      <label for="picture">Picture of the material:</label>
+      <div class="image-input">
+        <input type="file" id="picture" name="picture" accept="image/*" required>
+      </div>
     </div>
-
-    <div class="button-container">
-      <button type="submit" name="add-more">Add more</button>
-      <button type="button" name="close">Close</button>
-    </div>
-
+    
     <label for="material">Material name:</label>
     <input type="text" id="material" name="material" required>
     
@@ -93,6 +95,10 @@
     <label for="price">Price:</label>
     <input type="number" id="price" name="price" required>
     
+    <div class="button-container">
+      <button type="submit" name="add-more">Add more</button>
+      <button type="button" name="close">Close</button>
+    </div>
   </form>
 </body>
 </html>
