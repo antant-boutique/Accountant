@@ -129,6 +129,32 @@
       <button type="button" name="close">Close</button>
     </div>
   </form>
+
+  <script>
+    // Function to add form entries to the URL
+    function addEntriesToURL(form) {
+      var params = "";
+      for (var i = 0; i < form.elements.length; i++) {
+        var element = form.elements[i];
+        if (element.name) {
+          var value = encodeURIComponent(element.value);
+          if (params === "") {
+            params += "?" + element.name + "=" + value;
+          } else {
+            params += "&" + element.name + "=" + value;
+          }
+        }
+      }
+      window.history.replaceState({}, "", window.location.pathname + params);
+    }
+
+    // Attach event listener to the form submission
+    var form = document.querySelector("form");
+    form.addEventListener("submit", function(event) {
+      addEntriesToURL(form);
+    });
+  </script>
+
 </body>
 </html>
 
