@@ -187,7 +187,7 @@
   </form>
 
   <script>
-	  const pictureInput = document.getElementById('picture');
+const pictureInput = document.getElementById('picture');
 const previewImage = document.getElementById('preview');
 let touchStarted = false;
 
@@ -227,8 +227,11 @@ pictureInput.addEventListener('touchend', function(event) {
 
 // Toggle the clicked class on image input click
 const imageInput = document.querySelector('.image-input');
-imageInput.addEventListener('click', function() {
-  pictureInput.click(); // Trigger the click event on the actual file input
+imageInput.addEventListener('click', function(event) {
+  const target = event.target;
+  if (target.tagName === 'DIV' || target.tagName === 'INPUT') {
+    pictureInput.click();
+  }
 });
 
   </script>
