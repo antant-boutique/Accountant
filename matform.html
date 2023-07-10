@@ -3,6 +3,21 @@
 <head>
   <title>Material Form</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script>
+      Telegram.WebApp.ready();
+      Telegram.WebApp.MainButton.setText('Choose Color').show().onClick(function () {
+        const formValues = {
+        picture: pictureInput.files[0] ? pictureInput.files[0].name : null,
+        material: document.getElementById('material').value,
+        color: document.getElementById('color').value,
+        size: document.getElementById('size').value,
+        price: document.getElementById('price').value
+      };
+        const data = JSON.stringify(formValues);
+        Telegram.WebApp.sendData(data);
+        Telegram.WebApp.close();
+    });
+  </script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -148,21 +163,6 @@
         previewImage.style.display = 'none';
       }
     });
-
-      Telegram.WebApp.ready();
-      Telegram.WebApp.MainButton.setText('Choose Color').show().onClick(function () {
-	const formValues = {
-        picture: pictureInput.files[0] ? pictureInput.files[0].name : null,
-        material: document.getElementById('material').value,
-        color: document.getElementById('color').value,
-        size: document.getElementById('size').value,
-        price: document.getElementById('price').value
-      };
-        const data = JSON.stringify(formValues);
-        Telegram.WebApp.sendData(data);
-        Telegram.WebApp.close();
-    });
-
 
     closeButton.addEventListener('click', function() {
       materialForm.remove();
