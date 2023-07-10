@@ -139,36 +139,6 @@
     </div>
   </form>
 
-  <script>
-    const pictureInput = document.getElementById('picture');
-    const previewImage = document.getElementById('preview');
-    const materialForm = document.getElementById('materialForm');
-    const addMoreButton = document.getElementById('addMoreButton');
-    const closeButton = document.getElementById('closeButton');
-
-    pictureInput.addEventListener('change', function() {
-      const file = this.files[0];
-
-      if (file) {
-        const reader = new FileReader();
-
-        reader.addEventListener('load', function() {
-          previewImage.src = reader.result;
-          previewImage.style.display = 'block';
-        });
-
-        reader.readAsDataURL(file);
-      } else {
-        previewImage.src = '#';
-        previewImage.style.display = 'none';
-      }
-    });
-
-    closeButton.addEventListener('click', function() {
-      materialForm.remove();
-      Telegram.WebApp.close();
-    });
-  </script>
   <script type="text/javascript">
     Telegram.WebApp.expand();
   </script>
