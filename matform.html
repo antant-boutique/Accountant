@@ -7,11 +7,11 @@
       Telegram.WebApp.ready();
       Telegram.WebApp.MainButton.setText('Choose Color').show().onClick(function () {
         const formValues = {
-        //picture: pictureInput.files[0] ? pictureInput.files[0].name : null,
-        //material: document.getElementById('material').value,
-        //color: document.getElementById('color').value,
-        //size: document.getElementById('size').value,
-        price: document.getElementById('price').value
+        picture: pictureInput.files[0] ? pictureInput.files[0].name : null,
+        material: document.querySelector('material').value,
+        color: document.querySelector('color').value,
+        size: document.querySelector('size').value,
+        price: document.querySelector('price').value
         };
         const data = JSON.stringify(formValues);
         Telegram.WebApp.sendData(data);
