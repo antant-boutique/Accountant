@@ -50,6 +50,32 @@
     }
     // Call the function when the page loads
     window.onload = populateFormFields;
+
+    // Function to handle the file input change event
+    function handleFileInputChange(event) {
+      var fileInput = event.target;
+      var imagePreview = fileInput.parentElement.querySelector('.image-preview');
+
+      // Check if a file is selected
+      if (fileInput.files && fileInput.files[0]) {
+        var reader = new FileReader();
+
+        // Read the uploaded file as a data URL
+        reader.onload = function (e) {
+          imagePreview.style.backgroundImage = 'url(' + e.target.result + ')';
+        };
+
+        reader.readAsDataURL(fileInput.files[0]);
+      } else {
+        // Reset the image preview if no file is selected
+        imagePreview.style.backgroundImage = 'none';
+      }
+    }
+
+    // Attach event listener to the file input change event
+    var fileInput = document.getElementById('picture');
+    fileInput.addEventListener('change', handleFileInputChange);
+
   </script>
   <style>
     body {
@@ -121,6 +147,14 @@
       left: 50%;
       transform: translate(-50%, -50%);
     }
+
+    .image-preview {
+      width: 200px;
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+}
   </style>
 </head>
 <body>
@@ -128,6 +162,7 @@
     <div class="image-input-container">
       <label for="picture">Picture of the material:</label>
       <div class="image-input">
+        <div class="image-preview"></div>
         <input type="file" id="picture" name="picture" accept="image/*" required>
       </div>
     </div>
