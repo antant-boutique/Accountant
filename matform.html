@@ -59,11 +59,6 @@
       window.history.replaceState({}, "", window.location.pathname + params);
     }
 
-    // Attach event listener to the form submission
-    var form = document.querySelector("form");
-    form.addEventListener("submit", function(event) {
-      addEntriesToURL(form);
-    });
   </script>
   <style>
     body {
