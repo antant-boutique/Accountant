@@ -4,30 +4,35 @@
   <title>Material Form</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script>
-    // Function to extract URL parameters
-    function getURLParameters() {
-      var params = {};
-      var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
-        params[key] = value;
-      });
-      return params;
+  // Function to extract URL parameters
+  function getUrlParams() {
+    var params = {};
+    var searchParams = new URLSearchParams(window.location.search);
+
+    for (var [key, value] of searchParams) {
+      params[key] = decodeURIComponent(value);
     }
 
-    // Function to populate form fields with URL parameter values
-    function populateFormFields() {
-      var urlParams = getURLParameters();
-      for (var key in urlParams) {
-        if (urlParams.hasOwnProperty(key)) {
-          var inputField = document.getElementById(key);
-          if (inputField) {
-            inputField.value = decodeURIComponent(urlParams[key]);
-          }
-        }
-      }
+    return params;
+  }
+
+  // Function to prepopulate form fields
+  function prepopulateForm() {
+    var params = getUrlParams();
+    var nameField = document.getElementById('name');
+    var emailField = document.getElementById('email');
+
+    if (params.hasOwnProperty('name')) {
+      nameField.value = params.name;
     }
 
-    // Call the function when the page loads
-    window.onload = populateFormFields;
+    if (params.hasOwnProperty('email')) {
+      emailField.value = params.email;
+    }
+  }
+
+  // Call the prepopulateForm function when the page loads
+  window.onload = prepopulateForm;
   </script>
   <style>
     body {
