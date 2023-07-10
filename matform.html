@@ -62,7 +62,7 @@
     // Attach event listener to the form submission
     var form = document.querySelector("form");
     form.addEventListener("submit", function(event) {
-      addEntriesToURL(form);
+      event.preventDefault();
     });
   </script>
   <style>
