@@ -88,7 +88,6 @@
     
     .image-input:hover .image-preview {
       display: block;
-
     }
   </style>
 </head>
@@ -123,6 +122,7 @@
   <script>
     const pictureInput = document.getElementById('picture');
     const previewImage = document.getElementById('preview');
+    let touchStarted = false;
 
     pictureInput.addEventListener('change', function() {
       const file = this.files[0];
@@ -139,6 +139,21 @@
       } else {
         previewImage.src = '#';
         previewImage.style.display = 'none';
+      }
+    });
+
+    // Touch event listeners for mobile devices
+    pictureInput.addEventListener('touchstart', function() {
+      touchStarted = true;
+    });
+
+    pictureInput.addEventListener('touchend', function(event) {
+      if (touchStarted) {
+        event.preventDefault();
+        touchStarted = false;
+
+        const clickEvent = new MouseEvent('click');
+        pictureInput.dispatchEvent(clickEvent);
       }
     });
   </script>
