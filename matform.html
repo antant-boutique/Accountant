@@ -25,7 +25,29 @@
         }
       }
     }
+    
+    function populateFormFields() {
+      var urlParams = getURLParameters();
+      for (var key in urlParams) {
+        if (urlParams.hasOwnProperty(key)) {
+          var inputField = document.getElementById(key);
+          if (inputField) {
+            inputField.value = decodeURIComponent(urlParams[key]);
+          }
+        }
+      }
 
+      // Get the value of the variable from URL parameters
+      var showAddMore = urlParams["showAddMore"];
+
+      // Hide or show the Add more button based on the variable value
+      var addMoreButton = document.querySelector('button[name="add-more"]');
+      if (showAddMore === "0") {
+        addMoreButton.style.display = "block";
+      } else {
+        addMoreButton.style.display = "none";
+      }
+    }
     // Call the function when the page loads
     window.onload = populateFormFields;
   </script>
