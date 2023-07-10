@@ -164,7 +164,7 @@
       <label for="picture">Picture of the material:</label>
       <div class="image-input">
         <input type="file" id="picture" name="picture" accept="image/*" required>
-        <img id="preview" class="image-preview">
+	<img id="preview" class="image-preview">
       </div>
     </div>
     
@@ -187,50 +187,54 @@
   </form>
 
   <script>
-    const pictureInput = document.getElementById('picture');
-    const previewImage = document.getElementById('preview');
-    let touchStarted = false;
+   const pictureInput = document.getElementById('picture');
+const previewImage = document.getElementById('preview');
+let touchStarted = false;
 
-    pictureInput.addEventListener('change', function() {
-      const file = this.files[0];
+pictureInput.addEventListener('change', function() {
+  const file = this.files[0];
 
-      if (file) {
-        const reader = new FileReader();
+  if (file) {
+    const reader = new FileReader();
 
-        reader.addEventListener('load', function() {
-          previewImage.src = reader.result;
-          previewImage.style.display = 'block';
-        });
-
-        reader.readAsDataURL(file);
-      } else {
-        previewImage.src = '#';
-        previewImage.style.display = 'none';
-      }
+    reader.addEventListener('load', function() {
+      previewImage.src = reader.result;
+      previewImage.style.display = 'block';
     });
 
-    // Touch event listeners for mobile devices
-    pictureInput.addEventListener('touchstart', function() {
-      touchStarted = true;
-    });
+    reader.readAsDataURL(file);
+  } else {
+    previewImage.src = '#';
+    previewImage.style.display = 'none';
+  }
+});
 
-    pictureInput.addEventListener('touchend', function(event) {
-      if (touchStarted) {
-        event.preventDefault();
-        touchStarted = false;
+// Touch event listeners for mobile devices
+pictureInput.addEventListener('touchstart', function(event) {
+  touchStarted = true;
 
-        const clickEvent = new MouseEvent('click');
-        pictureInput.dispatchEvent(clickEvent);
-      }
-    });
+  // Prevent the touch event from bubbling up to parent elements
+  event.stopPropagation();
+});
 
-    // Hide the image preview text initially
-    const imageInput = document.querySelector('.image-input');
-    imageInput.addEventListener('mouseover', function() {
-      if (!previewImage.getAttribute('src')) {
-        this.style.cursor = 'default';
-      }
-    });
+pictureInput.addEventListener('touchend', function(event) {
+  if (touchStarted) {
+    event.preventDefault();
+    touchStarted = false;
+
+    const clickEvent = new MouseEvent('click');
+    pictureInput.dispatchEvent(clickEvent);
+  }
+});
+
+// Hide the image preview text initially
+const imageInput = document.querySelector('.image-input');
+imageInput.addEventListener('mouseover', function() {
+  if (!previewImage.getAttribute('src')) {
+    this.style.cursor = 'default';
+  }
+});
+
   </script>
 </body>
 </html>
