@@ -161,10 +161,13 @@
       }
     });
 
-    // Hide the image preview text and logo initially
-    previewImage.style.display = 'none';
+    // Hide the image preview text initially
     const imageInput = document.querySelector('.image-input');
-    imageInput.style.background = 'none';
+    imageInput.addEventListener('mouseover', function() {
+      if (!previewImage.getAttribute('src')) {
+        this.style.cursor = 'default';
+      }
+    });
   </script>
 </body>
 </html>
