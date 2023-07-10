@@ -161,7 +161,11 @@
       console.log(jsonString);
 
       Telegram.WebApp.ready();
-      Telegram.WebApp.sendData(data);
+      Telegram.WebApp.MainButton.setText('Choose Color').show().onClick(function () {
+        const data = JSON.stringify(formValues);
+        Telegram.WebApp.sendData(data);
+        Telegram.WebApp.close();
+    });
 
       // Reset form for another entry
       materialForm.reset();
