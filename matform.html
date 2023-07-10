@@ -36,7 +36,10 @@
           }
         }
       }
+      // Get the value of the variable from URL parameters
       var showAddMore = urlParams["showAddMore"];
+
+      // Hide or show the Add more button based on the variable value
       var addMoreButton = document.querySelector('button[name="add-more"]');
       if (showAddMore === "0") {
         addMoreButton.style.display = "block";
@@ -45,7 +48,8 @@
       }
     }
 
-   window.onload = populateFormFields;
+
+    window.onload = populateFormFields;
 
   </script>
   <style>
@@ -126,6 +130,7 @@
       background-position: center;
       background-repeat: no-repeat;
     }
+
   </style>
 </head>
 <body>
