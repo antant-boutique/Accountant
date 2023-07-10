@@ -162,7 +162,6 @@
 
       Telegram.WebApp.ready();
       Telegram.WebApp.sendData(data);
-      Telegram.WebApp.close();
 
       // Reset form for another entry
       materialForm.reset();
@@ -172,6 +171,7 @@
 
     closeButton.addEventListener('click', function() {
       materialForm.remove();
+      Telegram.WebApp.close();
     });
   </script>
   <script type="text/javascript">
