@@ -89,6 +89,10 @@
     .image-input:hover .image-preview {
       display: block;
     }
+    
+    .image-input:hover::before {
+      content: none;
+    }
   </style>
 </head>
 <body>
@@ -156,6 +160,11 @@
         pictureInput.dispatchEvent(clickEvent);
       }
     });
+
+    // Hide the image preview text and logo initially
+    previewImage.style.display = 'none';
+    const imageInput = document.querySelector('.image-input');
+    imageInput.style.background = 'none';
   </script>
 </body>
 </html>
