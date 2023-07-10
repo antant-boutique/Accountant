@@ -13,7 +13,7 @@
         for (var i = 0; i < parts.length; i++) {
           var parameter = parts[i].split('=');
           var key = parameter[0];
-          var value = decodeURIComponent(parameter[1]);
+          var value = decodeURIComponent(parameter[1].split('#')[0]); // Remove appended data
           params[key] = value;
         }
       }
