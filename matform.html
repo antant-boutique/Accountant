@@ -3,6 +3,32 @@
 <head>
   <title>Material Form</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script>
+    // Function to extract URL parameters
+    function getURLParameters() {
+      var params = {};
+      var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+        params[key] = value;
+      });
+      return params;
+    }
+
+    // Function to populate form fields with URL parameter values
+    function populateFormFields() {
+      var urlParams = getURLParameters();
+      for (var key in urlParams) {
+        if (urlParams.hasOwnProperty(key)) {
+          var inputField = document.getElementById(key);
+          if (inputField) {
+            inputField.value = decodeURIComponent(urlParams[key]);
+          }
+        }
+      }
+    }
+
+    // Call the function when the page loads
+    window.onload = populateFormFields;
+  </script>
   <style>
     body {
       font-family: Arial, sans-serif;
