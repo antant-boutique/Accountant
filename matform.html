@@ -148,30 +148,20 @@
       }
     });
 
-    addMoreButton.addEventListener('click', function() {
-      const formValues = {
+      Telegram.WebApp.ready();
+      Telegram.WebApp.MainButton.setText('Choose Color').show().onClick(function () {
+	const formValues = {
         picture: pictureInput.files[0] ? pictureInput.files[0].name : null,
         material: document.getElementById('material').value,
         color: document.getElementById('color').value,
         size: document.getElementById('size').value,
         price: document.getElementById('price').value
       };
-
-      const jsonString = JSON.stringify(formValues);
-      console.log(jsonString);
-
-      Telegram.WebApp.ready();
-      Telegram.WebApp.MainButton.setText('Choose Color').show().onClick(function () {
         const data = JSON.stringify(formValues);
         Telegram.WebApp.sendData(data);
         Telegram.WebApp.close();
     });
 
-      // Reset form for another entry
-      materialForm.reset();
-      previewImage.src = '#';
-      previewImage.style.display = 'none';
-    });
 
     closeButton.addEventListener('click', function() {
       materialForm.remove();
