@@ -237,8 +237,8 @@
     const pictureInput = document.getElementById('picture');
     const previewImage = document.getElementById('preview');
     const materialForm = document.getElementById('materialForm');
-    const addMoreButton = document.getElementById('addMoreButton');
-    const closeButton = document.getElementById('closeButton');
+    const addMoreButton = document.getElementById('button[name="add-more"]');
+    const closeButton = document.getElementById('button[name="close"]');
 
     pictureInput.addEventListener('change', function() {
       const file = this.files[0];
