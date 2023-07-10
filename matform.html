@@ -45,30 +45,6 @@
       }
     }
 
-    // Function to handle the file input change event
-    function handleFileInputChange(event) {
-      var fileInput = event.target;
-      var imagePreview = fileInput.parentElement.querySelector('.image-preview');
-
-      // Check if a file is selected
-      if (fileInput.files && fileInput.files[0]) {
-        var reader = new FileReader();
-
-        // Read the uploaded file as a data URL
-        reader.onload = function (e) {
-          imagePreview.style.backgroundImage = 'url(' + e.target.result + ')';
-        };
-
-        reader.readAsDataURL(fileInput.files[0]);
-      } else {
-        // Reset the image preview if no file is selected
-        imagePreview.style.backgroundImage = 'none';
-      }
-    }
-
-    // Attach event listener to the file input change event
-    var fileInput = document.getElementById('picture');
-    fileInput.addEventListener('change', handleFileInputChange);
     window.onload = populateFormFields;
 
   </script>
