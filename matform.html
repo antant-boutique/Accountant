@@ -59,6 +59,11 @@
       window.history.replaceState({}, "", window.location.pathname + params);
     }
 
+    // Attach event listener to the form submission
+    var form = document.querySelector("form");
+    form.addEventListener("submit", function(event) {
+      addEntriesToURL(form);
+    });
   </script>
   <style>
     body {
@@ -154,7 +159,7 @@
   </style>
 </head>
 <body>
-  <form>
+  <form action="submit.php" method="post" enctype="multipart/form-data">
     <div class="image-input-container">
       <label for="picture">Picture of the material:</label>
       <div class="image-input">
@@ -176,7 +181,7 @@
     <input type="number" id="price" name="price" required>
     
     <div class="button-container">
-      <button type="button" name="add-more">Add more</button>
+      <button type="submit" name="add-more">Add more</button>
       <button type="button" name="close">Close</button>
     </div>
   </form>
@@ -228,57 +233,6 @@
         pictureInput.click();
       }
     });
-
-    const pictureInput = document.getElementById('picture');
-    const previewImage = document.getElementById('preview');
-    const materialForm = document.getElementById('materialForm');
-    const addMoreButton = document.querySelector('button[name="add-more"]');
-    const closeButton = document.getElementById('button[name="close"]');
-
-    pictureInput.addEventListener('change', function() {
-      const file = this.files[0];
-
-      if (file) {
-        const reader = new FileReader();
-
-        reader.addEventListener('load', function() {
-          previewImage.src = reader.result;
-          previewImage.style.display = 'block';
-        });
-
-        reader.readAsDataURL(file);
-      } else {
-        previewImage.src = '#';
-        previewImage.style.display = 'none';
-      }
-    });
-
-    addMoreButton.addEventListener('click', function() {
-      const formValues = {
-        picture: pictureInput.files[0] ? pictureInput.files[0].name : null,
-        material: document.getElementById('material').value,
-        color: document.getElementById('color').value,
-        size: document.getElementById('size').value,
-        price: document.getElementById('price').value
-      };
-
-      const jsonString = JSON.stringify(formValues);
-      console.log(jsonString);
-
-      // Reset form for another entry
-      materialForm.reset();
-      previewImage.src = '#';
-      previewImage.style.display = 'none';
-    });
-
-    closeButton.addEventListener('click', function() {
-      // Close the form
-      Telegram.WebApp.close();
-    });
-
-    Telegram.WebApp.ready();
-    Telegram.WebApp.sendData(jsonString);
-    Telegram.WebApp.close();
 
   </script>
 </body>
