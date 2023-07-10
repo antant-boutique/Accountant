@@ -36,11 +36,7 @@
           }
         }
       }
-
-      // Get the value of the variable from URL parameters
       var showAddMore = urlParams["showAddMore"];
-
-      // Hide or show the Add more button based on the variable value
       var addMoreButton = document.querySelector('button[name="add-more"]');
       if (showAddMore === "0") {
         addMoreButton.style.display = "block";
@@ -48,8 +44,6 @@
         addMoreButton.style.display = "none";
       }
     }
-    // Call the function when the page loads
-    window.onload = populateFormFields;
 
     // Function to handle the file input change event
     function handleFileInputChange(event) {
@@ -75,6 +69,7 @@
     // Attach event listener to the file input change event
     var fileInput = document.getElementById('picture');
     fileInput.addEventListener('change', handleFileInputChange);
+    window.onload = populateFormFields;
 
   </script>
   <style>
