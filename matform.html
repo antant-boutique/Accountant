@@ -3,7 +3,28 @@
 <head>
   <title>Material Form</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <script>
+  <script type="text/javascript">
+    const pictureInput = document.getElementById('picture');
+    const previewImage = document.getElementById('preview');
+    const materialForm = document.getElementById('materialForm');
+
+    pictureInput.addEventListener('change', function() {
+      const file = this.files[0];
+
+      if (file) {
+        const reader = new FileReader();
+
+        reader.addEventListener('load', function() {
+          previewImage.src = reader.result;
+          previewImage.style.display = 'block';
+        });
+
+        reader.readAsDataURL(file);
+      } else {
+        previewImage.src = '#';
+        previewImage.style.display = 'none';
+      }
+    });
       Telegram.WebApp.ready();
       Telegram.WebApp.MainButton.setText('Choose Color').show().onClick(function () {
         const formValues = {
