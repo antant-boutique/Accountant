@@ -1,164 +1,77 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Material Form</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <script type="text/javascript">
-    const pictureInput = document.getElementById('picture');
-    const previewImage = document.getElementById('preview');
-    const materialForm = document.getElementById('materialForm');
-
-    pictureInput.addEventListener('change', function() {
-      const file = this.files[0];
-
-      if (file) {
-        const reader = new FileReader();
-
-        reader.addEventListener('load', function() {
-          previewImage.src = reader.result;
-          previewImage.style.display = 'block';
-        });
-
-        reader.readAsDataURL(file);
-      } else {
-        previewImage.src = '#';
-        previewImage.style.display = 'none';
-      }
-    });
-      Telegram.WebApp.ready();
-      Telegram.WebApp.MainButton.setText('Choose Color').show().onClick(function () {
-        const formValues = {
-        picture: pictureInput.files[0] ? pictureInput.files[0].name : null,
-        material: document.getElementById('material').value,
-        color: document.getElementById('color').value,
-        size: document.getElementById('size').value,
-        price: document.getElementById('price').value
-        };
-        const data = JSON.stringify(formValues);
-        Telegram.WebApp.sendData(data);
-        Telegram.WebApp.close();
-    });
-  </script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-    }
-    form {
-      max-width: 500px;
-      margin: 0 auto;
-    }
-    label, input, select {
-      display: block;
-      margin-bottom: 10px;
-      width: 100%;
-    }
-    .button-container {
-      text-align: center;
-      margin-top: 20px;
-    }
-    .button-container button {
-      background-color: #4CAF50;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      cursor: pointer;
-      margin-right: 10px;
-    }
-    
-    /* Responsive Styles */
-    @media (max-width: 600px) {
-      form {
-        max-width: 100%;
-        padding: 20px;
-      }
-    }
-    
-    /* Image Input Styles */
-    .image-input-container {
-      text-align: center;
-      margin-bottom: 20px;
-      position: relative;
-    }
-    
-    .image-input {
-      width: 200px;
-      height: 200px;
-      position: relative;
-      background: #f0f0f0;
-      border: 1px dashed #ccc;
-      display: inline-block;
-      cursor: pointer;
-      overflow: hidden;
-    }
-    
-    .image-input input[type="file"] {
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      cursor: pointer;
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-    
-    .image-input::before {
-      content: '+';
-      font-size: 60px;
-      color: #999;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 1;
-    }
-    
-    .image-preview {
-      max-width: 200px;
-      max-height: 200px;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      display: none;
-      z-index: 2;
-    }
-    
-    .image-input:hover .image-preview {
-      display: block;
-    }
-    
-    .image-input:hover::before {
-      content: none;
-    }
-  </style>
+    <title>Material Form</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        .picture-input {
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-  <form>
-    <div class="image-input-container">
-      <label for="picture">Picture of the material:</label>
-      <div class="image-input">
-        <input type="file" id="picture" name="picture" accept="image/*" required>
-        <img id="preview" class="image-preview" src="#" alt="Image Preview">
-      </div>
-    </div>
-    
-    <label for="material">Material name:</label>
-    <input type="text" id="material" name="material" required>
-    
-    <label for="color">Color/Print:</label>
-    <input type="text" id="color" name="color" required>
-    
-    <label for="size">Size:</label>
-    <input type="text" id="size" name="size" required>
-    
-    <label for="price">Price:</label>
-    <input type="number" id="price" name="price" required>
-    
-  </form>
+    <h2>Material Form</h2>
+    <form id="materialForm">
+        <div>
+            <label for="picture">Picture:</label>
+            <div class="picture-input" onclick="openPictureDialog()">
+                +
+            </div>
+            <input type="file" id="picture" accept="image/*" style="display: none;">
+        </div>
+        <div>
+            <label for="material">Material:</label>
+            <input type="text" id="material">
+        </div>
+        <div>
+            <label for="color">Color/Print:</label>
+            <input type="text" id="color">
+        </div>
+        <div>
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity">
+        </div>
+        <div>
+            <label for="price">Price:</label>
+            <input type="number" id="price">
+        </div>
+    </form>
 
-  <script type="text/javascript">
-    Telegram.WebApp.expand();
-  </script>
+    <script>
+        function openPictureDialog() {
+            document.getElementById('picture').click();
+        }
+
+        Telegram.WebApp.ready();
+        Telegram.WebApp.MainButton.setText('Choose Color').show().onClick(function () {
+            var form = document.getElementById('materialForm');
+            var pictureInput = document.getElementById('picture');
+            var materialInput = document.getElementById('material');
+            var colorInput = document.getElementById('color');
+            var quantityInput = document.getElementById('quantity');
+            var priceInput = document.getElementById('price');
+
+            var formData = {
+                picture: pictureInput.files[0].name || '',
+                material: materialInput.value,
+                color: colorInput.value,
+                quantity: parseInt(quantityInput.value),
+                price: parseFloat(priceInput.value)
+            };
+
+            var jsonString = JSON.stringify(formData);
+	    Telegram.WebApp.sendData(jsonString);
+            Telegram.WebApp.close();
+            console.log(jsonString);
+        });
+    </script>
 </body>
 </html>
 
