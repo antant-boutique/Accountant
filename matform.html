@@ -50,7 +50,7 @@
         }
 
         Telegram.WebApp.ready();
-        Telegram.WebApp.MainButton.setText('Choose Color').show().onClick(function () {
+        Telegram.WebApp.MainButton.setText('Next').show().onClick(function () {
             var form = document.getElementById('materialForm');
             var pictureInput = document.getElementById('picture');
             var materialInput = document.getElementById('material');
@@ -71,6 +71,9 @@
             Telegram.WebApp.close();
             console.log(jsonString);
         });
+    </script>
+    <script type="text/javascript">
+    Telegram.WebApp.expand();
     </script>
 </body>
 </html>
