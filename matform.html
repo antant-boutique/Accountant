@@ -45,12 +45,12 @@
     </form>
 
     <script type="text/javascript">
-	function openPictureDialog() {
+        function openPictureDialog() {
             document.getElementById('picture').click();
         }
 
-           Telegram.WebApp.ready();
-           Telegram.WebApp.MainButton.setText('Choose Color').show().onClick(function () {
+        Telegram.WebApp.ready();
+        Telegram.WebApp.MainButton.setText('Choose Color').show().onClick(function () {
             var form = document.getElementById('materialForm');
             var pictureInput = document.getElementById('picture');
             var materialInput = document.getElementById('material');
@@ -66,14 +66,10 @@
                 price: parseFloat(priceInput.value)
             };
 
-           var jsonString = JSON.stringify(formData);
-           console.log(jsonString);
-
-           var jsonString = JSON.stringify(formData);
-           Telegram.WebApp.sendData(jsonString);
-           Telegram.WebApp.close();
-            };
-
+            var jsonString = JSON.stringify(formData);
+	    Telegram.WebApp.sendData(data);
+            Telegram.WebApp.close();
+            console.log(jsonString);
         });
     </script>
     <script type="text/javascript">
