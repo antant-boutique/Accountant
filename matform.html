@@ -237,7 +237,7 @@
 	    var ireader = new FileReader();
             ireader.onload = function (event) {
                 const imageUrl = event.target.result;
-	    }
+
 
             var formData = {
                 picture: imageUrl,
@@ -251,6 +251,7 @@
             Telegram.WebApp.sendData(jsonString);
             Telegram.WebApp.close();
             console.log(jsonString);
+            };
 
 	    if (pictureInput.files && pictureInput.files[0]) {
                 ireader.readAsDataURL(pictureInput.files[0]);
