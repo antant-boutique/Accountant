@@ -67,7 +67,7 @@
             };
 
             var jsonString = JSON.stringify(formData);
-	    Telegram.answerWebAppQuery(jsonString);
+	    Telegram.WebApp.answerWebAppQuery(jsonString);
             Telegram.WebApp.close();
             console.log(jsonString);
         });
