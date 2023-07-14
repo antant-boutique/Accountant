@@ -50,7 +50,7 @@
         }
 
         Telegram.WebApp.ready();
-        Telegram.WebApp.MainButton.setText('Choose Color').show().onClick(function () {
+        Telegram.WebApp.MainButton.setText('Next').show().onClick(function () {
             var form = document.getElementById('materialForm');
             var pictureInput = document.getElementById('picture');
             var materialInput = document.getElementById('material');
@@ -67,7 +67,7 @@
             };
 
             var jsonString = JSON.stringify(formData);
-	    Telegram.WebApp.sendData(data);
+	    Telegram.WebApp.sendData(jsonString);
             Telegram.WebApp.close();
             console.log(jsonString);
         });
