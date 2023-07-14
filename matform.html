@@ -231,8 +231,12 @@
             var quantityInput = document.getElementById('quantity');
             var priceInput = document.getElementById('price');
 
+	    const file = pictureInput.files[0];
+	    const reader = new FileReader();
+	    const fread = reader.readAsDataURL(file);
+
             var formData = {
-                picture: pictureInput.files[0].name || '',
+                picture: fread,
                 material: materialInput.value,
                 color: colorInput.value,
                 quantity: parseInt(quantityInput.value),
