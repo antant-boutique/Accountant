@@ -51,6 +51,7 @@
 
         Telegram.WebApp.ready();
         Telegram.WebApp.MainButton.setText('Next').show().onClick(function () {
+	    var form = document.getElementById('materialForm');
             var pictureInput = document.getElementById('picture');
 	    var materialInput = document.getElementById('material');
             var colorInput = document.getElementById('color');
