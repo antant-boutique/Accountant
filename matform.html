@@ -51,12 +51,14 @@
 
         Telegram.WebApp.ready();
         Telegram.WebApp.MainButton.setText('Next').show().onClick(function () {
-            var materialInput = document.getElementById('material');
+            var pictureInput = document.getElementById('picture');
+	    var materialInput = document.getElementById('material');
             var colorInput = document.getElementById('color');
             var quantityInput = document.getElementById('quantity');
             var priceInput = document.getElementById('price');
 
             var formData = {
+		picture: pictureInput.files[0].name || '',
                 material: materialInput.value,
                 color: colorInput.value,
                 quantity: parseInt(quantityInput.value),
