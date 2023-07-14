@@ -231,12 +231,15 @@
             var quantityInput = document.getElementById('quantity');
             var priceInput = document.getElementById('price');
 
-	    const ifile = pictureInput.files[0];
-	    const ireader = new FileReader();
-	    const firead = ireader.readAsDataURL(file);
+	    //const ifile = pictureInput.files[0];
+	    //const ireader = new FileReader();
+	    //const firead = ireader.readAsDataURL(file);
+	    var ireader = new FileReader();
+            ireader.onload = function (event) {
+                const imageUrl = event.target.result;
 
             var formData = {
-                picture: firead,
+                picture: imageUrl,
                 material: materialInput.value,
                 color: colorInput.value,
                 quantity: parseInt(quantityInput.value),
@@ -247,6 +250,10 @@
             Telegram.WebApp.sendData(jsonString);
             Telegram.WebApp.close();
             console.log(jsonString);
+
+            if (pictureInput.files && pictureInput.files[0]) {
+                ireader.readAsDataURL(pictureInput.files[0]);
+            }
         });
     </script>
     <script type="text/javascript">
