@@ -58,12 +58,8 @@
             var quantityInput = document.getElementById('quantity');
             var priceInput = document.getElementById('price');
 
-            var reader = new FileReader();
-            reader.onload = function (event) {
-                var imageUrl = event.target.result;
-
                 var formData = {
-                    picture: imageUrl,
+                    picture: pictureInput.files[0].name,
                     material: materialInput.value,
                     color: colorInput.value,
                     quantity: parseInt(quantityInput.value),
@@ -74,10 +70,6 @@
                 Telegram.WebApp.sendData(jsonString);
                 Telegram.WebApp.close();
             };
-
-            if (pictureInput.files && pictureInput.files[0]) {
-                reader.readAsDataURL(pictureInput.files[0]);
-            }
 
         });
     </script>
