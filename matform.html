@@ -67,9 +67,9 @@
             };
 
             var jsonString = JSON.stringify(formData);
-	    Telegram.WebApp.sendData(formData);
+	    Telegram.WebApp.sendData(jsonString);
             Telegram.WebApp.close();
-	    console.log(formData);
+	    console.log(jsonString);
         });
     </script>
     <script type="text/javascript">
