@@ -66,7 +66,7 @@
                 price: parseFloat(priceInput.value)
             };
 
-            //var jsonString = JSON.stringify(formData);
+            var jsonString = JSON.stringify(formData);
 	    Telegram.WebApp.sendData(formData);
             Telegram.WebApp.close();
 	    console.log(formData);
