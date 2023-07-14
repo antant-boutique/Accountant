@@ -45,30 +45,33 @@
     </form>
 
     <script type="text/javascript">
-        function openPictureDialog() {
+	function openPictureDialog() {
             document.getElementById('picture').click();
         }
 
-        Telegram.WebApp.ready();
-        Telegram.WebApp.MainButton.setText('Next').show().onClick(function () {
-	    var form = document.getElementById('materialForm');
+           Telegram.WebApp.ready();
+           Telegram.WebApp.MainButton.setText('Choose Color').show().onClick(function () {
+            var form = document.getElementById('materialForm');
             var pictureInput = document.getElementById('picture');
-	    var materialInput = document.getElementById('material');
+            var materialInput = document.getElementById('material');
             var colorInput = document.getElementById('color');
             var quantityInput = document.getElementById('quantity');
             var priceInput = document.getElementById('price');
 
-                var formData = {
-                    picture: pictureInput.files[0].name,
-                    material: materialInput.value,
-                    color: colorInput.value,
-                    quantity: parseInt(quantityInput.value),
-                    price: parseFloat(priceInput.value)
-                };
+            var formData = {
+                picture: pictureInput.files[0].name || '',
+                material: materialInput.value,
+                color: colorInput.value,
+                quantity: parseInt(quantityInput.value),
+                price: parseFloat(priceInput.value)
+            };
 
-                var jsonString = JSON.stringify(formData);
-                Telegram.WebApp.sendData(jsonString);
-                Telegram.WebApp.close();
+           var jsonString = JSON.stringify(formData);
+           console.log(jsonString);
+
+           var jsonString = JSON.stringify(formData);
+           Telegram.WebApp.sendData(jsonString);
+           Telegram.WebApp.close();
             };
 
         });
