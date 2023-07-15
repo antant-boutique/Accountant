@@ -223,7 +223,8 @@
         }
 
         Telegram.WebApp.ready();
-        Telegram.WebApp.MainButton.setText('Next').show().onClick(function () {
+        const jdist = Telegram.WebApp.initData['price']
+        Telegram.WebApp.MainButton.setText(jdist).show().onClick(function () {
             var form = document.getElementById('materialForm');
             var pictureInput = document.getElementById('picture');
             var materialInput = document.getElementById('material');
@@ -231,16 +232,8 @@
             var quantityInput = document.getElementById('quantity');
             var priceInput = document.getElementById('price');
 
-	    //const ifile = pictureInput.files[0];
-	    //const ireader = new FileReader();
-	    //const firead = ireader.readAsDataURL(file);
-	    var ireader = new FileReader();
-            ireader.onload = function (event) {
-                const imageUrl = event.target.result;
-
-
             var formData = {
-                picture: imageUrl,
+                picture: pictureInput.files[0].name || '',
                 material: materialInput.value,
                 color: colorInput.value,
                 quantity: parseInt(quantityInput.value),
@@ -251,12 +244,6 @@
             Telegram.WebApp.sendData(jsonString);
             Telegram.WebApp.close();
             console.log(jsonString);
-            };
-
-	    if (pictureInput.files && pictureInput.files[0]) {
-                ireader.readAsDataURL(pictureInput.files[0]);
-            }
-
         });
     </script>
     <script type="text/javascript">
