@@ -37,8 +37,7 @@
         }
 
         Telegram.WebApp.ready();
-        var jdist = Telegram.WebApp.initData
-        Telegram.WebApp.MainButton.setText(jdist).show().onClick(function () {
+        Telegram.WebApp.MainButton.setText('Next').show().onClick(function () {
             var inputFields = document.querySelectorAll('input[data-values]');
             inputFields.forEach(function(inputField) {
               var values = JSON.parse(inputField.getAttribute('data-values'));
@@ -65,7 +64,6 @@
 
             var jsonString = JSON.stringify(formData);
             Telegram.WebApp.sendData(jsonString);
-            Telegram.WebApp.close();
             console.log(jsonString);
         });
 
