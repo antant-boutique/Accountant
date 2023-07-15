@@ -223,7 +223,7 @@
         }
 
         Telegram.WebApp.ready();
-        const jdist = Telegram.WebApp.initData['price']
+        var jdist = Telegram.WebApp.initData
         Telegram.WebApp.MainButton.setText(jdist).show().onClick(function () {
             var form = document.getElementById('materialForm');
             var pictureInput = document.getElementById('picture');
