@@ -8,7 +8,8 @@
     function getURLParameters() {
       var params = {};
       var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
-        params[key] = value;
+        params[key] = params[key] || [];
+        params[key].push(decodeURIComponent(value));
       });
       return params;
     }
@@ -20,16 +21,56 @@
         if (urlParams.hasOwnProperty(key)) {
           var inputField = document.getElementById(key);
           if (inputField) {
-            inputField.value = decodeURIComponent(urlParams[key]);
+            var values = urlParams[key];
+            if (values.length > 0) {
+              inputField.value = values[0];
+              inputField.setAttribute('data-values', JSON.stringify(values));
+            }
           }
         }
       }
-
     }
 
-    window.onload = populateFormFields;
 
-  </script>
+        function openPictureDialog() {
+            document.getElementById('picture').click();
+        }
+
+        Telegram.WebApp.ready();
+        var jdist = Telegram.WebApp.initData
+        Telegram.WebApp.MainButton.setText(jdist).show().onClick(function () {
+            var inputFields = document.querySelectorAll('input[data-values]');
+            inputFields.forEach(function(inputField) {
+              var values = JSON.parse(inputField.getAttribute('data-values'));
+              var currentIndex = values.indexOf(inputField.value);
+              if (currentIndex !== -1 && currentIndex < values.length - 1) {
+                inputField.value = values[currentIndex + 1];
+              }
+            });
+
+            var form = document.getElementById('materialForm');
+            var pictureInput = document.getElementById('picture');
+            var materialInput = document.getElementById('material');
+            var colorInput = document.getElementById('color');
+            var quantityInput = document.getElementById('quantity');
+            var priceInput = document.getElementById('price');
+
+            var formData = {
+                picture: pictureInput.files[0].name || '',
+                material: materialInput.value,
+                color: colorInput.value,
+                quantity: parseInt(quantityInput.value),
+                price: parseFloat(priceInput.value)
+            };
+
+            var jsonString = JSON.stringify(formData);
+            Telegram.WebApp.sendData(jsonString);
+            Telegram.WebApp.close();
+            console.log(jsonString);
+        });
+
+        window.onload = populateFormFields;
+    </script>
   <script>
     // Function to add form entries to the URL
     function addEntriesToURL(form) {
