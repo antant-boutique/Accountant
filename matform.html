@@ -71,7 +71,7 @@
             console.log(jsonString);
 	     } else {
              var form = document.querySelector('form');
-             var inputFieldsWithParams = form.querySelectorAll('input[data-values]:not([data-values="[]"])');
+             var inputFieldsWithParams = form.querySelectorAll('input[data-values="[]"]');
              inputFieldsWithParams.forEach(function(inputField) {
              inputField.value = '';
              });
