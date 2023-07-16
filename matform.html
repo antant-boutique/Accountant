@@ -24,8 +24,10 @@
             var values = urlParams[key];
             if (values.length > 0) {
               inputField.value = values[0];
-              inputField.setAttribute('data-values', JSON.stringify(values || []));
-            }
+              inputField.setAttribute('data-values', JSON.stringify(values));
+	    } else {
+	      inputField.setAttribute('data-values', JSON.stringify(inputField.value));
+	    }
           }
         }
       }
