@@ -38,9 +38,8 @@
         
         var formData = {};
         inputFields.forEach(function(inputField) {
-              if (!formData.hasOwnProperty(key)) {
+		var key = inputField.name;
                 formData[key] = [];
-              }
             });
         
         Telegram.WebApp.ready();
