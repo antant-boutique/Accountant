@@ -35,7 +35,14 @@
         function openPictureDialog() {
             document.getElementById('picture').click();
         }
-
+        
+        var formData = {};
+        inputFields.forEach(function(inputField) {
+              if (!formData.hasOwnProperty(key)) {
+                formData[key] = [];
+              }
+            });
+        
         Telegram.WebApp.ready();
         Telegram.WebApp.MainButton.setText('Next').show().onClick(function () {
             var inputFields = document.querySelectorAll('input[data-values]');
@@ -50,14 +57,10 @@
               }
             });
 
-            var formData = {};
             inputFields.forEach(function(inputField) {
               var key = inputField.name;
               var value = inputField.value;
 
-              if (!formData.hasOwnProperty(key)) {
-                formData[key] = [];
-              }
               formData[key].push(value);
             });
 
