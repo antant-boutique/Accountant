@@ -47,7 +47,12 @@
             
 	    inputFields.forEach(function(inputField) {
               var key = inputField.name;
-              var value = inputField.value;
+	      if (key == "picture"){
+		      var value = inputField.files[0].name;
+	      } else {
+                var value = inputField.value;
+		}
+	      
               if (!formData.hasOwnProperty(key)) {
                 formData[key] = [];
               }
