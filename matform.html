@@ -57,10 +57,12 @@
               var currentIndex = values.indexOf(inputField.value);
               if (currentIndex !== -1 && currentIndex < values.length - 1) {
                 inputField.value = values[currentIndex + 1];
-		isLastSet = false;
+              } else {
+                inputField.value = values[0]; // Reset to the first value if no more values
               }
             });
 
+	    var isLastSet = false;
 	    if (isLastSet) {
             // Perform any desired actions for the last set of parameters
             var jsonString = JSON.stringify(formData);
