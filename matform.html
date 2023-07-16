@@ -57,9 +57,7 @@
               var currentIndex = values.indexOf(inputField.value);
               if (currentIndex !== -1 && currentIndex < values.length - 1) {
                 inputField.value = values[currentIndex + 1];
-              } else {
-                inputField.value = values[0]; // Reset to the first value if no more values
-              }
+              } 
             });
 
 	    var isLastSet = false;
