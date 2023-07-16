@@ -37,10 +37,6 @@
         }
         
         var formData = {};
-        inputFields.forEach(function(inputField) {
-		var key = inputField.name;
-                formData[key] = [];
-            });
         
         Telegram.WebApp.ready();
         Telegram.WebApp.MainButton.setText('Next').show().onClick(function () {
@@ -59,7 +55,9 @@
             inputFields.forEach(function(inputField) {
               var key = inputField.name;
               var value = inputField.value;
-
+              if (!formData.hasOwnProperty(key)) {
+                formData[key] = [];
+              }
               formData[key].push(value);
             });
 
