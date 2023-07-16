@@ -37,7 +37,7 @@
         }
         
         var formData = {};
-        
+
         Telegram.WebApp.ready();
         Telegram.WebApp.MainButton.setText('Next').show().onClick(function () {
             var inputFields = document.querySelectorAll('input[data-values]');
@@ -61,13 +61,17 @@
               if (currentIndex !== -1 && currentIndex < values.length - 1) {
                 inputField.value = values[currentIndex + 1];
 		isLastSet = false;
-              } 
+              }
+	      if (currentIndex == -1) {
+                Telegram.WebApp.MainButton.setText('Close')
+	      }
             });
 
 	    if (isLastSet) {
             // Perform any desired actions for the last set of parameters
             var jsonString = JSON.stringify(formData);
             Telegram.WebApp.sendData(jsonString);
+            Telegram.WebApp.close()
             console.log(jsonString);
 	     } else {
              var form = document.querySelector('form');
