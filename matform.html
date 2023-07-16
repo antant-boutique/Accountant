@@ -44,21 +44,19 @@
 	    var isLastSet = true;
             
 	    inputFields.forEach(function(inputField) {
-              var values = JSON.parse(inputField.getAttribute('data-values'));
-              var currentIndex = values.indexOf(inputField.value);
-              if (currentIndex !== -1 && currentIndex < values.length - 1) {
-                inputField.value = values[currentIndex + 1];
-		isLastSet = false;
-              }
-            });
-
-            inputFields.forEach(function(inputField) {
               var key = inputField.name;
               var value = inputField.value;
               if (!formData.hasOwnProperty(key)) {
                 formData[key] = [];
               }
               formData[key].push(value);
+
+              var values = JSON.parse(inputField.getAttribute('data-values'));
+              var currentIndex = values.indexOf(inputField.value);
+              if (currentIndex !== -1 && currentIndex < values.length - 1) {
+                inputField.value = values[currentIndex + 1];
+		isLastSet = false;
+              }
             });
 
 	    if (isLastSet) {
