@@ -59,6 +59,7 @@
                 formData[key] = [];
               }
               formData[key].push(value);
+            });
 
 	    if (isLastSet) {
             // Perform any desired actions for the last set of parameters
@@ -66,7 +67,6 @@
             Telegram.WebApp.sendData(jsonString);
             console.log(jsonString);
 	     }
-            });
 
             });
 
