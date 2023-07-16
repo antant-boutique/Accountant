@@ -26,6 +26,9 @@
               inputField.value = values[0];
               inputField.setAttribute('data-values', JSON.stringify(values));
             }
+            else {
+              inputField.setAttribute('data-values', '[]');
+            }
           }
         }
       }
