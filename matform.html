@@ -79,13 +79,6 @@
              previewImage.src = '#';
              previewImage.style.display = 'none';
              }
-	     const inputFields = form.querySelectorAll('input[data-values]');
-             inputFields.forEach(function(field) {
-             field.classList.add('flash-animation');
-             setTimeout(function() {
-               field.classList.remove('flash-animation');
-               }, 600);
-            });
 
             });
 
@@ -201,19 +194,6 @@
     
     .image-input.clicked::before {
       content: block;
-    }
-
-    @keyframes flash {
-      0% { border-width: 1px; }
-      50% { border-width: 3px; }
-      100% { border-width: 1px; }
-    }
-
-    .flash-animation {
-      animation-name: flash;
-      animation-duration: 0.6s;
-      animation-timing-function: linear;
-      animation-iteration-count: 1;
     }
   </style>
 </head>
