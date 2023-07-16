@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login Form</title>
+  <style>
+    body {
+      background-color: #f2f2f2;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .container {
+      max-width: 400px;
+      margin: 50px auto;
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.1);
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    
+    .form-group input[type="text"],
+    .form-group input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      font-size: 16px;
+      background-color: #f9f9f9;
+      box-sizing: border-box;
+      color: #000;
+    }
+    
+    .password-eye {
+      position: relative;
+      display: inline-block;
+      width: calc(100% - 33px); /* Adjusted width to match the username input box */
+    }
+    
+    .password-eye input[type="password"] {
+      padding-right: 30px;
+      background-color: #222;
+      color: #fff;
+    }
+    
+    .password-eye .toggle-password {
+      position: absolute;
+      top: 50%;
+      right: 5px;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+    
+    .password-eye .torch-light {
+      position: absolute;
+      top: 50%;
+      right: 16px;
+      transform: translateY(-50%);
+      color: #ffdd55;
+      font-size: 20px;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    
+    .password-eye input[type="password"]:focus {
+      color: #000;
+    }
+    
+    .password-eye input[type="password"]:focus + .torch-light {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Login Form</h2>
+    <form>
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" placeholder="Enter your username" required>
+      </div>
+      <div class="form-group password-eye">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        <span class="toggle-password">&#128161;</span>
+        <span class="torch-light">&#128161;</span>
+      </div>
+    </form>
+  </div>
+  
+  <script>
+    var passwordInput = document.getElementById("password");
+    var eyeIcon = document.querySelector(".toggle-password");
+    
+    eyeIcon.addEventListener("click", function() {
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        eyeIcon.innerHTML = "&#128163;";
+      } else {
+        passwordInput.type = "password";
+        eyeIcon.innerHTML = "&#128161;";
+      }
+    });
+  </script>
+  <script>
+    Telegram.WebApp.ready();
+    Telegram.WebApp.MainButton.setText('Next').show().onClick(function () {
+    var userInput = document.getElementById('username');
+    var passInput = document.getElementById('password');
+
+    var authData = {
+        username: userInput.value,
+        password: passInput.value
+        };
+
+    var authString = JSON.stringify(authData);
+    Telegram.WebApp.sendData(authString);
+    Telegram.WebApp.close();
+    console.log(authString);         
+  </script>
+</body>
+</html>
+
