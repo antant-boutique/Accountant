@@ -62,7 +62,7 @@
                 inputField.value = values[currentIndex + 1];
 		isLastSet = false;
               }
-	      if (currentIndex == -1) {
+	      if (isLastSet == false && currentIndex == -1) {
                 Telegram.WebApp.MainButton.setText('Close')
 	      }
             });
