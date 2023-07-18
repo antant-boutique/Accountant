@@ -39,6 +39,7 @@
         var formData = {};
 
         Telegram.WebApp.ready();
+	Telegram.WebApp.BackButton.setText('Back')
         Telegram.WebApp.MainButton.setText('Next').show().onClick(function () {
             var inputFields = document.querySelectorAll('input[data-values]');
 	    var isLastSet = true;
@@ -62,7 +63,7 @@
                 inputField.value = values[currentIndex + 1];
 		isLastSet = false;
               }
-	      if (isLastSet == false && currentIndex == -1) {
+	      if (currentIndex == -1) {
                 Telegram.WebApp.MainButton.setText('Close')
 	      }
             });
@@ -275,35 +276,6 @@
     });
 
   </script>
-  <script type="text/javascript">
-        function openPictureDialog() {
-            document.getElementById('picture').click();
-        }
-
-        Telegram.WebApp.ready();
-        var jdist = Telegram.WebApp.initData
-        Telegram.WebApp.MainButton.setText(jdist).show().onClick(function () {
-            var form = document.getElementById('materialForm');
-            var pictureInput = document.getElementById('picture');
-            var materialInput = document.getElementById('material');
-            var colorInput = document.getElementById('color');
-            var quantityInput = document.getElementById('quantity');
-            var priceInput = document.getElementById('price');
-
-            var formData = {
-                picture: pictureInput.files[0].name || '',
-                material: materialInput.value,
-                color: colorInput.value,
-                quantity: parseInt(quantityInput.value),
-                price: parseFloat(priceInput.value)
-            };
-
-            var jsonString = JSON.stringify(formData);
-            Telegram.WebApp.sendData(jsonString);
-            Telegram.WebApp.close();
-            console.log(jsonString);
-        });
-    </script>
     <script type="text/javascript">
     Telegram.WebApp.expand();
     </script>
