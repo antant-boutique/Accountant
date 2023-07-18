@@ -39,7 +39,7 @@
         var formData = {};
 
         Telegram.WebApp.ready();
-	Telegram.WebApp.BackButton.setText('Back')
+	Telegram.WebApp.BackButton.setText('Back').show()
         Telegram.WebApp.MainButton.setText('Next').show().onClick(function () {
             var inputFields = document.querySelectorAll('input[data-values]');
 	    var isLastSet = true;
