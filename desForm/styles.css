@@ -52,6 +52,7 @@ th {
   margin-bottom: 10px;
 }
 
+
 /* Mobile responsiveness */
 @media screen and (max-width: 600px) {
   .form-container {
