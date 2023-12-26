@@ -177,7 +177,7 @@ Telegram.WebApp.MainButton.setText('Done').show().onClick(function () {
           }
     	  formData[key].push(value);
         });
-        formData['formname'] = 'Material Design'
+        formData['formname'] = 'Textile Design'
         var jsonString = JSON.stringify(formData);
         Telegram.WebApp.sendData(jsonString);
         Telegram.WebApp.close();
