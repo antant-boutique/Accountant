@@ -167,8 +167,8 @@ function prefillFormFromUrl() {
 document.addEventListener('DOMContentLoaded', prefillFormFromUrl);
 
 Telegram.WebApp.ready();
-Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
-        formData['formname'] = 'Material Form'
+Telegram.WebApp.MainButton.setText('Done').show().onClick(function () {
+        formData['formname'] = 'Material Design'
         var jsonString = JSON.stringify(formData);
         Telegram.WebApp.sendData(jsonString);
         Telegram.WebApp.close();
