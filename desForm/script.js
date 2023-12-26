@@ -32,15 +32,15 @@ function goToPage(page) {
 
 function finishPage(page) {
   var form = document.getElementById('textileForm');
-  var formData = new FormData(form);
-  var jsonData = {};
-  formData.forEach((value, key) => {
-    if (!jsonData[key]) {
-      jsonData[key] = [];
+  var jsonData = new FormData(form);
+  var formData = {};
+  jsonData.forEach((value, key) => {
+    if (!formData[key]) {
+      formData[key] = [];
     }
-    jsonData[key].push(value);
+    formData[key].push(value);
   });
-  console.log(jsonData); // Replace with your desired action (e.g., send to server)
+  console.log(formData); // Replace with your desired action (e.g., send to server)
 }
 
 function toggleCostInput(checkbox, inputName) {
@@ -165,3 +165,12 @@ function prefillFormFromUrl() {
 
 // Call the function to prefill the form when the page loads
 document.addEventListener('DOMContentLoaded', prefillFormFromUrl);
+
+Telegram.WebApp.ready();
+Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
+        formData['formname'] = 'Material Form'
+        var jsonString = JSON.stringify(formData);
+        Telegram.WebApp.sendData(jsonString);
+        Telegram.WebApp.close();
+});
+Telegram.WebApp.expand();

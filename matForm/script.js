@@ -180,7 +180,7 @@ document.getElementById('nextButton').addEventListener('click', function () {
 window.onload = populateFormFields;
 
 Telegram.WebApp.ready();
-Telegram.WebApp.MainButton.setText('Next').show().onClick(function () {
+Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
 	formData['formname'] = 'Material Form' 
 	var jsonString = JSON.stringify(formData);
         Telegram.WebApp.sendData(jsonString);
