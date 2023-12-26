@@ -168,6 +168,15 @@ document.addEventListener('DOMContentLoaded', prefillFormFromUrl);
 
 Telegram.WebApp.ready();
 Telegram.WebApp.MainButton.setText('Done').show().onClick(function () {
+	var form = document.getElementById('textileForm');
+  	var jsonData = new FormData(form);
+  	var formData = {};
+  	jsonData.forEach((value, key) => {
+    	  if (!formData[key]) {
+      	    formData[key] = [];
+          }
+    	  formData[key].push(value);
+        });
         formData['formname'] = 'Material Design'
         var jsonString = JSON.stringify(formData);
         Telegram.WebApp.sendData(jsonString);
