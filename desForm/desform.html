@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Textile Design</title>
+</head>
+<body>
+
+<div class="form-container">
+  <form id="textileForm">
+    
+    <!-- Page 1: Measurement -->
+    <div id="page1">
+      <h2>Measurement</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Materials</th>
+            <th>Measures</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="text" name="materials[]" required></td>
+            <td><input type="number" name="measures[]" required></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="btn-container">
+        <button type="button" onclick="addRow()" class="btn">+</button>
+        <button type="button" onclick="deleteRow()" class="btn">-</button>
+      </div>
+      <div class="btn-container">
+        <button type="button" onclick="goToPage(2)" class="btn">Next</button>
+        <button type="button" onclick="finishPage(1)" class="btn">Finish</button>
+      </div>
+    </div>
+    
+    <!-- Page 2: Art-works -->
+    <div id="page2" style="display: none;">
+      <h2>Art-works</h2>
+      
+      <div class="checkbox-container">
+        <label><input type="checkbox" name="artwork[]" value="hand-block" onchange="toggleCostInput(this, 'handBlockCost')"> Hand-block</label>
+        <input type="number" name="handBlockCost" placeholder="Cost in Rupees" disabled>
+      </div>
+      
+      <div class="checkbox-container">
+        <label><input type="checkbox" name="artwork[]" value="hand-paint" onchange="toggleCostInput(this, 'handPaintCost')"> Hand-paint</label>
+        <input type="number" name="handPaintCost" placeholder="Cost in Rupees" disabled>
+      </div>
+      
+      <div class="checkbox-container">
+        <label><input type="checkbox" name="artwork[]" value="hand-embroidery" onchange="toggleCostInput(this, 'handEmbroideryCost')"> Hand-embroidery</label>
+        <input type="number" name="handEmbroideryCost" placeholder="Cost in Rupees" disabled>
+      </div>
+      
+      <div class="checkbox-container">
+        <label><input type="checkbox" name="artwork[]" value="hand-applique" onchange="toggleCostInput(this, 'handAppliqueCost')"> Hand-applique</label>
+        <input type="number" name="handAppliqueCost" placeholder="Cost in Rupees" disabled>
+      </div>
+
+      <div class="checkbox-container">
+        <label><input type="checkbox" name="artwork[]" value="tailoring" onchange="toggleCostInput(this, 'TailoringCost')"> Tailoring</label>
+        <input type="number" name="TailoringCost" placeholder="Cost in Rupees" disabled>
+      </div>
+
+      <div class="btn-container">
+        <button type="button" onclick="goToPage(1)" class="btn">Back</button>
+        <button type="button" onclick="goToPage(3)" class="btn">Next</button>
+        <button type="button" onclick="finishPage(2)" class="btn">Finish</button>
+      </div>
+    </div>
+
+    <!-- Page 3: Finishing -->
+    <div id="page3" style="display: none;">
+      <h2>Finishing</h2>
+      <div class="input-label">
+        <label>Add category: <input type="text" name="category"></label><br>
+      </div>
+      <div class="input-label">
+        <label>Combine with: <input type="text" name="combineWith"></label><br>
+      </div>
+      <div class="btn-container">
+        <button type="button" onclick="goToPage(2)" class="btn">Back</button>
+        <button type="button" onclick="finishPage(3)" class="btn">Finish</button>
+      </div>
+    </div>
+    
+  </form>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
+
