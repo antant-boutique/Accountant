@@ -181,6 +181,7 @@ window.onload = populateFormFields;
 
 Telegram.WebApp.ready();
 Telegram.WebApp.MainButton.setText('Next').show().onClick(function () {
+	formData['formname'] = 'Material Form' 
 	var jsonString = JSON.stringify(formData);
         Telegram.WebApp.sendData(jsonString);
         Telegram.WebApp.close();
