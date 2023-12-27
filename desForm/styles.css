@@ -170,8 +170,8 @@ th {
 @media screen and (max-width: 600px) {
   .form-container {
     width: 100%;
-    overflow-x: auto; /* Enable horizontal scrolling if needed */
-    padding: 0 10px; /* Adjust left and right padding for equal spacing */
+    /*overflow-x: auto; /* Enable horizontal scrolling if needed */*/
+    padding: 0 5px; /* Adjust left and right padding for equal spacing */
   }
 
   table {
