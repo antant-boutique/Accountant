@@ -21,13 +21,47 @@ label, input, select {
     	margin-top: 20px;
 }
 
-.button-container button {
-	background-color: #4CAF50;
-	color: white;
-	padding: 10px 20px;
-	border: none;
+#backButton, #nextButton {
+	display: flex;
+	width: 40px;
+	height: 40px;
+	font-size: 20px;
+	font-weight: bold;
+	/* background-color: #ccccff; */
+	/* background-color: #cbb89d; */
+	background-color: white;
+	color: black;
+	border: 2px solid black;
+	padding: 10px 10px;
+	border-radius: 50%;
 	cursor: pointer;
+	justify-content: center;
+	align-items: center;
+	user-select: none;
+}
+
+#nextButton {
 	margin-right: 10px;
+        margin-left: auto;
+}
+
+#backButton {
+	margin-left: 10px;
+        margin-right: auto;
+}
+
+.button-container #backButton:active {
+	/* background-color: #4CAF50; */
+	/* background-color: #806044; */
+	background-color: #918981;
+	color: black;
+}
+
+.button-container #nextButton:active {
+        /* background-color: #4CAF50; */
+        /* background-color: #6a6f4c; */
+	background-color: #918981;
+        color: black;
 }
 
 /* Responsive Styles */
@@ -39,13 +73,14 @@ label, input, select {
 
 	/* Add the new rule for small screens */
     	.button-container button {
-        	margin: 5px;
+        	margin: 5px 0;
     	}
 
     	/* Clear the flexbox styles for small screens */
     	.button-container {
-        	display: block;
-        	text-align: center;
+        	display: flex;
+		flex-direction: column;
+        	align-items: center;
     	}
 }
 

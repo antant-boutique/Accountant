@@ -6,8 +6,8 @@ function addRow() {
   var newRow = table.insertRow(table.rows.length);
   var cell1 = newRow.insertCell(0);
   var cell2 = newRow.insertCell(1);
-  cell1.innerHTML = '<input type="text" name="materials[]" required>';
-  cell2.innerHTML = '<input type="number" name="measures[]" required>';
+  cell1.innerHTML = '<input type="text" name="materials[]" placeholder="child" required>';
+  cell2.innerHTML = '<input type="number" name="measures[]" placeholder="child" required>';
   cell1.parentNode.parentNode.setAttribute('prefilled', 'false');
 }
 

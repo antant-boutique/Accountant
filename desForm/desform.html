@@ -17,23 +17,23 @@
       <table>
         <thead>
           <tr>
-            <th>Materials</th>
-            <th>Measures</th>
+            <th>Material Code</th>
+            <th>Measures (mtr.)</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><input type="text" name="materials[]" required></td>
-            <td><input type="number" name="measures[]" required></td>
+            <td><input type="text" name="materials[]" placeholder="parent" required></td>
+            <td><input type="number" name="measures[]" placeholder="parent" required></td>
           </tr>
         </tbody>
       </table>
       <div class="btn-container">
-        <button type="button" onclick="addRow()" class="btn">+</button>
-        <button type="button" onclick="deleteRow()" class="btn">-</button>
+        <button type="button" id="rmvRowButton" onclick="deleteRow()" class="btn">-</button>
+	<button type="button" id="addRowButton" onclick="addRow()" class="btn">+</button>
       </div>
       <div class="btn-container">
-        <button type="button" onclick="goToPage(2)" class="btn">Next</button>
+        <button type="button" id="nextButton" onclick="goToPage(2)" class="btn">&gt;</button>
         <!-- <button type="button" onclick="finishPage(1)" class="btn">Finish</button> -->
       </div>
     </div>
@@ -42,39 +42,56 @@
     <div id="page2" style="display: none;">
       <h2>Art-works</h2>
       
-      <div class="checkbox-container">
-        <label><input type="checkbox" name="artwork[]" value="hand-block" onchange="toggleCostInput(this, 'handBlockCost')"> Hand-block</label>
-        <input type="number" name="handBlockCost" placeholder="Cost in Rupees" disabled>
+      <div class="rounded-checkbox-container">
+        <label class="rounded-checkbox">
+	<input type="checkbox" name="artwork[]" value="hand-block" onchange="toggleCostInput(this, 'handBlockCost')">
+	</label>
+	<span id="checkLabel"> Hand-block</span>
+        <input type="number" id="inputCost" name="handBlockCost" placeholder="Cost in Rupees" disabled>
       </div>
       
-      <div class="checkbox-container">
-        <label><input type="checkbox" name="artwork[]" value="hand-paint" onchange="toggleCostInput(this, 'handPaintCost')"> Hand-paint</label>
-        <input type="number" name="handPaintCost" placeholder="Cost in Rupees" disabled>
+      <div class="rounded-checkbox-container">
+        <label class="rounded-checkbox">
+	<input type="checkbox" name="artwork[]" value="hand-paint" onchange="toggleCostInput(this, 'handPaintCost')">
+	</label>
+	<span id="checkLabel"> Hand-paint</span>
+        <input type="number" id="inputCost" name="handPaintCost" placeholder="Cost in Rupees" disabled>
       </div>
       
-      <div class="checkbox-container">
-        <label><input type="checkbox" name="artwork[]" value="hand-embroidery" onchange="toggleCostInput(this, 'handEmbroideryCost')"> Hand-embroidery</label>
-        <input type="number" name="handEmbroideryCost" placeholder="Cost in Rupees" disabled>
+      <div class="rounded-checkbox-container">
+	<label class="rounded-checkbox">
+        <input type="checkbox" name="artwork[]" value="hand-embroidery" onchange="toggleCostInput(this, 'handEmbroideryCost')">
+	</label>
+	<span id="checkLabel"> Hand-embroidery</span>
+        <input type="number" id="inputCost" name="handEmbroideryCost" placeholder="Cost in Rupees" disabled>
       </div>
       
-      <div class="checkbox-container">
-        <label><input type="checkbox" name="artwork[]" value="hand-applique" onchange="toggleCostInput(this, 'handAppliqueCost')"> Hand-applique</label>
-        <input type="number" name="handAppliqueCost" placeholder="Cost in Rupees" disabled>
+      <div class="rounded-checkbox-container">
+        <label class="rounded-checkbox">
+	<input type="checkbox" name="artwork[]" value="hand-applique" onchange="toggleCostInput(this, 'handAppliqueCost')">
+	</label>
+	<span id="checkLabel"> Hand-applique</span>
+        <input type="number" id="inputCost" name="handAppliqueCost" placeholder="Cost in Rupees" disabled>
       </div>
 
-      <div class="checkbox-container">
-        <label><input type="checkbox" name="artwork[]" value="tailoring" onchange="toggleCostInput(this, 'TailoringCost')"> Tailoring</label>
-        <input type="number" name="TailoringCost" placeholder="Cost in Rupees" disabled>
+      <div class="rounded-checkbox-container">
+	<label class="rounded-checkbox">
+	<input type="checkbox" name="artwork[]" value="tailoring" onchange="toggleCostInput(this, 'TailoringCost')">
+	</label>
+	<span id="checkLabel"> Tailoring</span>
+        <input type="number" id="inputCost" name="TailoringCost" placeholder="Cost in Rupees" disabled>
       </div>
 
-      <div class="checkbox-container">
-        <label for="mergeMaterials">Merge Materials</label>
-        <input type="checkbox" id="mergeMaterials" name="mergeMaterials" checked>
+      <div class="rounded-checkbox-container">
+	<label class="rounded-checkbox">
+        <input type="checkbox" name="mergeMaterials" checked>
+	</label>
+	<span id="checkLabel"> Merge Materials</span>
       </div>
 
       <div class="btn-container">
-        <button type="button" onclick="goToPage(1)" class="btn">Back</button>
-        <button type="button" onclick="goToPage(3)" class="btn">Next</button>
+        <button type="button" id="backButton" onclick="goToPage(1)" class="btn">&lt;</button>
+        <button type="button" id="nextButton" onclick="goToPage(3)" class="btn">&gt;</button>
 	<!-- <button type="button" onclick="finishPage(2)" class="btn">Finish</button> -->
       </div>
     </div>
@@ -89,7 +106,7 @@
         <label>Combine with: <input type="text" name="combineWith"></label><br>
       </div>
       <div class="btn-container">
-        <button type="button" onclick="goToPage(2)" class="btn">Back</button>
+	<button type="button" id="backButton" onclick="goToPage(2)" class="btn">&lt;</button>
         <!-- <button type="button" onclick="finishPage(3)" class="btn">Finish</button> -->
       </div>
     </div>

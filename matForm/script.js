@@ -79,7 +79,7 @@ function moveToPreviousSet() {
 		isFirstSet = true;
 	}
       	// Hide the Back button if we are on the first set of entries
-      	document.getElementById('backButton').style.display = isFirstSet ? 'none' : 'block';
+      	document.getElementById('backButton').style.display = isFirstSet ? 'none' : 'flex';
 }
 
 // A function to move to next set of inputs when the next button is pressed
@@ -119,7 +119,7 @@ function moveToNextSet() {
 	const previewImage = document.getElementById('preview');
 	previewImage.src = '#';
 	previewImage.style.display = 'none';
-	document.getElementById('backButton').style.display = 'block';
+	document.getElementById('backButton').style.display = 'flex';
 	}
 }
 
@@ -181,6 +181,7 @@ window.onload = populateFormFields;
 
 Telegram.WebApp.ready();
 Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
+	moveToNextSet();
 	formData['formname'] = 'Material Entry' 
 	var jsonString = JSON.stringify(formData);
         Telegram.WebApp.sendData(jsonString);
