@@ -171,7 +171,7 @@ th {
   .form-container {
     width: 100%;
     /*overflow-x: auto; /* Enable horizontal scrolling if needed */*/
-    padding: 0 5px; /* Adjust left and right padding for equal spacing */
+    padding: 0 0px; /* Adjust left and right padding for equal spacing */
   }
 
   table {
