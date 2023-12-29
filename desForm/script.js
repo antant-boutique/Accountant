@@ -36,9 +36,16 @@ function finishPage(page) {
   var formData = {};
   jsonData.forEach((value, key) => {
     if (!formData[key]) {
-      formData[key] = [];
+      if (key == 'materials[]' | key == 'measures[]') {
+        formData[key] = [];
+      }
     }
-    formData[key].push(value);
+    if (key == 'materials[]' | key == 'measures[]') {
+      formData[key].push(value);
+    }
+    else {
+      formData[key] = value;
+    }
   });
   console.log(formData); // Replace with your desired action (e.g., send to server)
 }
