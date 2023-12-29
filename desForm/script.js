@@ -36,11 +36,11 @@ function finishPage(page) {
   var formData = {};
   jsonData.forEach((value, key) => {
     if (!formData[key]) {
-      if (key == 'materials[]' | key == 'measures[]') {
+      if (key == 'materials[]' | key == 'measures[]' | key == 'artwork[]') {
         formData[key] = [];
       }
     }
-    if (key == 'materials[]' | key == 'measures[]') {
+    if (key == 'materials[]' | key == 'measures[]' | key == 'artwork[]') {
       formData[key].push(value);
     }
     else {
