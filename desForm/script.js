@@ -39,12 +39,12 @@ function finishPage(page) {
       if (key == 'materials[]' | key == 'measures[]' | key == 'artwork[]') {
         formData[key] = [];
       }
+      else {
+        formData[key] = value;
+      }
     }
     if (key == 'materials[]' | key == 'measures[]' | key == 'artwork[]') {
       formData[key].push(value);
-    }
-    else {
-      formData[key] = value;
     }
   });
   console.log(formData); // Replace with your desired action (e.g., send to server)
