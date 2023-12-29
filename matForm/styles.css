@@ -77,11 +77,12 @@ label, input, select {
     	}
 
     	/* Clear the flexbox styles for small screens */
-    	.button-container {
+    	/*.button-container {
         	display: flex;
 		/*flex-direction: column;*/
-        	align-items: center;
-    	}
+        /*	align-items: center;
+    	}*/
+	
 }
 
 /* Image Input Styles */
