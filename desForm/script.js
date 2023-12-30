@@ -48,10 +48,10 @@ function toggleCostInput(checkbox, inputName) {
   costInput.disabled = !checkbox.checked;
 }
 
-function toggleProdPrice(checkbox) {
-  var costInput = document.querySelector('input[name="productPrice"]');
-  costInput.disabled = checkbox.checked;
-}
+//function toggleProdPrice(checkbox) {
+//  var costInput = document.querySelector('input[name="productPrice"]');
+//  costInput.disabled = checkbox.checked;
+//}
 
 // Function to parse URL parameters
 function getParameterByName(name, url) {
