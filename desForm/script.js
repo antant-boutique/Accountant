@@ -48,10 +48,10 @@ function toggleCostInput(checkbox, inputName) {
   costInput.disabled = !checkbox.checked;
 }
 
-function toggleTailoring(checkbox) {
-  var tailoringCostInput = document.querySelector('input[name="tailoringCost"]');
-  tailoringCostInput.disabled = !checkbox.checked;
-}
+//function toggleTailoring(checkbox) {
+//  var tailoringCostInput = document.querySelector('input[name="tailoringCost"]');
+//  tailoringCostInput.disabled = !checkbox.checked;
+//}
 
 // Function to parse URL parameters
 function getParameterByName(name, url) {
