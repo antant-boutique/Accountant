@@ -48,10 +48,10 @@ function toggleCostInput(checkbox, inputName) {
   costInput.disabled = !checkbox.checked;
 }
 
-//function toggleTailoring(checkbox) {
-//  var tailoringCostInput = document.querySelector('input[name="tailoringCost"]');
-//  tailoringCostInput.disabled = !checkbox.checked;
-//}
+function toggleProdPrice(checkbox) {
+  var costInput = document.querySelector('input[name="productPrice"]');
+  costInput.disabled = checkbox.checked;
+}
 
 // Function to parse URL parameters
 function getParameterByName(name, url) {
@@ -167,7 +167,7 @@ function prefillFormFromUrl() {
 document.addEventListener('DOMContentLoaded', prefillFormFromUrl);
 
 Telegram.WebApp.ready();
-Telegram.WebApp.MainButton.setText('Done').show().onClick(function () {
+Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
 	var form = document.getElementById('textileForm');
   	var jsonData = new FormData(form);
   	var formData = {};
