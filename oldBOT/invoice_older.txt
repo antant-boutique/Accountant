@@ -1,0 +1,67 @@
+\documentclass{letter}
+\usepackage[utf8]{inputenc}
+\usepackage[colorlinks]{hyperref}
+\usepackage[left=1in,top=1in,right=1in,bottom=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{ragged2e}
+\usepackage{hhline}
+\usepackage{array}
+\usepackage{fontawesome}
+
+\hypersetup{
+    urlcolor=blue
+}
+
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+\begin{document}
+	
+\thispagestyle{empty}
+
+\begin{tabularx}{\textwidth}{l X l}
+   \hspace{-8pt} \multirow{5}{*}{\includegraphics[height=2.5cm]{ICON.png}} & \textbf{Antant} & \hskip12pt\multirow{5}{*}{\begin{tabular}{r}\footnotesize\bf INVOICE \\[-0.8ex] \footnotesize %s \\[-0.4ex] \footnotesize\bf DATE \\[-0.8ex] \footnotesize \MakeUppercase{\today} \end{tabular}}\hspace{-6pt} \\
+   & Smartly sculpt your beauty & \\ & \\
+   & Address: 36/2 Gourbabu road, Kanchrapara & \\
+   & \faPhone \quad +91 8250387820, \faWhatsapp \quad +91 7044319466 & \\
+   & \faEnvelopeO \quad antant.boutique@gmail.com & \\
+\end{tabularx} 
+
+\vspace{1 cm}
+
+BILL TO
+
+\Large\textbf{%s}\normalsize
+
+\begin{tabularx}{\linewidth}{c X X X X c}
+    \hline
+    & & & & &\\[0.25ex]
+    \centering{\bf{Sl No.}} & \centering{\bf{Product name}} & \centering{\bf{Product code}} & \centering{\bf{Rate (INR)}} & \centering{\bf{Quantity}} & \bf Amount (INR) \\[2.5ex]\hline
+    & & & & &\\
+%s
+    & & & & \bf Total & %.2f\\[2.5ex]\hhline{~~~--}
+    & & & & & \\
+    & & & & \bf Paid & %.2f\\[2.5ex]\hhline{~~~--}
+    & & & & & \\
+    & & & & \bf Due & %.2f\\[2.5ex]\hhline{~~~==}
+\end{tabularx}
+
+\vspace{1 cm}
+
+\begin{tabularx}{\textwidth}{l l}
+   & \hskip16pt\multirow{10}{*}{\includegraphics[height=5.0cm]{%s}} \\
+   & \\
+   \Large\textbf{Social Media}\normalsize & \\
+   & \\
+   \faFacebookSquare \quad facebook.com/antant.boutique & \\
+   \faInstagram \quad @antant.boutique & \\
+   & \\
+   & \\
+   \Large\textbf{Payment Options}\normalsize & \\
+   & \\
+   Payments by both cash and online-transfer are accepted. & \\
+   & \\
+\end{tabularx}
+
+\end{document}
