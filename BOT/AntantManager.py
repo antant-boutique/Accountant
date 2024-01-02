@@ -312,3 +312,132 @@ def setProdPrice(ModelNo,ProductPrice):
     prddf.to_csv('Antant_products1.csv')
     TXT = f"The product (*{ModelNo}*) price is set to: {ProductPrice} INR"
     return TXT
+
+def get_attr_val(X,attribute):
+    try:
+        Y = X[attribute][0]
+        Y = 0 if Y=='' else float(Y)
+    except KeyError:
+        Y = 0
+    return Y
+
+def bill(DATA):
+    print(DATA)
+    prddf = pd.read_csv('Antant_products1.csv')
+    custName = DATA['customerName'][0].strip()
+    custPhone = DATA['customerContact'][0].strip()
+    custAddr = DATA['customerAddress'][0].strip()
+    ModelNo = [prod.strip() for prod in DATA['models[]']]
+    Quantity = [0 if mes=='' else float(mes) for mes in DATA['quantities[]']]
+    numItems = len(Quantity)
+    discount = get_attr_val(DATA,'addDiscount')
+    fullpaid = get_checkbox_value(DATA,'fullpaid')
+    paid = get_attr_val(DATA,'paidAmount')
+    itqt = {ModelNo[i]:Quantity[i] for i in range(numItems)}
+    total = 0
+    itemROWin = ""
+    itemROW = "    \centering %d & \centering %s & \centering %s & \centering %.2f & \centering %d & %.2f \\\\[2.5ex]\hline\n    & & & & &\\\\\n"
+    for sl,i in enumerate(itqt):
+        print(itqt)
+        idp = prddf.index[prddf['Model No.']==i][0]
+        stock = prddf.loc[idp,'Quantity']
+        if stock>0:
+            print('i,idp: ',i)
+            name = prddf.loc[idp,'Name']
+            code = i
+            rate = round(prddf.loc[idp,'Price'])
+            qnty = itqt[i]
+            amnt = rate*qnty
+            itemROWin += itemROW%(sl+1,name,code,rate,qnty,amnt)
+            total += amnt
+            stock -= qnty
+        else:
+            TXT = "Product:%s is out of stock!"%(i)
+        if false:
+            pass
+        else:
+            prddf.loc[idp,'Quantity'] = stock
+    billtype = 'discount' if discount else 'regular'
+    if billtype=='regular':
+        ffr = open('invoice_template_regular.txt','r')
+    else:
+        disc = total*(discount/100)
+        total = total - disc
+        ffr = open('invoice_template_discount.txt','r')
+    total = round(total)
+    invtmp = ffr.read()
+    ffr.close()
+    due = total - paid
+    flr = open('invcimgs.dict','rb')
+    invcimgs = pickle.load(flr)
+    flr.close()
+    DATE = str(datetime.datetime.now().strftime('%m%d%Y'))
+    try:
+        todayINV = []
+        for invc in invcimgs.keys():
+            if DATE in invc:
+                todayINV.append(int(invc[invc.rfind('-')+1:]))
+        INVno=DATE+'-'+str(max(todayINV)+1)
+    except:
+        INVno=DATE+'-1'
+    
+    fileTemp = self.genPAYlink(AMNT=due,MODELno=INVno,ICONfig='ICON.png',QRname=INVno)
+    ffr = open(fileTemp,'rb')
+    self.sendPHOTO(CHATID=userid,fileobj=ffr)
+    ffr.close()
+    os.remove(fileTemp)
+    fileName = self.genPAYlink(AMNT=due,MODELno=INVno,ICONfig='ICON_pixel.png',QRname=INVno)
+    fcr = open('custdata.dict','rb')
+    custdict = pickle.load(fcr)
+    fcr.close()
+    custInfo = custdict[phn] + ' | ' + phn
+    if billtype=='regular':
+        TUPLEin = (INVno,custInfo,itemROWin,'%.2f'%(total),'%.2f'%(paid),'%.2f'%(due),fileName)
+    else:
+        TUPLEin = (INVno,custInfo,itemROWin,str(discp)+'\%','%.2f'%(disc),'%.2f'%(total),'%.2f'%(paid),'%.2f'%(due),fileName)
+    invtxt = invtmp%TUPLEin
+    FLDR = 'INVOICE-%s'%(INVno)
+    os.mkdir(FLDR)
+    ffw = open('%s/bill.tex'%(FLDR),'w')
+    print(invtxt,file=ffw)
+    ffw.close()
+    os.system('cp ICON.png %s/'%(FLDR))
+    os.system('pdflatex -output-directory %s %s/bill.tex'%(FLDR,FLDR))
+    FILEid = upload_to_folder(self.creds,'%s.pdf'%(INVno),'%s/bill.pdf'%(FLDR),parent_id=DriveFolder['invoice'],permit='writer')
+    INVlink = "https://drive.google.com/file/d/%s/view?usp=share_link"%(FILEid)
+    #IDw = SpreadSheet["finance"]
+    #POSw = "Sale!A2:I"
+    saledf = pd.read_csv('./Antant_finance_Sale.csv')
+    saleidx = len(saledf)
+    timestamp = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')
+    products = ','.join(list(itqt.keys()))
+    putTOTAL=[timestamp,INVno,products,custName,custPhone,total,paid,due,INVlink]
+    saledf.loc[saleidx] = putTOTAL
+    #put_spreadsheet(creds=self.creds,putLIST=putTOTAL,putID=IDw,putPOS=POSw)
+    invcimgs[INVno] = FILEid
+    ffw = open('invcimgs.dict','wb')
+    pickle.dump(invcimgs,ffw)
+    ffw.close()
+    LINK = "{}".format(INVlink)
+    self.sendLINK(CHATID=userid,link=INVlink,txt="The invoice PDF is here!")
+    balancedf = pd.read_csv('Antant_finance_Balance.csv')
+    if false:
+        pass
+    else:
+        balance = balancedf.loc[1,'Current']
+        balance += float(paid)
+        balancedf.loc[1,'Current'] = balance
+    if due==0:
+        os.system('rm -rf %s'%(FLDR))
+    elif due>0:
+        if billtype=='regular':
+            TUPLEind = (INVno,custInfo,itemROWin,'%s','%s','%s','%s')
+        else:
+            TUPLEind = (INVno,custInfo,itemROWin,str(discp)+'\%%','%.2f'%(disc),'%s','%s','%s','%s')
+        invtxt = invtmp%TUPLEind
+        ffw = open('%s/duebill.txt'%(FLDR),'w')
+        print(invtxt,file=ffw)
+        ffw.close()
+        os.system('rm %s/bill.*'%(FLDR))
+
+
