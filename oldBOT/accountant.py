@@ -20,15 +20,19 @@ EDIT_RANGE_NAME = 'Cash!A1:E'
 
 adminID = '1651529355'  # Pallab Chat-ID
 
-
+import asyncio
 import time
 import datetime
 import pickle
 from tqdm.contrib.telegram import tqdm, trange
 import telegram
+#from telegram import constants, Update, KeyboardButton, ReplyKeyboardMarkup, WebAppInfo, InlineKeyboardButton, InlineKeyboardMarkup
+#from telegram.ext import ContextTypes, Updater, InlineQueryHandler, CommandHandler, MessageHandler, filters, CallbackContext, Application
+#from telegram.constants import ParseMode
 from telegram.ext import Updater, InlineQueryHandler, CommandHandler, MessageHandler, Filters
 from telegram import ParseMode
 import threading
+import subprocess
 from subprocess import PIPE, Popen
 import numpy as np
 import os
@@ -53,6 +57,10 @@ You can type the following commands to get the corresponding updates:
     /debit amount remark -> add debit, update everyone
     /clear -> delete chat history
 """
+
+def envrun(env,script,argu):
+    command = f"conda run -n {env} python {script} {argu}"
+    return subprocess.Popen(command.split(' '), stdout=subprocess.PIPE)
 
 def remove_nested_keys(dictionary, key, child):
     if key in dictionary:
@@ -282,6 +290,34 @@ def delete_file(creds, file_id):
     except HttpError as error:
         print(F'An error occurred: {error}')
 
+#async def launch_web_ui(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+#    await update.message.reply_text(
+#        "Material upload",
+#        reply_markup=InlineKeyboardMarkup.from_button(
+#            InlineKeyboardButton(
+#                text="Open Form",
+#                web_app=WebAppInfo(url="https://antant-boutique.github.io/Accountant/matform?material=CTN&size=10&price=20&"),
+#            )
+#        ),
+#    )
+    # For now, we just display google.com...
+    #kb = [[InlineKeyboardButton("Open Form", web_app=WebAppInfo("https://antant-boutique.github.io/Accountant/matform?material=CTN&size=10&price=20&"))]]
+    #await update.message.reply_text("Let's do this...", reply_markup=ReplyKeyboardMarkup(kb))
+    #reply_markup = InlineKeyboardMarkup(kb)
+    #update.message.reply_text('Click the button to open form:', reply_markup=reply_markup)
+
+#async def web_app_data(update: Update, context: CallbackContext):
+#    """Print the received data and remove the button."""
+    # Here we use `json.loads`, since the WebApp sends the data JSON serialized string
+    # (see webappbot.html)
+#    print('atleast here')
+#    data = json.loads(update.message.web_app_data.data)
+#    print(data)
+#    await update.message.reply_text("Your data was:")
+#    for result in data:
+#        await update.message.reply_text(f"{result['name']}: {result['value']}")
+
+
 class Termibot:
     def __init__(self):
         self.TOKEN = '5783157460:AAH6gKOGQCJgS_sQg5W9piRtRRMaUkBDS7I'
@@ -327,7 +363,7 @@ class Termibot:
         else:
             self.smsID[self.dict[USER_id]].append(update.message.message_id)
         CMD = txt.split(' ')[0]
-        ARGS = [File]+txt.split(' ')[1:]
+        ARGS = txt.split(' ')[1:]+[File]
         self.cmd_handler(cmd=CMD,args=ARGS,USERid=USER_id)
 
     def cmd_handler(self,cmd,args,USERid):
@@ -400,11 +436,27 @@ class Termibot:
             except:
                 self.authenticate(userid=USERid)
 
+        elif cmd == '/sold':
+            try:
+                self.sold(ARG=args)
+            except:
+                self.authenticate(userid=USERid)
+
         elif cmd == '/addtxtl':
             try:
-                SRC,FBRC,CLR,LNTH,PRC = args
-                PRC = str(eval(PRC))
-                self.addtxtl(source=SRC,fabric=FBRC,color=CLR,length=LNTH,price=PRC)
+                #SRC,FBRC,CLR,LNTH,PRC = args
+                #PRC = str(eval(PRC))
+                #self.addtxtl(source=SRC,fabric=FBRC,color=CLR,length=LNTH,price=PRC)
+                self.addtxtl(ARG=args,userid=USERid)
+            except:
+                self.authenticate(userid=USERid)
+
+        elif cmd == '/txtladd':
+            pass
+
+        elif cmd == '/matfind':
+            try:
+                self.matfind(ARG=args,userid=USERid)
             except:
                 self.authenticate(userid=USERid)
 
@@ -444,6 +496,10 @@ class Termibot:
             #except:
             #    self.authenticate(userid=USERid)
 
+        elif cmd == '/pfit':
+            CDN,PRC = args
+            self.pfit(prodcdn=CDN,saleprc=PRC)
+
         elif cmd == '/gptdes':
             CDN,CAT = args
             self.openAI_description(CDN,CAT,userid=USERid)
@@ -457,7 +513,7 @@ class Termibot:
                 if len(args)>0:
                     DATE = args[0]
                 else:
-                    DATE = str(datetime.datetime.now().strftime('%m/%d/%Y'))
+                    DATE = str(datetime.datetime.now().strftime('%d/%m/%Y'))
                 self.prodcost(DATE)
             except:
                 self.authenticate(userid=USERid)
@@ -491,6 +547,9 @@ class Termibot:
 
         elif cmd == '/genINVC':
             self.genINVOICE(ARG=args,userid=USERid)
+
+        elif cmd == '/genfINVC':
+            self.genfINVOICE(ARG=args,userid=USERid)
 
         elif cmd == '/updINVC':
             self.updINVOICE(ARG=args,userid=USERid)
@@ -534,6 +593,10 @@ class Termibot:
                 self.rmvprodIMG(ARG=args,userid=USERid)
             if filetype == 'invoice':
                 self.rmvinvcIMG(ARG=args,userid=USERid)
+
+        elif cmd == '/cbalance':
+            date = args[0]
+            self.cbalance(month=date)
 
         elif cmd == '/debit':
             try:
@@ -601,6 +664,10 @@ class Termibot:
             token.write(creds.to_json())
         self.authenticate(userid)
 
+    #def txtladd(self):
+    #    WebAppInfo("https://google.com")
+    #    #web_app=WebAppInfo("file:///E:/Antant_WSL/Ubuntu-20.04-antant/rootfs/home/antant/Test/formcam.html")
+
     def balance(self,userid='all'):
         values=get_spreadsheet(creds=self.creds)
         bal=values[1][6]
@@ -610,7 +677,7 @@ class Termibot:
         else:
             self.sendUPDATE2all(txt=TXT)
 
-    def search(self,IDw,POSw,keyword,findat=-1):
+    def search(self,IDw,POSw,keyword,findat=-1,findexact=False):
         results = get_index(creds=self.creds,getPOS=POSw,getID=IDw)
         search_area = results[0]["values"]
         while True:
@@ -618,25 +685,33 @@ class Termibot:
                 search_area[search_area.index([])]=['00/00/0000']
             except:
                 break
-        print(search_area)
         if keyword=='due':
             search_area = np.array(search_area).astype(dtype=np.float32)
-            print(search_area)
             idx = np.flatnonzero(search_area.flatten()!=0)
-            print(idx)
         else:
             try:
                 keynum = float(keyword)
                 search_area = np.array(search_area).astype(dtype=np.float32)
                 idx = np.flatnonzero(search_area.flatten()==keynum)
             except:
-                if findat>=0:
+                print('Inside else except')
+                if findexact:
+                    print('findexact')
+                    idx = np.flatnonzero(np.array(search_area)==keyword)
+                    print('idx0:',idx)
+                elif findexact==False and findat>=0:
                     idx = np.flatnonzero(np.core.defchararray.find(search_area,keyword)==findat)
+                    print('idx1:',idx)
                 else:
                     idx = np.flatnonzero(np.core.defchararray.find(search_area,keyword)!=-1)
+                    print('idx2:',idx)
+        #print(idx)
         return idx
 
-    def addtxtl(self,source,fabric,color,length,price):
+    def addtxtl(self,ARG,userid):
+        #fileObj = ARG[5]
+        source,fabric,color,length,price = ARG[:5]
+        price = str(eval(price))
         POSwr = "Textiles!A2:J"
         ppl = float(price)/float(length) # price per meter
         fhr = open('matcdn.dict','rb')
@@ -662,17 +737,47 @@ class Termibot:
             new_cdn = cdn+'-'+str(eval(last_cdn[last_cdn.rfind('-')+1:])+1)
         else:
             new_cdn = cdn+'-1'
-        timestamp = datetime.datetime.now().strftime('%m/%d/%Y %H:%M:%S')
+        timestamp = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')
+        try:
+            fileObj = ARG[5]
+            matimgFile = './matimg/%s.jpg'%(new_cdn)
+            fileObj.download(matimgFile)
+            if color.lower() == 'x':
+                caption = envrun('clipai','capimg.py',matimgFile)
+                color = caption.stdout.read()
+                TXT = color.decode('utf-8').strip()
+                self.sendUPDATE(CHATID=userid,txt=TXT)
+            envrun('imgsim','simimg_modsav.py',0)
+        except:
+            pass
         total = [timestamp,new_cdn,source,fabric,color,length,price,ppl,'',ppl]
         put_spreadsheet(creds=self.creds,putLIST=total,putID=SpreadSheet["materials"],putPOS=POSwr)
         TXT = "%s: material recently added."%(new_cdn)
         print(TXT)
-        self.sendUPDATE2all(txt=TXT)
+        self.sendUPDATE(CHATID=userid,txt=TXT)
+
+    def matfind(self,ARG,userid):
+        fileObj = ARG[-1]
+        fileTime = time.time()
+        matimgFile = './matfind/%s.jpg'%(str(fileTime))
+        fileObj.download(matimgFile)
+        envrun('imgsim','simimg.py',matimgFile)
+        fid = open('simimg.list','rb')
+        simimg_list = pickle.load(fid)
+        print(simimg_list)
+        fid.close()
+        for i in simimg_list:
+            TXT = i[i.rfind('/')+1:i.rfind('.')]
+            ffr = open(i,'rb')
+            self.sendPHOTO(CHATID=userid,fileobj=ffr,CAPTION=TXT)
+            ffr.close()
+        os.remove(matimgFile)
+        #self.sendUPDATE(CHATID=userid,txt=TXT)
 
     def details(self,cdn,userid):
         if '-P' in cdn:
             ID = SpreadSheet["designs"]
-            idx = self.search(IDw=ID,POSw="Outfit!B1:B1000",keyword=cdn,findat=0)+1
+            idx = self.search(IDw=ID,POSw="Outfit!B1:B1000",keyword=cdn,findexact=True)+1
             prodet = get_spreadsheet(creds=self.creds,getID=ID,getPOS="Outfit!D%d:K%d"%(idx,idx))[0]
             prodeta = np.array(prodet)
             prodeta[prodeta=='']='--'
@@ -696,7 +801,7 @@ class Termibot:
             TXT = "*material: %s*\n\nlength: %s m\nprodcost: %s\n%s"%(cdn,length,prodcost,upcats)
         else:
             ID = SpreadSheet["materials"]
-            idx = self.search(IDw=ID,POSw="Textiles!B1:B1000",keyword=cdn,findat=0)+1
+            idx = self.search(IDw=ID,POSw="Textiles!B1:B1000",keyword=cdn,findexact=True)+1
             matdet = get_spreadsheet(creds=self.creds,getID=ID,getPOS="Textiles!C%d:J%d"%(idx,idx))[0]
             print(matdet)
             source,matname,color,length,_,PPL,_,TPPL = matdet
@@ -706,13 +811,13 @@ class Termibot:
         self.sendUPDATE(CHATID=userid,txt=TXT)
 
     def plan(self,matcdn,length,userid):
-        #timestamp = datetime.datetime.now().strftime('%m/%d/%Y %H:%M:%S')
-        idx = self.search(IDw=SpreadSheet["materials"],POSw="Textiles!B1:B1000",keyword=matcdn,findat=0)+1
+        #timestamp = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')
+        idx = self.search(IDw=SpreadSheet["materials"],POSw="Textiles!B1:B1000",keyword=matcdn,findexact=True)+1
         matLen = get_spreadsheet(creds=self.creds,getID=SpreadSheet["materials"],getPOS="Textiles!F%d"%(idx))[0][0]
         basePrc = get_spreadsheet(creds=self.creds,getID=SpreadSheet["materials"],getPOS="Textiles!H%d"%(idx))[0][0]
         matPrc = get_spreadsheet(creds=self.creds,getID=SpreadSheet["materials"],getPOS="Textiles!J%d"%(idx))[0][0]
         rmnLen = float(matLen)-float(length)
-        idd = self.search(IDw=SpreadSheet["designs"],POSw="Outfit!B1:B1000",keyword=matcdn,findat=0)+1
+        idd = self.search(IDw=SpreadSheet["designs"],POSw="Outfit!B1:B1000",keyword=matcdn+'-',findat=0)+1
         if len(idd)>0:
             POSr = "Outfit!B%d"%(idd[-1])
             vals = get_spreadsheet(creds=self.creds,getID=SpreadSheet["designs"],getPOS=POSr)
@@ -746,7 +851,7 @@ class Termibot:
 
     def design(self,matcdn,workrmrk,price):
         color = ['paint','print','block','discharge','dye']
-        timestamp = datetime.datetime.now().strftime('%m/%d/%Y %H:%M:%S')
+        timestamp = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')
         idd = self.search(IDw=SpreadSheet["designs"],POSw="Outfit!B1:B1000",keyword=matcdn,findat=0)+1
         #matLen = get_spreadsheet(creds=self.creds,getID=SpreadSheet["materials"],getPOS="Textiles!F%d"%(idx))[0][0]
         #matPrc = get_spreadsheet(creds=self.creds,getID=SpreadSheet["materials"],getPOS="Textiles!K%d"%(idx))[0][0]
@@ -768,7 +873,7 @@ class Termibot:
         put_spreadsheet(creds=self.creds,putLIST=[timestamp],putID=SpreadSheet["designs"],putPOS="Outfit!A%d"%(idd),write='update')
 
     def upcat(self,matcdn,prodcat,quantity,profit,userid):
-        timestamp = datetime.datetime.now().strftime('%m/%d/%Y %H:%M:%S')
+        timestamp = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')
         cdn = gencode(otype='product',keys=[matcdn,prodcat])
         idx = self.search(IDw=SpreadSheet["designs"],POSw="Outfit!B1:B1000",keyword=matcdn,findat=0)+1
         print(idx+1)
@@ -814,6 +919,20 @@ class Termibot:
         else:
             TXT = 'The material does not exist in design!'
             self.sendUPDATE(CHATID=userid,txt=TXT)
+
+    def pfit(self,prodcdn,saleprc):
+        pIDw = SpreadSheet["products"]
+        dIDw = SpreadSheet["designs"]
+        fIDw = SpreadSheet["finance"]
+        idx = self.search(IDw=pIDw,POSw="Outfit!C1:C1000",keyword=prodcdn,findexact=True)+1
+        descdn = get_spreadsheet(creds=self.creds,getID=pIDw,getPOS="Outfit!B%d"%(idx))[0][0]
+        idd = self.search(IDw=dIDw,POSw="Outfit!B1:B1000",keyword=descdn,findexact=True)+1
+        prdtyp = get_spreadsheet(creds=self.creds,getID=pIDw,getPOS="Outfit!D%d"%(idx))[0][0]
+        prdcst = get_spreadsheet(creds=self.creds,getID=dIDw,getPOS="Outfit!J%d"%(idd))[0][0]
+        _,sex,typ = prdtyp.split(' > ')
+        profit = float(saleprc)-round(float(prdcst))
+        total = [prodcdn,sex,typ,prdcst,saleprc,profit]
+        put_spreadsheet(creds=self.creds,putLIST=total,putID=fIDw,putPOS="Stat!A2:F")
 
     def upname(self,mdlno,name):
         idx = self.search(IDw=SpreadSheet["products"],POSw="Outfit!C1:C1000",keyword=mdlno)+1
@@ -984,13 +1103,11 @@ class Termibot:
         DIST[idex]=str(rmph)
         return DIST
 
-    def purchase(self,material,paid,due=0,dist='x,x,x',userid='all'):
-        DIST = list(self.deconv_dist(tdist=dist,total=paid))
-        print(DIST)
+    def purchase(self,material,paid,due=0,userid='all'):
         IDw = SpreadSheet["finance"]
         POSw = "Purchase!A2:F"
         POSr = "Purchase!B2:B1000"
-        timestamp = datetime.datetime.now().strftime('%m/%d/%Y %H:%M:%S')
+        timestamp = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')
         try:
             vals = get_spreadsheet(creds=self.creds,getID=IDw,getPOS=POSr)
             last_txn = vals[-1][-1]
@@ -1003,19 +1120,22 @@ class Termibot:
         else:
             txn = date+'-1'
         bill = '-'
-        total=[timestamp, txn, material, paid, due, bill]+DIST
+        total=[timestamp, txn, material, paid, due, bill]
         put_spreadsheet(creds=self.creds,putLIST=total,putID=IDw,putPOS=POSw)
+        balance = float(get_spreadsheet(creds=self.creds,getID=SpreadSheet["finance"],getPOS="Balance!A3")[-1][-1])
+        balance -= float(paid)
+        put_spreadsheet(creds=self.creds,putLIST=[balance],putID=SpreadSheet["finance"],putPOS="Balance!A3",write='update')
 
     def addbillIMG(self,ARG,userid):
-        fileObj = ARG[0]
-        grandparent = DriveFolder[ARG[1]]
-        txn = ARG[2]
-        child = 'Page%s.jpg'%(ARG[3])
+        fileObj = ARG[-1]
+        grandparent = DriveFolder[ARG[0]]
+        txn = ARG[1]
+        child = 'Page%s.jpg'%(ARG[2])
         #parent = DriveFolder[ARG[1]]
         #child = '%s.jpg'%(ARG[2])
         verbose = False
         try:
-            vb = ARG[4]
+            vb = ARG[3]
             if vb == 'v':
                 verbose = True
         except:
@@ -1035,11 +1155,11 @@ class Termibot:
         fileObj.download(childFile)
         folder_link = "https://drive.google.com/drive/folders/%s"%(parent)
         upload_to_folder(creds=self.creds,fileName=child,filePath=childFile,parent_id=parent)
-        idp = self.search(IDw=SpreadSheet["finance"],POSw="Purchase!B1:B1000",keyword=ARG[2],findat=0)+1
+        idp = self.search(IDw=SpreadSheet["finance"],POSw="Purchase!B1:B1000",keyword=ARG[1],findat=0)+1
         put_spreadsheet(creds=self.creds,putLIST=[folder_link],putID=SpreadSheet["finance"],putPOS="Purchase!F%d"%(idp),write='update')
         if verbose:
             LINK = "{}".format(folder_link)
-            self.sendLINK(CHATID=userid,link=LINK,txt="Photos for %s is here!"%(ARG[2]))
+            self.sendLINK(CHATID=userid,link=LINK,txt="Photos for %s is here!"%(ARG[1]))
         os.remove(child)
 
     def rmvbillIMG(self,ARG,userid):
@@ -1063,13 +1183,13 @@ class Termibot:
         self.sendUPDATE(CHATID=userid,txt=TXT)
 
     def addprodIMG(self,ARG,userid):
-        fileObj = ARG[0]
-        grandparent = DriveFolder[ARG[1]]
-        prodcd = ARG[2]
-        child = 'Fig%s.jpg'%(ARG[3])
+        fileObj = ARG[-1]
+        grandparent = DriveFolder[ARG[0]]
+        prodcd = ARG[1]
+        child = 'Fig%s.jpg'%(ARG[2])
         verbose = False
         try:
-            vb = ARG[4]
+            vb = ARG[3]
             if vb == 'v':
                 verbose = True
         except:
@@ -1119,22 +1239,53 @@ class Termibot:
         self.sendUPDATE(CHATID=userid,txt=TXT)
 
     def expense(self,ARG):
-        timestamp = datetime.datetime.now().strftime('%m/%d/%Y %H:%M:%S')
+        timestamp = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')
         remark=ARG[0]
         amount=float(ARG[1])
         IDw = SpreadSheet["finance"]
-        POSw = "Expense!A2:F"
-        if 'gst' in remark.lower():
-            total=[timestamp, amount, remark]+['']
-            put_spreadsheet(creds=self.creds,putLIST=total,putID=IDw,putPOS=POSw)
-        else:
-            dist = ARG[2]
-            DIST = list(self.deconv_dist(tdist=dist,total=amount))
-            total=[timestamp, amount, remark]+DIST
-            put_spreadsheet(creds=self.creds,putLIST=total,putID=IDw,putPOS=POSw)
+        POSw = "Expense!A2:C"
+        total=[timestamp, amount, remark]+['']
+        put_spreadsheet(creds=self.creds,putLIST=total,putID=IDw,putPOS=POSw)
+        #else:
+        #    dist = ARG[2]
+        #    DIST = list(self.deconv_dist(tdist=dist,total=amount))
+        #    total=[timestamp, amount, remark]+DIST
+        #    put_spreadsheet(creds=self.creds,putLIST=total,putID=IDw,putPOS=POSw)
+        balance = float(get_spreadsheet(creds=self.creds,getID=SpreadSheet["finance"],getPOS="Balance!A3")[-1][-1])
+        balance -= amount
+        put_spreadsheet(creds=self.creds,putLIST=[balance],putID=SpreadSheet["finance"],putPOS="Balance!A3",write='update')
         #TXT = "A new transaction is done!\n\ntime: %s\ndebit: %s/-\nremarks: %s"%(timestamp,amount,remark)
         #self.sendUPDATE2all(txt=TXT)
         #self.balance(userid='all')
+
+    def sold(self,ARG):
+        timestamp = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')
+        remark=ARG[0]
+        amount=float(ARG[1])
+        IDw = SpreadSheet["products"]
+        total=[timestamp, amount, remark]+['']
+        if 'other' in remark.lower():
+            POSw = "Accessories!A2:C"
+            put_spreadsheet(creds=self.creds,putLIST=total,putID=IDw,putPOS=POSw)
+        else:
+            idx = self.search(IDw=IDw,POSw="Outfit!C1:C1000",keyword=remark,findexact=True)+1
+            print(idx)
+            qty = int(get_spreadsheet(creds=self.creds,getID=IDw,getPOS="Outfit!G%d"%(idx))[0][0])
+            try:
+                amt = get_spreadsheet(creds=self.creds,getID=IDw,getPOS="Outfit!L%d"%(idx))[0][0]
+            except:
+                amt = 0
+            print(qty,amt)
+            if qty>0:
+                amt = float(amt)+amount
+                qty -= 1
+                POSw = "Outfit!G%d"%(idx)
+                put_spreadsheet(creds=self.creds,putLIST=[qty],putID=IDw,putPOS=POSw,write='update')
+                POSw = "Outfit!L%d"%(idx)
+                put_spreadsheet(creds=self.creds,putLIST=[amt],putID=IDw,putPOS=POSw,write='update')
+        balance = float(get_spreadsheet(creds=self.creds,getID=SpreadSheet["finance"],getPOS="Balance!A3")[-1][-1])
+        balance += amount
+        put_spreadsheet(creds=self.creds,putLIST=[balance],putID=SpreadSheet["finance"],putPOS="Balance!A3",write='update')
 
     def list(self,key1,key2):
         if key1=='purchase':
@@ -1216,7 +1367,7 @@ class Termibot:
         BOXsize = 10
         BORDER = 1
         QRcode = qrcode.QRCode(box_size=BOXsize,border=BORDER,error_correction=qrcode.constants.ERROR_CORRECT_H)
-        link = "upi://pay?pa=7044319466@okbizaxis&pn=Antant for products %s&am=%d&tn=Antant products %s&cu=INR"%(MODELno,AMNT,MODELno)
+        link = "upi://pay?pa=7044319466-1@okbizaxis&pn=Antant for products %s&am=%d&tn=Antant products %s&cu=INR"%(MODELno,AMNT,MODELno)
         QRcode.add_data(link)
         QRcode.make(fit=True)
         QRimg = QRcode.make_image().convert('RGB')
@@ -1285,7 +1436,10 @@ class Termibot:
         ffr.close()
         os.remove(fileName)
 
-    def genINVOICE(self,ARG,userid):
+    def genfINVOICE(self,ARG,userid):
+        self.genINVOICE(ARG=ARG,userid=userid,false=True)
+
+    def genINVOICE(self,ARG,userid,false=False):
         billtype = 'regular'
         phn = ARG[0]
         try:
@@ -1296,6 +1450,7 @@ class Termibot:
             paid = float(ARG[-2])
             items = ARG[1:-2]
             billtype = 'discount'
+        print(paid,items)
         itqt = {}
         for item in items:
             posAstrx = item.rfind('*')
@@ -1312,14 +1467,24 @@ class Termibot:
         for sl,i in enumerate(itqt):
             print(itqt)
             idp = self.search(IDw=SpreadSheet["products"],POSw="Outfit!C1:C1000",keyword=i,findat=0)+1
-            print('i,idp: ',i)
-            name = get_spreadsheet(creds=self.creds,getID=SpreadSheet["products"],getPOS="Outfit!E%d"%(idp))[0][0]
-            code = i
-            rate = round(float(get_spreadsheet(creds=self.creds,getID=SpreadSheet["products"],getPOS="Outfit!H%d"%(idp))[0][0]))
-            qnty = itqt[i]
-            amnt = rate*qnty
-            itemROWin += itemROW%(sl+1,name,code,rate,qnty,amnt)
-            total += amnt
+            stock = int(get_spreadsheet(creds=self.creds,getID=SpreadSheet["products"],getPOS="Outfit!G%d"%(idp))[0][0])
+            if stock>0:
+                print('i,idp: ',i)
+                name = get_spreadsheet(creds=self.creds,getID=SpreadSheet["products"],getPOS="Outfit!E%d"%(idp))[0][0]
+                code = i
+                rate = round(float(get_spreadsheet(creds=self.creds,getID=SpreadSheet["products"],getPOS="Outfit!H%d"%(idp))[0][0]))
+                qnty = itqt[i]
+                amnt = rate*qnty
+                itemROWin += itemROW%(sl+1,name,code,rate,qnty,amnt)
+                total += amnt
+                stock -= qnty
+            else:
+                TXT = "Product:%s is out of stock!"%(i)
+                self.sendUPDATE(CHATID=userid,txt=TXT)
+            if false:
+                pass
+            else:
+                put_spreadsheet(creds=self.creds,putLIST=[stock],putID=SpreadSheet["products"],putPOS="Outfit!G%d"%(idp),write='update')
 
         #disc = total*(discp/100)
         #total = total - disc
@@ -1330,23 +1495,34 @@ class Termibot:
             disc = total*(discp/100)
             total = total - disc
             ffr = open('invoice_template_discount.txt','r')
+        total = round(total)
         invtmp = ffr.read()
         ffr.close()
         due = total - paid
         flr = open('invcimgs.dict','rb')
         invcimgs = pickle.load(flr)
         flr.close()
-        try:
-            lastINV = list(invcimgs.keys())[-1]
-        except:
-            lastINV = 'XXXXXXXX-Y'
         DATE = str(datetime.datetime.now().strftime('%m%d%Y'))
-        if DATE in lastINV:
-            INVno=DATE+'-'+str(int(eval(lastINV[lastINV.rfind('-')+1:])+1))
-        else:
+        try:
+            todayINV = []
+            for invc in invcimgs.keys():
+                if DATE in invc:
+                    todayINV.append(int(invc[invc.rfind('-')+1:]))
+            INVno=DATE+'-'+str(max(todayINV)+1)
+        except:
             INVno=DATE+'-1'
+        print(INVno)
+        #if DATE in lastINV:
+        #    INVno=DATE+'-'+str(int(eval(lastINV[lastINV.rfind('-')+1:])+1))
+        #else:
+        #    INVno=DATE+'-1'
         #billNO = billist[-1]+1
         #billist.append(billNO)
+        fileTemp = self.genPAYlink(AMNT=due,MODELno=INVno,ICONfig='ICON.png',QRname=INVno)
+        ffr = open(fileTemp,'rb')
+        self.sendPHOTO(CHATID=userid,fileobj=ffr)
+        ffr.close()
+        os.remove(fileTemp)
         fileName = self.genPAYlink(AMNT=due,MODELno=INVno,ICONfig='ICON_pixel.png',QRname=INVno)
         fcr = open('custdata.dict','rb')
         custdict = pickle.load(fcr)
@@ -1371,7 +1547,7 @@ class Termibot:
         #PDF.close()
         IDw = SpreadSheet["finance"]
         POSw = "Sale!A2:I"
-        timestamp = datetime.datetime.now().strftime('%m/%d/%Y %H:%M:%S')
+        timestamp = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')
         products = ','.join(list(itqt.keys()))
         putTOTAL=[timestamp,INVno,products,custdict[phn],phn,total,paid,due,INVlink]
         put_spreadsheet(creds=self.creds,putLIST=putTOTAL,putID=IDw,putPOS=POSw)
@@ -1381,18 +1557,61 @@ class Termibot:
         ffw.close()
         LINK = "{}".format(INVlink)
         self.sendLINK(CHATID=userid,link=INVlink,txt="The invoice PDF is here!")
+        if false:
+            pass
+        else:
+            balance = float(get_spreadsheet(creds=self.creds,getID=SpreadSheet["finance"],getPOS="Balance!A3")[-1][-1])
+            balance += float(paid)
+            put_spreadsheet(creds=self.creds,putLIST=[balance],putID=SpreadSheet["finance"],putPOS="Balance!A3",write='update')
         if due==0:
             os.system('rm -rf %s'%(FLDR))
         elif due>0:
             if billtype=='regular':
                 TUPLEind = (INVno,custInfo,itemROWin,'%s','%s','%s','%s')
             else:
-                TUPLEind = (INVno,custInfo,itemROWin,str(discp)+'%','%.2f'%(disc),'%s','%s','%s','%s')
+                TUPLEind = (INVno,custInfo,itemROWin,str(discp)+'\%%','%.2f'%(disc),'%s','%s','%s','%s')
             invtxt = invtmp%TUPLEind
             ffw = open('%s/duebill.txt'%(FLDR),'w')
             print(invtxt,file=ffw)
             ffw.close()
             os.system('rm %s/bill.*'%(FLDR))
+
+    def cbalance(self,month):
+        idx_sale = self.search(IDw=SpreadSheet["finance"],POSw="Sale!A2:A1000",keyword=month)+2
+        idx_purchase = self.search(IDw=SpreadSheet["finance"],POSw="Purchase!A2:A1000",keyword=month)+2
+        idx_expense = self.search(IDw=SpreadSheet["finance"],POSw="Expense!A2:A1000",keyword=month)+2
+        RNG = []
+        for ids in idx_sale:
+            RNG.append("Sale!G%d"%(ids))
+        results = get_index(creds=self.creds,getPOS=RNG,getID=SpreadSheet["finance"])
+        CREDIT = 0
+        for val in results:
+            CREDIT += float(val["values"][0][0])
+        
+        RNG = []
+        for ids in idx_purchase:
+            RNG.append("Purchase!D%d"%(ids))
+        results = get_index(creds=self.creds,getPOS=RNG,getID=SpreadSheet["finance"])
+        DEBIT = 0
+        for val in results:
+            DEBIT += float(val["values"][0][0])
+        RNG = []
+        for ids in idx_expense:
+            RNG.append("Expense!B%d"%(ids))
+        results = get_index(creds=self.creds,getPOS=RNG,getID=SpreadSheet["finance"])
+        for val in results:
+            DEBIT += float(val["values"][0][0])
+        RETURN = CREDIT-DEBIT
+        total = [month,DEBIT,CREDIT,RETURN]
+        try:
+            idx_invret = self.search(IDw=SpreadSheet["finance"],POSw="InvRet!A2:A1000",keyword=month,findat=0)+2
+        except:
+            idx_invret = []
+        if len(idx_invret) > 0:
+            idx = idx_invret[-1]
+            put_spreadsheet(creds=self.creds,putLIST=total,putID=SpreadSheet["finance"],putPOS="InvRet!A%d:D%d"%(idx,idx),write='update')
+        else:
+            put_spreadsheet(creds=self.creds,putLIST=total,putID=SpreadSheet["finance"],putPOS="InvRet!A2:D")
 
     def updINVOICE(self,ARG,userid):
         INVno = ARG[0]
@@ -1411,7 +1630,9 @@ class Termibot:
         ffr.close()
         fileName = self.genPAYlink(AMNT=due,MODELno=INVno,ICONfig='ICON_pixel.png',QRname=INVno)
         TUPLEind = ('%.2f'%(total),'%.2f'%(paid),'%.2f'%(due),fileName)
+        print(invtmp,TUPLEind)
         invtxt = invtmp%(TUPLEind)
+        print(invtxt)
         ffw = open('%s/bill.tex'%(FLDR),'w')
         print(invtxt,file=ffw)
         ffw.close()
@@ -1424,7 +1645,7 @@ class Termibot:
         flr.close()
         IDw = SpreadSheet["finance"]
         POSw = "Sale!A%d:I%d"%(idi,idi)
-        timestamp = datetime.datetime.now().strftime('%m/%d/%Y %H:%M:%S')
+        timestamp = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')
         putTOTAL=[timestamp,INVno,products,name,phn,total,paid,due,INVlink]
         #putTOTAL=[total,paid,due,INVlink]
         put_spreadsheet(creds=self.creds,putLIST=putTOTAL,putID=IDw,putPOS=POSw,write='update')
@@ -1438,6 +1659,9 @@ class Termibot:
             os.system('rm -rf %s'%(FLDR))
         elif due>0:
             os.system('rm %s/bill.*'%(FLDR))
+        balance = float(get_spreadsheet(creds=self.creds,getID=SpreadSheet["finance"],getPOS="Balance!A3")[-1][-1])
+        balance += amnt
+        put_spreadsheet(creds=self.creds,putLIST=[balance],putID=SpreadSheet["finance"],putPOS="Balance!A3",write='update')
 
     def rmvinvcIMG(self,ARG,userid=None):
         filetype = ARG[0]
@@ -1476,15 +1700,29 @@ class Termibot:
         ffw.close()
 
     def credit(self,amount,remark):
-        timestamp = datetime.datetime.now().strftime('%m/%d/%Y %H:%M:%S')
-        values=[timestamp, '', '', amount, remark]
-        put_spreadsheet(values,creds=self.creds)
-        TXT = "A new transaction is done!\n\ntime: %s\ncredit: %s/-\nremarks: %s"%(timestamp,amount,remark)
-        self.sendUPDATE2all(txt=TXT)
-        self.balance(userid='all')
+        timestamp = datetime.datetime.now().strftime('%m/%Y')
+        idx = 0
+        try:
+            idx = self.search(IDw="finance",POSw="Balance!D1:D1000",keyword=timestamp,findat=0)+3
+        except:
+            pass
+        values=[timestamp, amount]
+        if idx == 0:
+            if remark.lower()=='pallab':
+                values=[timestamp, amount]
+                put_spreadsheet(creds=self.creds,putLIST=values,putID=SpreadSheet["finance"],putPOS="Balance!E3:F"%(idx))
+            elif remark.lower()=='maatu':
+                values=[timestamp, '', amount]
+                put_spreadsheet(creds=self.creds,putLIST=values,putID=SpreadSheet["finance"],putPOS="Balance!E3:G"%(idx))
+        else:
+            pass
+        #put_spreadsheet(values,creds=self.creds)
+        balance = float(get_spreadsheet(creds=self.creds,getID=SpreadSheet["finance"],getPOS="Balance!A3")[-1][-1])
+        balance += amount
+        put_spreadsheet(creds=self.creds,putLIST=[balance],putID=SpreadSheet["finance"],putPOS="Balance!A3",write='update')
 
     def debit(self,amount,remark):
-        timestamp = datetime.datetime.now().strftime('%m/%d/%Y %H:%M:%S')
+        timestamp = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')
         values=[timestamp, amount, remark, '', '']
         put_spreadsheet(values,creds=self.creds)
         TXT = "A new transaction is done!\n\ntime: %s\ndebit: %s/-\nremarks: %s"%(timestamp,amount,remark)
