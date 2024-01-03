@@ -45,13 +45,21 @@
       font-size: 16px;
       box-sizing: border-box;
       background-color: #222;
+    }
+
+    .form-group input[type="text"] {
       color: #fff;
+    }
+
+    .form-group input[type="password"] {
+      color: #222;
     }
     
     .password-eye {
       position: relative;
       display: inline-block;
       width: 100%; /* Adjusted width to match the username input box */
+      user-select: none;
     }
     
     .password-eye input[type="password"] {
@@ -74,9 +82,9 @@
     }
     
     .password-eye input[type="password"].hide-dots {
-      -webkit-text-fill-color: #000 !important; /* For WebKit browsers */
+      -webkit-text-fill-color: #222 !important; /* For WebKit browsers */
       -webkit-text-security: disc !important; /* For WebKit browsers */
-      text-fill-color: #000 !important; /* For other browsers */
+      text-fill-color: #222 !important; /* For other browsers */
       text-security: disc !important; /* For other browsers */
     }
 
@@ -148,13 +156,13 @@
       passwordInput.focus();
     }
   
-    passwordInput.addEventListener("blur", function() {
-      if (passwordInput.type === "password") {
-        passwordInput.classList.add("hide-dots");
-      } else {
-        passwordInput.classList.remove("hide-dots");
-      }
-    });
+    //passwordInput.addEventListener("blur", function() {
+    //  if (passwordInput.type === "password") {
+    //    passwordInput.classList.add("hide-dots");
+    //  } else {
+    //    passwordInput.classList.remove("hide-dots");
+    // }
+    //});
   </script>
   <script type="text/javascript">
     Telegram.WebApp.ready();
