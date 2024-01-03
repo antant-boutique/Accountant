@@ -1,3 +1,4 @@
+import pickle
 import logging, json
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo, ReplyKeyboardMarkup, KeyboardButton
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, filters, PollAnswerHandler, PollHandler
@@ -105,6 +106,34 @@ async def send_desform(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ),
     )
 
+async def send_billform(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    print('send_billform')
+    if len(context.args) >= 1:
+        PhoneNo = context.args[0]
+        extender = f"?customerContact={PhoneNo}&"
+        ffr = open('custdata.dict','rb')
+        custdata = pickle.load(ffr)
+        ffr.close()
+        try:
+            Name = custdata[PhoneNo].replace(' ','%20')
+            extender += f"customerName={Name}"
+        except KeyError:
+            pass
+    else:
+        extender = ''
+    #pdict = {'quantity':3,'price':600}
+    #jdict = json.dumps(pdict)
+    await update.message.reply_text(
+        "Billing Form",
+        reply_markup=ReplyKeyboardMarkup.from_button(
+            KeyboardButton(
+                text="Billing Form",
+                #web_app=WebAppInfo(url="https://antant-boutique.github.io/Accountant/matform?color=red&price=120&color=black&price=550&",api_kwargs=pdict),
+                web_app=WebAppInfo(url="https://antant-boutique.github.io/Accountant/customerForm/custform"+extender),
+            )
+        ),
+    )
+
 async def receive_poll_answer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Summarize a users poll vote"""
     answer = update.poll_answer
@@ -120,21 +149,6 @@ async def receive_poll_answer(update: Update, context: ContextTypes.DEFAULT_TYPE
     price = prices[selected_option]
     txt=AM.setProdPrice(ModelNo,price)
     await context.bot.send_message(chat_id=ChatId, text=txt, parse_mode='Markdown')
-    #for question_id in selected_options:
-    #    if question_id != selected_options[-1]:
-    #        answer_string += questions[question_id] + " and "
-    #    else:
-    #        answer_string += questions[question_id]
-    #price = 
-    #await context.bot.send_message(
-    #    answered_poll["chat_id"],
-    #    f"{update.effective_user.mention_html()} feels {answer_string}!",
-    #    parse_mode=ParseMode.HTML,
-    #)
-    #answered_poll["answers"] += 1
-    # Close poll after three participants voted
-    #if answered_poll["answers"] == TOTAL_VOTER_COUNT:
-    #    await context.bot.stop_poll(answered_poll["chat_id"], answered_poll["message_id"])
 
 async def web_app_data(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None :
     print('web_app_data')
@@ -183,6 +197,17 @@ async def web_app_data(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
             context.bot_data.update(payload)
         else:
             await context.bot.send_message(chat_id=update.effective_chat.id, text=txt, parse_mode='Markdown')
+    if formname == 'Billing':
+        OUTPUT = AM.bill(data)
+        print(OUTPUT)
+        if len(OUTPUT)>2:
+            fileTemp = OUTPUT[0]
+            ffr = open(fileTemp,'rb')
+            await context.bot.send_photo(chat_id=update.effective_chat.id, photo=ffr)
+            ffr.close()
+            os.remove(fileTemp)
+        for txt in OUTPUT[-2:]:
+            await context.bot.send_message(chat_id=update.effective_chat.id, text=txt, parse_mode=ParseMode.HTML)
     else:
         await update.message.reply_text("Your data was:")
         for result in data:
@@ -199,6 +224,8 @@ if __name__ == '__main__':
     application.add_handler(form1_handler)
     form2_handler = CommandHandler('desform', send_desform)
     application.add_handler(form2_handler)
+    form3_handler = CommandHandler('geninvc', send_billform)
+    application.add_handler(form3_handler)
     auth_handler = CommandHandler('authenticate', authenticate)
     application.add_handler(auth_handler)
     token_handler = CommandHandler('token', savetoken)

@@ -21,6 +21,7 @@ import copy
 from PIL import Image
 openai.api_key_path = "./OpenAPI.token"
 import pandas as pd
+from GDriveFunctions import *
 
 
 def gencode(otype,keys,bits=0):
@@ -321,7 +322,36 @@ def get_attr_val(X,attribute):
         Y = 0
     return Y
 
-def bill(DATA):
+def genPAYlink(AMNT,INVCno,ICONfig,QRname):
+    logo = Image.open(ICONfig)
+    BOXsize = 10
+    BORDER = 1
+    QRcode = qrcode.QRCode(box_size=BOXsize,border=BORDER,error_correction=qrcode.constants.ERROR_CORRECT_H)
+    link = f"upi://pay?pa=7044319466-1@okbizaxis&pn=Antant for invoice {INVCno}&am={AMNT}&tn=Antant Invoice: {INVCno}&cu=INR"
+    QRcode.add_data(link)
+    QRcode.make(fit=True)
+    QRimg = QRcode.make_image().convert('RGB')
+    halfQRsize = (QRimg.size[0]-BOXsize*BORDER*2)/2
+    halfLOGOsize = halfQRsize/3
+    if halfQRsize%BOXsize == BOXsize/2:
+        if halfLOGOsize%BOXsize == BOXsize/2:
+            LOGOsize = 2*halfLOGOsize
+        else:
+            LOGOsize = 2*(halfLOGOsize-(halfLOGOsize%BOXsize-BOXsize/2))
+    else:
+        if halfLOGOsize%BOXsize == 0:
+            LOGOsize = 2*halfLOGOsize
+        else:
+            LOGOsize = 2*(halfLOGOsize-(halfLOGOsize%BOXsize-BOXsize))
+    LOGOsize = int(LOGOsize)
+    logo = logo.resize((LOGOsize, LOGOsize), Image.ANTIALIAS)
+    pos = ((QRimg.size[0] - logo.size[0]) // 2,(QRimg.size[1] - logo.size[1]) // 2)
+    QRimg.paste(logo, pos)
+    fileName = 'upiQR_%s.png'%(QRname)
+    QRimg.save(fileName)
+    return fileName
+
+def bill(DATA,false=False):
     print(DATA)
     prddf = pd.read_csv('Antant_products1.csv')
     custName = DATA['customerName'][0].strip()
@@ -333,6 +363,7 @@ def bill(DATA):
     discount = get_attr_val(DATA,'addDiscount')
     fullpaid = get_checkbox_value(DATA,'fullpaid')
     paid = get_attr_val(DATA,'paidAmount')
+    upiQR = get_checkbox_value(DATA,'upiQR')
     itqt = {ModelNo[i]:Quantity[i] for i in range(numItems)}
     total = 0
     itemROWin = ""
@@ -380,21 +411,24 @@ def bill(DATA):
         INVno=DATE+'-'+str(max(todayINV)+1)
     except:
         INVno=DATE+'-1'
-    
-    fileTemp = self.genPAYlink(AMNT=due,MODELno=INVno,ICONfig='ICON.png',QRname=INVno)
-    ffr = open(fileTemp,'rb')
-    self.sendPHOTO(CHATID=userid,fileobj=ffr)
-    ffr.close()
-    os.remove(fileTemp)
-    fileName = self.genPAYlink(AMNT=due,MODELno=INVno,ICONfig='ICON_pixel.png',QRname=INVno)
+    OUTs = []
+    if upiQR:
+        fileTemp = genPAYlink(AMNT=due,INVCno=INVno,ICONfig='ICON.png',QRname=INVno+'red')
+        OUTs.append(fileTemp)
+        #ffr = open(fileTemp,'rb')
+        #awa
+        #self.sendPHOTO(CHATID=userid,fileobj=ffr)
+        #ffr.close()
+    #os.remove(fileTemp)
+    fileName = genPAYlink(AMNT=due,INVCno=INVno,ICONfig='ICON_pixel.png',QRname=INVno)
     fcr = open('custdata.dict','rb')
     custdict = pickle.load(fcr)
     fcr.close()
-    custInfo = custdict[phn] + ' | ' + phn
+    custInfo = custdict[custPhone] + ' | ' + custPhone
     if billtype=='regular':
         TUPLEin = (INVno,custInfo,itemROWin,'%.2f'%(total),'%.2f'%(paid),'%.2f'%(due),fileName)
     else:
-        TUPLEin = (INVno,custInfo,itemROWin,str(discp)+'\%','%.2f'%(disc),'%.2f'%(total),'%.2f'%(paid),'%.2f'%(due),fileName)
+        TUPLEin = (INVno,custInfo,itemROWin,str(discount)+'\%','%.2f'%(disc),'%.2f'%(total),'%.2f'%(paid),'%.2f'%(due),fileName)
     invtxt = invtmp%TUPLEin
     FLDR = 'INVOICE-%s'%(INVno)
     os.mkdir(FLDR)
@@ -403,41 +437,47 @@ def bill(DATA):
     ffw.close()
     os.system('cp ICON.png %s/'%(FLDR))
     os.system('pdflatex -output-directory %s %s/bill.tex'%(FLDR,FLDR))
-    FILEid = upload_to_folder(self.creds,'%s.pdf'%(INVno),'%s/bill.pdf'%(FLDR),parent_id=DriveFolder['invoice'],permit='writer')
+    OUTs.append('%s/bill.pdf'%(FLDR))
+    FILEid = upload_to_folder('%s.pdf'%(INVno),'%s/bill.pdf'%(FLDR),parent_id=DriveFolder['invoice'],permit='writer')
     INVlink = "https://drive.google.com/file/d/%s/view?usp=share_link"%(FILEid)
-    #IDw = SpreadSheet["finance"]
-    #POSw = "Sale!A2:I"
+    ##IDw = SpreadSheet["finance"]
+    ##POSw = "Sale!A2:I"
     saledf = pd.read_csv('./Antant_finance_Sale.csv')
     saleidx = len(saledf)
     timestamp = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')
     products = ','.join(list(itqt.keys()))
     putTOTAL=[timestamp,INVno,products,custName,custPhone,total,paid,due,INVlink]
     saledf.loc[saleidx] = putTOTAL
-    #put_spreadsheet(creds=self.creds,putLIST=putTOTAL,putID=IDw,putPOS=POSw)
+    ##put_spreadsheet(creds=self.creds,putLIST=putTOTAL,putID=IDw,putPOS=POSw)
     invcimgs[INVno] = FILEid
-    ffw = open('invcimgs.dict','wb')
-    pickle.dump(invcimgs,ffw)
-    ffw.close()
+    #ffw = open('invcimgs.dict','wb')
+    #pickle.dump(invcimgs,ffw)
+    #ffw.close()
     LINK = "{}".format(INVlink)
-    self.sendLINK(CHATID=userid,link=INVlink,txt="The invoice PDF is here!")
+    ##self.sendLINK(CHATID=userid,link=INVlink,txt="The invoice PDF is here!")
     balancedf = pd.read_csv('Antant_finance_Balance.csv')
     if false:
         pass
     else:
-        balance = balancedf.loc[1,'Current']
+        balance = float(balancedf.loc[1,'Current'])
         balance += float(paid)
-        balancedf.loc[1,'Current'] = balance
+        balancedf.loc[1,'Current'] = str(balance)
     if due==0:
         os.system('rm -rf %s'%(FLDR))
     elif due>0:
         if billtype=='regular':
             TUPLEind = (INVno,custInfo,itemROWin,'%s','%s','%s','%s')
         else:
-            TUPLEind = (INVno,custInfo,itemROWin,str(discp)+'\%%','%.2f'%(disc),'%s','%s','%s','%s')
+            TUPLEind = (INVno,custInfo,itemROWin,str(discount)+'\%%','%.2f'%(disc),'%s','%s','%s','%s')
         invtxt = invtmp%TUPLEind
         ffw = open('%s/duebill.txt'%(FLDR),'w')
         print(invtxt,file=ffw)
         ffw.close()
         os.system('rm %s/bill.*'%(FLDR))
-
+    TXT1 = f"Dear {custName},\n\nPlease find your invoice ({INVno})  at {INVlink}. We recommend you to download the invoice since it will be auto-deleted in a month.\n\nAntant Boutique :)"
+    TXT2 = f"Send this to: {custPhone}"
+    OUTs.append(TXT1)
+    OUTs.append(TXT2)
+    print(OUTs)
+    return OUTs
 
