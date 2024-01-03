@@ -81,6 +81,7 @@ function prefillFormFromUrl() {
   var addDiscountValue = getParameterByName('addDiscount');
   var paidAmountValue = getParameterByName('paidAmount');
   var fullpaidOption = getParameterByName('fullpaid');
+  var upiQRpayment = getParameterByName('upiQR');
 
   // Prefill values in the form
   if (customerName) {
@@ -140,7 +141,7 @@ function prefillFormFromUrl() {
 
   if (addDiscountValue) {
     var artworkCheckboxes = document.querySelectorAll('input[name="discount"]');
-    var checkbox = Array.from(artworkCheckboxes).find((checkbox) => checkbox.value === 'discount');
+    var checkbox = Array.from(artworkCheckboxes).find((checkbox) => checkbox.value === 'on');
     checkbox.checked = true;
     toggleCostInput(checkbox, 'addDiscount')
     document.querySelector('input[name="addDiscount"]').value = addDiscountValue;
@@ -152,8 +153,14 @@ function prefillFormFromUrl() {
 
   if (fullpaidOption) {
   	var artworkCheckboxes = document.querySelectorAll('input[name="fullpaid"]');
-	var checkbox = Array.from(artworkCheckboxes).find((checkbox) => checkbox.value === 'fullpaid');
+	var checkbox = Array.from(artworkCheckboxes).find((checkbox) => checkbox.value === 'on');
 	checkbox.checked = true;
+  }
+
+  if (upiQRpayment) {
+        var artworkCheckboxes = document.querySelectorAll('input[name="upiQR"]');
+        var checkbox = Array.from(artworkCheckboxes).find((checkbox) => checkbox.value === 'on');
+        checkbox.checked = true;
   }
 
 }
