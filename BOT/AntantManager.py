@@ -94,7 +94,7 @@ def addtxtl(DATA):
                 cdn = gencode(otype='material',keys=[fabric],bits=counts)
                 counts+=1
         matDict[fabric.lower()]=cdn
-        fhw = open('matcdn2.dict','wb')
+        fhw = open('matcdn.dict','wb')
         pickle.dump(matDict,fhw)
         fhw.close()
         df = pd.read_csv('Antant_materials.csv')
@@ -109,7 +109,7 @@ def addtxtl(DATA):
         df = df.append(pd.Series(new_row, index=df.columns), ignore_index=True)
         sl_no = i+1
         TXT += f"{sl_no}. *{new_cdn}*: {colors[i]} {fabric.strip()}, {sizes[i]} mtrs.\n"
-    df.to_csv('Antant_materials2.csv', index=False)
+    df.to_csv('Antant_materials.csv', index=False)
     return TXT
 
 def get_service_charge(X,attribute):
@@ -158,7 +158,7 @@ def design(DATA):
             if updcat == 1:
                 TXT = f"*{mat}* is already uploaded in product catalogue. We cannot design this anymore!"
                 break
-            if mes<totmes:
+            if mes<=totmes:
                 matcdn = mat[:mat.rfind('-P')]
                 idl = desdf.index[desdf['MatCode'].str.contains(matcdn, case=True)].to_list()[-1]
                 lastcdn = desdf.loc[idl,'MatCode']
@@ -169,12 +169,13 @@ def design(DATA):
                 newdf = desdf.loc[idx]
                 if frac == 1:
                     newidx = idx
+                    newcdn = mat
                 else:
                     newcdn = f"{matcdn}-P{number}"
                     newdf.loc['MatCode'] = newcdn
                     newdf.loc[des_editColumns] *= round(frac,2)
                     newidx = len(desdf)
-                desdf.loc[idx,des_editColumns] *= round(remn,2)
+                    desdf.loc[idx,des_editColumns] *= round(remn,2)
                 #desdf = pd.concat([desdf, newdf], ignore_index=True)
         elif mat in matdf['MatCode'].to_list() and mes != 0:
             idx = matdf.index[matdf['MatCode']==mat][0]
@@ -228,8 +229,8 @@ def design(DATA):
         #    artColumns = desdf.columns[4:7].to_list()
         #    artCosts = [handBlockCost+handPaintCost, handEmbrdCost+handApplqCost, tailoringCost]
         #    desdf.loc[idx,artColumns] = artCosts
-        matdf.to_csv('Antant_materials1.csv')
-        desdf.to_csv('Antant_designs1.csv')
+        matdf.to_csv('Antant_materials.csv')
+        desdf.to_csv('Antant_designs.csv')
         TXT = 'The materials are getting designed'
         if category:
             if suggestPrice or productPrice:
@@ -243,10 +244,11 @@ def design(DATA):
     return TXT,Poll
 
 def Finish(DesignIdx,Category,Combination,ProductPrice,PriceSuggestion):
-    desdf = pd.read_csv('Antant_designs1.csv')
+    desdf = pd.read_csv('Antant_designs.csv')
     prddf = pd.read_csv('Antant_products.csv')
     desCode = desdf.loc[DesignIdx,'MatCode']
     prodCost = desdf.loc[DesignIdx,'Production cost']
+    print(desCode,Category)
     cdn = gencode(otype='product',keys=[desCode,Category])
     idlist = prddf.index[prddf['Model No.']==cdn].to_list()
     if len(idlist)==0:
@@ -279,7 +281,7 @@ def Finish(DesignIdx,Category,Combination,ProductPrice,PriceSuggestion):
     print(newdf)
     newidx = len(prddf)
     prddf.loc[newidx] = newdf
-    prddf.to_csv('Antant_products1.csv')
+    prddf.to_csv('Antant_products.csv')
     TXT = f"The product: *{ModelNo}* ({Category}) is created."
     return TXT,Poll
 
@@ -307,10 +309,10 @@ def SuggestProductPrice(ProductionCost,ProductPrice):
     return [Options,Prices]
 
 def setProdPrice(ModelNo,ProductPrice):
-    prddf = pd.read_csv('Antant_products1.csv')
+    prddf = pd.read_csv('Antant_products.csv')
     idx = prddf.index[prddf['Model No.']==ModelNo][0]
     prddf.loc[idx,'Price'] = ProductPrice
-    prddf.to_csv('Antant_products1.csv')
+    prddf.to_csv('Antant_products.csv')
     TXT = f"The product (*{ModelNo}*) price is set to: {ProductPrice} INR"
     return TXT
 
@@ -353,7 +355,7 @@ def genPAYlink(AMNT,INVCno,ICONfig,QRname):
 
 def bill(DATA,false=False):
     print(DATA)
-    prddf = pd.read_csv('Antant_products1.csv')
+    prddf = pd.read_csv('Antant_products.csv')
     custName = DATA['customerName'][0].strip()
     custPhone = DATA['customerContact'][0].strip()
     custAddr = DATA['customerAddress'][0].strip()
@@ -374,7 +376,7 @@ def bill(DATA,false=False):
         stock = prddf.loc[idp,'Quantity']
         if stock>0:
             print('i,idp: ',i)
-            name = prddf.loc[idp,'Name']
+            name = prddf.loc[idp,'Category'].split(' > ')[-1]
             code = i
             rate = round(prddf.loc[idp,'Price'])
             qnty = itqt[i]
@@ -389,12 +391,20 @@ def bill(DATA,false=False):
         else:
             prddf.loc[idp,'Quantity'] = stock
     billtype = 'discount' if discount else 'regular'
+    if paid and fullpaid and paid < total:
+        discount = round((total-paid)/total*100,2)
+        disc = total-paid
+        billtype = 'discount'
+        total = paid
     if billtype=='regular':
         ffr = open('invoice_template_regular.txt','r')
     else:
-        disc = total*(discount/100)
-        total = total - disc
-        ffr = open('invoice_template_discount.txt','r')
+        if paid and fullpaid:
+            pass
+        else:
+            disc = total*(discount/100)
+            total = total - disc
+            ffr = open('invoice_template_discount.txt','r')
     total = round(total)
     invtmp = ffr.read()
     ffr.close()
@@ -450,9 +460,9 @@ def bill(DATA,false=False):
     saledf.loc[saleidx] = putTOTAL
     ##put_spreadsheet(creds=self.creds,putLIST=putTOTAL,putID=IDw,putPOS=POSw)
     invcimgs[INVno] = FILEid
-    #ffw = open('invcimgs.dict','wb')
-    #pickle.dump(invcimgs,ffw)
-    #ffw.close()
+    ffw = open('invcimgs.dict','wb')
+    pickle.dump(invcimgs,ffw)
+    ffw.close()
     LINK = "{}".format(INVlink)
     ##self.sendLINK(CHATID=userid,link=INVlink,txt="The invoice PDF is here!")
     balancedf = pd.read_csv('Antant_finance_Balance.csv')
@@ -475,9 +485,12 @@ def bill(DATA,false=False):
         ffw.close()
         os.system('rm %s/bill.*'%(FLDR))
     TXT1 = f"Dear {custName},\n\nPlease find your invoice ({INVno})  at {INVlink}. We recommend you to download the invoice since it will be auto-deleted in a month.\n\nAntant Boutique :)"
-    TXT2 = f"Send this to: {custPhone}"
+    TXT2 = [f'{custName}',f'{custPhone}']
     OUTs.append(TXT1)
     OUTs.append(TXT2)
     print(OUTs)
+    prddf.to_csv('Antant_products.csv')
+    saledf.to_csv('Antant_finance_Sale.csv')
+    balancedf.to_csv('Antant_finance_Balance.csv')
     return OUTs
 

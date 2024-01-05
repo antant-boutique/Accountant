@@ -109,7 +109,7 @@ Timestamp,MatCode,Base,Length (m),Print and Dye,Remarks,Stitch and Applique,Rema
 04/29/2023 01:54:07,SC-11-P1,767.2142858,5.5,180,hand-block-print-flower-strings-and-leaves-in-pallu,,,0,947.2142858,1,,,
 05/04/2023 16:55:09,C-4-P1,480,5.5,400,hand-block-printed-triangles,,,0,880,1,,,
 24/09/2023 10:48:04,MoC-9-P1,687.5,5.5,,,600,stitching-and-tailoring,0,1287.5,1,,,
-05/01/2024 02:50:27,MoC-9-P2,687.5,5.5,,,900,stitching-and-tailoring,0,1587.5,1,,,
+,MoC-9-P2,687.5,5.5,,,,,,,,,,
 05/07/2023 01:09:23,AM-5-P1,484,5.5,650,hand-paint-with-polash-phool-spreaded-all-over-the-saree-with-branches-in-the-pallu,,,0,1134,1,,,
 12/07/2023 11:36:10,AM-5-P2,484,5.5,650,hand-paint-with-polash-phool-spreaded-all-over-the-saree-with-branches-in-the-pallu,,,0,1134,1,,,
 24/07/2023 10:57:10,AM-5-P3,484,5.5,650,hand-paint-with-polash-phool-spreaded-all-over-the-saree-with-branches-in-the-pallu,,,0,1134,1,,,
@@ -402,4 +402,3 @@ Timestamp,MatCode,Base,Length (m),Print and Dye,Remarks,Stitch and Applique,Rema
 04/01/2024 23:56:50,SC-21-P1,678.290943,5.5,180,hand-block-print-phool-ke-rang-se,,,0,858.290943,1,,,
 05/01/2024 00:14:46,HS-14-P1,300,5.5,,,600,stitching-and-tailoring,0,900,1,,,
 05/01/2024 01:15:57,CaC-7-P1,196,2,100,hand-block-print-phool-blue-human-print,350,stitching-and-tailoring,0,646,1,,,
-,HK-1-P1,300,5.5,,,,,,,,,,

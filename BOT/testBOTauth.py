@@ -206,8 +206,14 @@ async def web_app_data(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
             await context.bot.send_photo(chat_id=update.effective_chat.id, photo=ffr)
             ffr.close()
             os.remove(fileTemp)
-        for txt in OUTPUT[-2:]:
-            await context.bot.send_message(chat_id=update.effective_chat.id, text=txt, parse_mode=ParseMode.HTML)
+        txt = OUTPUT[-2]
+        await context.bot.send_message(chat_id=update.effective_chat.id, text=txt, parse_mode=ParseMode.HTML)
+        contact = OUTPUT[-1]
+        Name, Phone = contact
+        Names = Name.split(' ')
+        FName = Names[0]
+        LName = Names[-1]
+        await context.bot.send_contact(chat_id=update.effective_chat.id, phone_number=Phone, first_name=FName, last_name=LName)
     else:
         await update.message.reply_text("Your data was:")
         for result in data:
