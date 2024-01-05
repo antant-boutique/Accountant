@@ -404,7 +404,7 @@ def bill(DATA,false=False):
         else:
             disc = total*(discount/100)
             total = total - disc
-            ffr = open('invoice_template_discount.txt','r')
+        ffr = open('invoice_template_discount.txt','r')
     total = round(total)
     invtmp = ffr.read()
     ffr.close()
