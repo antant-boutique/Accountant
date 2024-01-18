@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment to Antant Boutique</title>
+</head>
+<body>
+
+<script>
+    // Function to extract URL parameters by name
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        var encodedString = decodeURIComponent(results[2].replace(/\+/g, ' '));
+	var decodedString = atob(encodedString);
+	return decodedString.split(',');
+    }
+
+    // Function to construct and redirect to UPI deeplink
+    function redirectToUPIDeeplink() {
+        // Retrieve parameters from the URL
+        var txn = getParameterByName('txn');
+
+        // Construct the UPI deeplink URL
+        var upiUrl = 'upi://pay?pa=antantboutique@sbi&pn=Antant%20Boutique&tn=Antant%20Invoice:%20' + txn[0] + '&am=' + txn[1] + '&cu=INR';
+
+        // Redirect to the constructed UPI deeplink URL
+	// console.log(upiUrl)
+        window.location.href = upiUrl;
+    }
+
+    // Call the function on page load
+    window.onload = redirectToUPIDeeplink;
+</script>
+
+</body>
+</html>
