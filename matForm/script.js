@@ -260,43 +260,17 @@ console.log(firebase);
 document.getElementById('backButton').addEventListener('click', function () {
 	moveToPreviousSet();
 	console.log(formData.price.length);
+	console.log(firebase);
 });
 
 document.getElementById('nextButton').addEventListener('click', function () {
         moveToNextSet();
 	console.log(formData.price.length);
-	const entryLength = formData.price.length;
-        for (let i = 0; i < entryLength; i++) {
-                let dataPack = {};
-                for (let key in formData) {
-                        if (formData.hasOwnProperty(key)) {
-                        	dataPack[key] = [formData[key][i]];
-                        }
-                }
-                dataPack['formname'] = 'Material Entry';
-                var jsonString = JSON.stringify(dataPack);
-                var strLength = byteLength(jsonString);
-                console.log(strLength);
-                //Telegram.WebApp.sendData(jsonString);
-        }
-	/*const entryLength = formData.price.length;
-	for (let i = 0; i < entryLength; i++) {
-                let dataPack = {};
-                for (let key in formData) {
-                        if (formData.hasOwnProperty(key)) {
-                                dataPack[key] = [formData[key][i]];
-                        }
-                }
-                dataPack['formname'] = 'Material Entry';
-		var jsonString = JSON.stringify(dataPack);
-		console.log(jsonString)
-	}*/
+	console.log(firebase);
 });
 
 window.onload = populateFormFields;
 
-<<<<<<< HEAD
-=======
 function byteLength(str) {
     var s = str.length;
     for (var i = str.length - 1; i >= 0; i--) {
@@ -339,7 +313,6 @@ function sendDataToServer(data) {
     });
 }
 
->>>>>>> 7a5cd9a9b58ccb008e004bdc3c58a28c870304ed
 
 Telegram.WebApp.ready();
 Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
