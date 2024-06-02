@@ -268,6 +268,23 @@ function byteLength(str) {
     return s;
 }
 
+function sendDataToServer(data) {
+    fetch('https://31cb-49-37-35-54.ngrok-free.app/submit', { // Replace <YOUR_PUBLIC_IP> with your public IP address
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: data
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
 
 Telegram.WebApp.ready();
 Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
@@ -277,21 +294,16 @@ Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
     		let dataPack = {};
     		for (let key in formData) {
         		if (formData.hasOwnProperty(key)) {
-				if (key=='picture') {
-					const base64 = formData[key][i];
-					base64 = base64String.split(',')[1];
-            				dataPack[key] = ['none'];
-				} else {
-					dataPack[key] = [formData[key][i]];
-				}
+				dataPack[key] = [formData[key][i]];
         		}
     		}
 		dataPack['formname'] = 'Material Entry';
     		var jsonString = JSON.stringify(dataPack);
 		var strLength = byteLength(jsonString);
 		console.log(strLength);
-		Telegram.WebApp.sendData(jsonString);
+		sendDataToServer(jsonString);
 	}
+	Telegram.WebApp.sendData('OK');
 	Telegram.WebApp.close();
 	//var jsonString = JSON.stringify(formData);
         //Telegram.WebApp.sendData(jsonString);
