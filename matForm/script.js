@@ -223,13 +223,25 @@ imageInput.addEventListener('click', function(event) {
 });
 
 document.getElementById('backButton').addEventListener('click', function () {
-	console.log(formData);
 	moveToPreviousSet();
+	console.log(formData.price.length);
 });
 
 document.getElementById('nextButton').addEventListener('click', function () {
-	console.log(formData);
         moveToNextSet();
+	console.log(formData.price.length);
+	/*const entryLength = formData.price.length;
+	for (let i = 0; i < entryLength; i++) {
+                let dataPack = {};
+                for (let key in formData) {
+                        if (formData.hasOwnProperty(key)) {
+                                dataPack[key] = [formData[key][i]];
+                        }
+                }
+                dataPack['formname'] = 'Material Entry';
+		var jsonString = JSON.stringify(dataPack);
+		console.log(jsonString)
+	}*/
 });
 
 window.onload = populateFormFields;
@@ -242,7 +254,9 @@ Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
     		let dataPack = {};
     		for (let key in formData) {
         		if (formData.hasOwnProperty(key)) {
-            			dataPack[key] = [formData[key][i]];
+				if (key != 'picture') {
+            				dataPack[key] = [formData[key][i]];
+				}
         		}
     		}
 		dataPack['formname'] = 'Material Entry';
