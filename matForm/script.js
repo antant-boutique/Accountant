@@ -50,7 +50,7 @@ function checkIfEmpty() {
 function moveToPreviousSet() {
 	var inputFields = document.querySelectorAll('input[data-values]');
 	var inputImage = document.getElementById('preview');
-	var formIsEmpty = checkIfEmpty()
+	var formIsEmpty = checkIfEmpty();
 	//currentPage = currentPage - 1;
 	inputFields.forEach(function (inputField) {
 		var key = inputField.name;
@@ -93,7 +93,6 @@ function moveToPreviousSet() {
 	}
 	const previewImage = document.getElementById('preview');
         const previewImageVal = formData['picture'][currentPage];
-        console.log(previewImageVal)
         if (previewImageVal === undefined || previewImageVal == '#' || previewImageVal == '') {
                 previewImage.style.display = 'none';
         } else {
@@ -105,7 +104,7 @@ function moveToPreviousSet() {
 
 // A function to move to next set of inputs when the next button is pressed
 function moveToNextSet() {
-	var formIsEmpty = checkIfEmpty()
+	var formIsEmpty = checkIfEmpty();
 	if (!formIsEmpty) {
 	var inputFields = document.querySelectorAll('input[data-values]');
 	var inputImage = document.getElementById('preview');
@@ -160,7 +159,6 @@ function moveToNextSet() {
 	currentPage = currentPage+1;
 	const previewImage = document.getElementById('preview');
 	const previewImageVal = formData['picture'][currentPage];
-	console.log(previewImageVal)
 	if (previewImageVal === undefined || previewImageVal == '#' || previewImageVal == '') {
 		previewImage.style.display = 'none';
 	} else {
@@ -181,7 +179,6 @@ pictureInput.addEventListener('change', function() {
 	if (file) {
 		const reader = new FileReader();
 		reader.addEventListener('load', function() {
-			console.log(reader.result)
 			previewImage.src = reader.result;
 			previewImage.style.display = 'block';
 			//pictureInput.src = reader.result;
