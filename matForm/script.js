@@ -295,6 +295,51 @@ document.getElementById('nextButton').addEventListener('click', function () {
 
 window.onload = populateFormFields;
 
+<<<<<<< HEAD
+=======
+function byteLength(str) {
+    var s = str.length;
+    for (var i = str.length - 1; i >= 0; i--) {
+        var code = str.charCodeAt(i);
+        if (code <= 0x7f) {
+            // 1-byte sequence (0xxxxxxx)
+            continue;
+        } else if (code <= 0x7ff) {
+            // 2-byte sequence (110xxxxx 10xxxxxx)
+            s++;
+        } else if (code >= 0xdc00 && code <= 0xdfff) {
+            // Trail surrogate
+            continue;
+        } else if (code >= 0xd800 && code <= 0xdbff) {
+            // Lead surrogate (110110xx xxxxxxxx) (110111xx xxxxxxxx)
+            s++;
+            i--;
+        } else {
+            // 3-byte sequence (1110xxxx 10xxxxxx 10xxxxxx)
+            s += 2;
+        }
+    }
+    return s;
+}
+
+function sendDataToServer(data) {
+    fetch('https://31cb-49-37-35-54.ngrok-free.app/submit', { // Replace <YOUR_PUBLIC_IP> with your public IP address
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: data
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+>>>>>>> 7a5cd9a9b58ccb008e004bdc3c58a28c870304ed
 
 Telegram.WebApp.ready();
 Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
@@ -304,21 +349,16 @@ Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
     		let dataPack = {};
     		for (let key in formData) {
         		if (formData.hasOwnProperty(key)) {
-				if (key=='picture') {
-					const base64 = formData[key][i];
-					base64 = base64String.split(',')[1];
-            				dataPack[key] = ['none'];
-				} else {
-					dataPack[key] = [formData[key][i]];
-				}
+				dataPack[key] = [formData[key][i]];
         		}
     		}
 		dataPack['formname'] = 'Material Entry';
     		var jsonString = JSON.stringify(dataPack);
 		var strLength = byteLength(jsonString);
 		console.log(strLength);
-		Telegram.WebApp.sendData(jsonString);
+		sendDataToServer(jsonString);
 	}
+	Telegram.WebApp.sendData('OK');
 	Telegram.WebApp.close();
 	//var jsonString = JSON.stringify(formData);
         //Telegram.WebApp.sendData(jsonString);
