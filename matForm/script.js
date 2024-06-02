@@ -241,18 +241,33 @@ document.getElementById('nextButton').addEventListener('click', function () {
 	}*/
 });
 
+window.onload = populateFormFields;
+
 function byteLength(str) {
     var s = str.length;
-    for (var i=str.length-1; i>=0; i--) {
-      var code = str.charCodeAt(i);
-      if (code > 0x7f && code <= 0x7ff) s++;
-      else if (code > 0x7ff && code <= 0xffff) s+=2;
-      if (code >= 0xdc00 && code <= 0xdfff) i--;
+    for (var i = str.length - 1; i >= 0; i--) {
+        var code = str.charCodeAt(i);
+        if (code <= 0x7f) {
+            // 1-byte sequence (0xxxxxxx)
+            continue;
+        } else if (code <= 0x7ff) {
+            // 2-byte sequence (110xxxxx 10xxxxxx)
+            s++;
+        } else if (code >= 0xdc00 && code <= 0xdfff) {
+            // Trail surrogate
+            continue;
+        } else if (code >= 0xd800 && code <= 0xdbff) {
+            // Lead surrogate (110110xx xxxxxxxx) (110111xx xxxxxxxx)
+            s++;
+            i--;
+        } else {
+            // 3-byte sequence (1110xxxx 10xxxxxx 10xxxxxx)
+            s += 2;
+        }
     }
     return s;
 }
 
-window.onload = populateFormFields;
 
 Telegram.WebApp.ready();
 Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
@@ -273,7 +288,8 @@ Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
     		}
 		dataPack['formname'] = 'Material Entry';
     		var jsonString = JSON.stringify(dataPack);
-		console.log(byteLength(jsonString));
+		var strLength = byteLength(jsonString);
+		console.log(strLength);
 		Telegram.WebApp.sendData(jsonString);
 	}
 	Telegram.WebApp.close();
