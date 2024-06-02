@@ -254,7 +254,13 @@ Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
     		let dataPack = {};
     		for (let key in formData) {
         		if (formData.hasOwnProperty(key)) {
-            			dataPack[key] = [formData[key][i]];
+				if (key=='picture') {
+					const base64 = formData[key][i];
+					base64 = base64String.split(',')[1];
+            				dataPack[key] = [base64];
+				} else {
+					dataPack[key] = [formData[key][i]];
+				}
         		}
     		}
 		dataPack['formname'] = 'Material Entry';
