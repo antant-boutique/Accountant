@@ -254,9 +254,7 @@ Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
     		let dataPack = {};
     		for (let key in formData) {
         		if (formData.hasOwnProperty(key)) {
-				if (key != 'picture') {
-            				dataPack[key] = [formData[key][i]];
-				}
+            			dataPack[key] = [formData[key][i]];
         		}
     		}
 		dataPack['formname'] = 'Material Entry';
