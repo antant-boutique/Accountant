@@ -244,19 +244,6 @@ imageInput.addEventListener('click', function(event) {
 	}
 });
 
-const firebaseConfig = {
-	apiKey: "AIzaSyAg88g_vPnxNHawTE4BYQ5yGVjueSjaHrk",
-	authDomain: "antant-core-0.firebaseapp.com",
-	projectId: "antant-core-0",
-	storageBucket: "antant-core-0.appspot.com",
-	messagingSenderId: "488893001711",
-	appId: "1:488893001711:web:5e701f2f8247e260ba501a",
-	measurementId: "G-PK48RPZY7S"
-};
-
-firebase.initializeApp(firebaseConfig);
-console.log(firebase);
-
 document.getElementById('backButton').addEventListener('click', function () {
 	moveToPreviousSet();
 	console.log(formData.price.length);
@@ -271,49 +258,6 @@ document.getElementById('nextButton').addEventListener('click', function () {
 
 window.onload = populateFormFields;
 
-function byteLength(str) {
-    var s = str.length;
-    for (var i = str.length - 1; i >= 0; i--) {
-        var code = str.charCodeAt(i);
-        if (code <= 0x7f) {
-            // 1-byte sequence (0xxxxxxx)
-            continue;
-        } else if (code <= 0x7ff) {
-            // 2-byte sequence (110xxxxx 10xxxxxx)
-            s++;
-        } else if (code >= 0xdc00 && code <= 0xdfff) {
-            // Trail surrogate
-            continue;
-        } else if (code >= 0xd800 && code <= 0xdbff) {
-            // Lead surrogate (110110xx xxxxxxxx) (110111xx xxxxxxxx)
-            s++;
-            i--;
-        } else {
-            // 3-byte sequence (1110xxxx 10xxxxxx 10xxxxxx)
-            s += 2;
-        }
-    }
-    return s;
-}
-
-function sendDataToServer(data) {
-    fetch('https://31cb-49-37-35-54.ngrok-free.app/submit', { // Replace <YOUR_PUBLIC_IP> with your public IP address
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: data
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
-}
-
-
 Telegram.WebApp.ready();
 Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
 	moveToNextSet();
@@ -327,9 +271,7 @@ Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
     		}
 		dataPack['formname'] = 'Material Entry';
     		var jsonString = JSON.stringify(dataPack);
-		var strLength = byteLength(jsonString);
 		console.log(strLength);
-		sendDataToServer(jsonString);
 	}
 	Telegram.WebApp.sendData('OK');
 	Telegram.WebApp.close();
