@@ -265,7 +265,7 @@ Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
     		}
 		dataPack['formname'] = 'Material Entry';
     		var jsonString = JSON.stringify(dataPack);
-		console.log(jsonString)
+		//console.log(jsonString);
 		Telegram.WebApp.sendData(jsonString);
 	}
 	Telegram.WebApp.close();
