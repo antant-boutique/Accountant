@@ -257,7 +257,7 @@ Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
 				if (key=='picture') {
 					const base64 = formData[key][i];
 					base64 = base64String.split(',')[1];
-            				dataPack[key] = [base64];
+            				dataPack[key] = ['none'];
 				} else {
 					dataPack[key] = [formData[key][i]];
 				}
@@ -265,6 +265,7 @@ Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
     		}
 		dataPack['formname'] = 'Material Entry';
     		var jsonString = JSON.stringify(dataPack);
+		console.log(jsonString)
 		Telegram.WebApp.sendData(jsonString);
 	}
 	Telegram.WebApp.close();
