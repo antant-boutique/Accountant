@@ -237,7 +237,7 @@ window.onload = populateFormFields;
 Telegram.WebApp.ready();
 Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
 	moveToNextSet();
-	const entryLength = formData.name.length;
+	const entryLength = formData.price.length;
 	for (let i = 0; i < entryLength; i++) {
     		let dataPack = {};
     		for (let key in formData) {
@@ -248,8 +248,8 @@ Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
 		dataPack['formname'] = 'Material Entry';
     		var jsonString = JSON.stringify(dataPack);
 		Telegram.WebApp.sendData(jsonString);
-        	Telegram.WebApp.close();
 	}
+	Telegram.WebApp.close();
 	//var jsonString = JSON.stringify(formData);
         //Telegram.WebApp.sendData(jsonString);
         //Telegram.WebApp.close();
