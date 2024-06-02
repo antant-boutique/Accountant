@@ -244,19 +244,6 @@ imageInput.addEventListener('click', function(event) {
 	}
 });
 
-const firebaseConfig = {
-	apiKey: "AIzaSyAg88g_vPnxNHawTE4BYQ5yGVjueSjaHrk",
-	authDomain: "antant-core-0.firebaseapp.com",
-	projectId: "antant-core-0",
-	storageBucket: "antant-core-0.appspot.com",
-	messagingSenderId: "488893001711",
-	appId: "1:488893001711:web:5e701f2f8247e260ba501a",
-	measurementId: "G-PK48RPZY7S"
-};
-
-firebase.initializeApp(firebaseConfig);
-console.log(firebase);
-
 document.getElementById('backButton').addEventListener('click', function () {
 	moveToPreviousSet();
 	console.log(formData.price.length);
