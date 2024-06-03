@@ -235,8 +235,6 @@ function byteLength(str) {
     return s;
 }
 
-console.log(firebase);
-
 // Toggle the clicked class on image input click
 const imageInput = document.querySelector('.image-input');
 imageInput.addEventListener('click', function(event) {
@@ -249,16 +247,41 @@ imageInput.addEventListener('click', function(event) {
 document.getElementById('backButton').addEventListener('click', function () {
 	moveToPreviousSet();
 	console.log(formData.price.length);
-	console.log(firebase);
 });
 
 document.getElementById('nextButton').addEventListener('click', function () {
         moveToNextSet();
 	console.log(formData.price.length);
-	console.log(firebase);
+	const entryLength = formData.price.length;
+        for (let i = 0; i < entryLength; i++) {
+                let dataPack = {};
+                for (let key in formData) {
+                        if (formData.hasOwnProperty(key)) {
+                        	dataPack[key] = [formData[key][i]];
+                        }
+                }
+                dataPack['formname'] = 'Material Entry';
+                var jsonString = JSON.stringify(dataPack);
+                var strLength = byteLength(jsonString);
+                console.log(strLength);
+                //Telegram.WebApp.sendData(jsonString);
+        }
+	/*const entryLength = formData.price.length;
+	for (let i = 0; i < entryLength; i++) {
+                let dataPack = {};
+                for (let key in formData) {
+                        if (formData.hasOwnProperty(key)) {
+                                dataPack[key] = [formData[key][i]];
+                        }
+                }
+                dataPack['formname'] = 'Material Entry';
+		var jsonString = JSON.stringify(dataPack);
+		console.log(jsonString)
+	}*/
 });
 
 window.onload = populateFormFields;
+
 
 Telegram.WebApp.ready();
 Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
@@ -268,14 +291,21 @@ Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
     		let dataPack = {};
     		for (let key in formData) {
         		if (formData.hasOwnProperty(key)) {
-				dataPack[key] = [formData[key][i]];
+				if (key=='picture') {
+					const base64 = formData[key][i];
+					base64 = base64String.split(',')[1];
+            				dataPack[key] = ['none'];
+				} else {
+					dataPack[key] = [formData[key][i]];
+				}
         		}
     		}
 		dataPack['formname'] = 'Material Entry';
     		var jsonString = JSON.stringify(dataPack);
+		var strLength = byteLength(jsonString);
 		console.log(strLength);
+		Telegram.WebApp.sendData(jsonString);
 	}
-	Telegram.WebApp.sendData('OK');
 	Telegram.WebApp.close();
 	//var jsonString = JSON.stringify(formData);
         //Telegram.WebApp.sendData(jsonString);
