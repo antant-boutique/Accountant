@@ -210,30 +210,6 @@ pictureInput.addEventListener('touchend', function(event) {
       	}
 });
 
-function byteLength(str) {
-    var s = str.length;
-    for (var i = str.length - 1; i >= 0; i--) {
-        var code = str.charCodeAt(i);
-        if (code <= 0x7f) {
-            // 1-byte sequence (0xxxxxxx)
-            continue;
-        } else if (code <= 0x7ff) {
-            // 2-byte sequence (110xxxxx 10xxxxxx)
-            s++;
-        } else if (code >= 0xdc00 && code <= 0xdfff) {
-            // Trail surrogate
-            continue;
-        } else if (code >= 0xd800 && code <= 0xdbff) {
-            // Lead surrogate (110110xx xxxxxxxx) (110111xx xxxxxxxx)
-            s++;
-            i--;
-        } else {
-            // 3-byte sequence (1110xxxx 10xxxxxx 10xxxxxx)
-            s += 2;
-        }
-    }
-    return s;
-}
 
 // Toggle the clicked class on image input click
 const imageInput = document.querySelector('.image-input');
@@ -252,32 +228,6 @@ document.getElementById('backButton').addEventListener('click', function () {
 document.getElementById('nextButton').addEventListener('click', function () {
         moveToNextSet();
 	console.log(formData.price.length);
-	const entryLength = formData.price.length;
-        for (let i = 0; i < entryLength; i++) {
-                let dataPack = {};
-                for (let key in formData) {
-                        if (formData.hasOwnProperty(key)) {
-                        	dataPack[key] = [formData[key][i]];
-                        }
-                }
-                dataPack['formname'] = 'Material Entry';
-                var jsonString = JSON.stringify(dataPack);
-                var strLength = byteLength(jsonString);
-                console.log(strLength);
-                //Telegram.WebApp.sendData(jsonString);
-        }
-	/*const entryLength = formData.price.length;
-	for (let i = 0; i < entryLength; i++) {
-                let dataPack = {};
-                for (let key in formData) {
-                        if (formData.hasOwnProperty(key)) {
-                                dataPack[key] = [formData[key][i]];
-                        }
-                }
-                dataPack['formname'] = 'Material Entry';
-		var jsonString = JSON.stringify(dataPack);
-		console.log(jsonString)
-	}*/
 });
 
 window.onload = populateFormFields;
@@ -288,27 +238,15 @@ Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
 	moveToNextSet();
 	const entryLength = formData.price.length;
 	for (let i = 0; i < entryLength; i++) {
-    		let dataPack = {};
     		for (let key in formData) {
-        		if (formData.hasOwnProperty(key)) {
-				if (key=='picture') {
-					const base64 = formData[key][i];
-					base64 = base64String.split(',')[1];
-            				dataPack[key] = ['none'];
-				} else {
-					dataPack[key] = [formData[key][i]];
-				}
-        		}
-    		}
-		dataPack['formname'] = 'Material Entry';
-    		var jsonString = JSON.stringify(dataPack);
-		var strLength = byteLength(jsonString);
-		console.log(strLength);
-		Telegram.WebApp.sendData(jsonString);
-	}
-	Telegram.WebApp.close();
-	//var jsonString = JSON.stringify(formData);
-        //Telegram.WebApp.sendData(jsonString);
-        //Telegram.WebApp.close();
+			if (key=='picture') {
+				formData[key][i] = '';
+			}
+        	}
+    	}
+	formData['formname'] = 'Material Entry';
+	var jsonString = JSON.stringify(formData);
+        Telegram.WebApp.sendData(jsonString);
+        Telegram.WebApp.close();
 });
 Telegram.WebApp.expand();
