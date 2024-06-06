@@ -281,8 +281,12 @@ document.getElementById('nextButton').addEventListener('click', function () {
 
 window.onload = populateFormFields;
 
-const finishButton = document.getElementById("finishButton");
-finishButton.addEventListener('click', function() {
+
+Telegram.WebApp.ready();
+const mainButton = Telegram.WebApp.MainButton;
+mainButton.setText('Finish');
+mainButton.setColor('red');
+mainButton.show().onClick(function () {
 	moveToNextSet();
         formData['formname'] = 'Material Entry';
         var jsonString = JSON.stringify(formData);
@@ -324,26 +328,9 @@ finishButton.addEventListener('click', function() {
 		//});
         };
 	});
-	//if (uploaded) {
-	//	delete formData['prepic'];
-	//};
-	console.log(formData);
-});
-
-/*Telegram.WebApp.ready();
-Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
-	moveToNextSet();
-	const entryLength = formData.price.length;
-	for (let i = 0; i < entryLength; i++) {
-    		for (let key in formData) {
-			if (key=='picture') {
-				formData[key][i] = '';
-			}
-        	}
-    	}
-	formData['formname'] = 'Material Entry';
 	var jsonString = JSON.stringify(formData);
         Telegram.WebApp.sendData(jsonString);
-        Telegram.WebApp.close();
+	Telegram.WebApp.close();
 });
-Telegram.WebApp.expand();*/
+Telegram.WebApp.expand();
+

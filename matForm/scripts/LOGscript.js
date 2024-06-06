@@ -39,8 +39,14 @@ themeButton.addEventListener('click', function() {
         toggleTheme();
 });
 
-const loginButton = document.getElementById("loginButton");
-loginButton.addEventListener('click', function() {
+//const loginButton = document.getElementById("loginButton");
+//loginButton.addEventListener('click', function() {
+Telegram.WebApp.ready();
+const mainButton = Telegram.WebApp.MainButton;
+mainButton.setText('Login');
+mainButton.setColor('red');
+mainButton.show().onClick(function () {
+	mainButton.hide();
 	var username = document.getElementById('username').value;
         var password = document.getElementById('password').value;
 
@@ -60,32 +66,3 @@ loginButton.addEventListener('click', function() {
         });
 });
 
-Telegram.WebApp.ready();
-Telegram.WebApp.MainButton.setText('Login').show().onClick(function () {
-	var username = document.getElementById('username');
-	var password = document.getElementById('password');
-
-	const auth = getAuth();
-	signInWithEmailAndPassword(auth, username.value, password.value)
-        .then((userCredential) => {
-		//const user = userCredential.user;
-		var uname = username.value;
-		var upass = password.value;
-		console.log(uname);
-		console.log(upass);
-		sessionStorage.setItem('authenticated','true');
-		sessionStorage.setItem('username',uname);
-		sessionStorage.setItem('password',upass);
-		//console.log(sessionStorage.getItem('un'));
-		window.location.href = 'matform.html'; 
-	})
-	.catch((error) => {
-		alert("Incorrect username or password!\nSession closed!");
-    		Telegram.WebApp.close();
-  	});
-
-    	//var authString = JSON.stringify(authData);
-    	//Telegram.WebApp.sendData(authString);
-    	//Telegram.WebApp.close();
-    	//console.log(authString);
-    	});
