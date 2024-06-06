@@ -1,9 +1,44 @@
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getStorage, ref, uploadString, getDownloadURL, updateMetadata } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+        apiKey: "AIzaSyDcHo4rDarasQ6vpTjtVYT0xu8T43AI4B8",
+        authDomain: "test1-1e3d0.firebaseapp.com",
+        projectId: "test1-1e3d0",
+        storageBucket: "test1-1e3d0.appspot.com",
+        messagingSenderId: "31521875447",
+        appId: "1:31521875447:web:866af9b76ad347441ffaf2",
+        measurementId: "G-C2WHYVRCSD"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
 // Global variables
 var currentPage = 0;					// current Page number
 var form = document.getElementById('materialForm');	// material form
 var formData = {};					// form data storage
 var isFirstSet = true;					// controls back button visibility
+var uid = 'none';
+var username = 'none';
+var password = 'none';
 
+if (sessionStorage.getItem('authenticated') == 'true') {
+        //uid = sessionStorage.getItem('uid');
+        //sessionStorage.removeItem('uid');
+	username = sessionStorage.getItem('username');
+	password = sessionStorage.getItem('password');
+	sessionStorage.removeItem('username');
+	sessionStorage.removeItem('password');
+} else {
+        window.location.href = 'index.html';
+}
 
 // Function to extract URL parameters
 function getURLParameters() {
@@ -20,6 +55,7 @@ function getURLParameters() {
 function populateFormFields() {
 	var urlParams = getURLParameters();
 	var inputFields = document.querySelectorAll('input[name]');
+	console.log(inputFields)
 	inputFields.forEach(function(inputField) {
 		var key = inputField.name;
 		var values = urlParams[key];
@@ -39,23 +75,41 @@ function checkIfEmpty() {
 	inputFields.forEach(function (inputField) {
 		let name = inputField.name;
                 let value = inputField.value;
-		if (value == '' && name != 'picture') {
+		console.log(name);
+		console.log(value);
+		if (value == '' && (name != "picture" && name != "prepic")) {
 			formIsEmpty = true;
 		}
+		console.log(formIsEmpty);
 	});
 	return formIsEmpty;
 }
+
+function readImage(file) {
+	return new Promise((resolve, reject) => {
+		const reader = new FileReader();
+		reader.onload = function(event) {
+			resolve(event.target.result);
+    		};
+    		reader.onerror = function(error) {
+      			reject(error);
+    		};
+    		reader.readAsDataURL(file);
+  	});
+}
+
 
 // A function to move to Previous set of inputs when the back button is pressed
 function moveToPreviousSet() {
 	var inputFields = document.querySelectorAll('input[data-values]');
 	var inputImage = document.getElementById('preview');
 	var formIsEmpty = checkIfEmpty();
+	console.log(inputFields);
 	//currentPage = currentPage - 1;
 	inputFields.forEach(function (inputField) {
 		var key = inputField.name;
 		if (key == 'picture') {
-                        var value = inputImage.src;
+                        var value = inputImage.src.toLowerCase().startsWith("http") ? '#' : inputImage.src;
                 } else {
                         var value = inputField.value;
                 }
@@ -108,11 +162,13 @@ function moveToNextSet() {
 	if (!formIsEmpty) {
 	var inputFields = document.querySelectorAll('input[data-values]');
 	var inputImage = document.getElementById('preview');
+	console.log(inputFields);
 	//currentPage = currentPage + 1;
 	inputFields.forEach(function (inputField) {
 		var key = inputField.name;
 		if (key == 'picture') {
-			var value = inputImage.src;
+			var value = inputImage.src.toLowerCase().startsWith("http") ? '#' : inputImage.src;
+			console.log(value);
 		} else {
 			var value = inputField.value;
 		}
@@ -171,114 +227,123 @@ function moveToNextSet() {
 // Image input handling
 const pictureInput = document.getElementById('picture');
 const previewImage = document.getElementById('preview');
+const prepic = document.getElementById('prepic');
 var pic_inputField = document.querySelectorAll('input[name="picture"][data-values]');
 var touchStarted = false;
 
 pictureInput.addEventListener('change', function() {
 	const file = this.files[0];
+	console.log(file);
 	if (file) {
-		const reader = new FileReader();
-		reader.addEventListener('load', function() {
-			previewImage.src = reader.result;
+		readImage(file)
+    		.then((dataURL) => {
+			console.log(dataURL);
+			previewImage.src = dataURL;
 			previewImage.style.display = 'block';
-			//pictureInput.src = reader.result;
-                        //pictureInput.style.display = 'block';
-		});
+			const filePath = pictureInput.value;
+			const fileName = filePath.substring(filePath.lastIndexOf('\\') + 1);
+			prepic.value = fileName;
+		})
+		.catch((error) => {
+                        previewImage.src = '#';
+			previewImage.style.display = 'none';
+			pictureInput.src = '#';
+			pictureInput.value = '';
+			const filePath = pictureInput.value;
+			const fileName = filePath.substring(filePath.lastIndexOf('\\') + 1);
+			prepic.value = fileName;
+                });
 
-		reader.readAsDataURL(file);
 	} else {
+		console.log('else triggered!')
 		previewImage.src = '#';
 		previewImage.style.display = 'none';
-		pictureInput.src = '';
-                //pictureInput.style.display = 'none';
+		pictureInput.src = '#';
+		pictureInput.value = '';
+		const filePath = pictureInput.value;
+                const fileName = filePath.substring(filePath.lastIndexOf('\\') + 1);
+		prepic.value = fileName;
 	}
+
 });
 
 
-// Touch event listeners for mobile devices
-pictureInput.addEventListener('touchstart', function(event) {
-	touchStarted = true;
-	event.stopPropagation();
-});
-
-pictureInput.addEventListener('touchend', function(event) {
-	if (touchStarted) {
-		event.preventDefault();
-		touchStarted = false;
-		const clickEvent = new MouseEvent('click');
-        	pictureInput.dispatchEvent(clickEvent);
-      	}
-});
-
-function byteLength(str) {
-    var s = str.length;
-    for (var i = str.length - 1; i >= 0; i--) {
-        var code = str.charCodeAt(i);
-        if (code <= 0x7f) {
-            // 1-byte sequence (0xxxxxxx)
-            continue;
-        } else if (code <= 0x7ff) {
-            // 2-byte sequence (110xxxxx 10xxxxxx)
-            s++;
-        } else if (code >= 0xdc00 && code <= 0xdfff) {
-            // Trail surrogate
-            continue;
-        } else if (code >= 0xd800 && code <= 0xdbff) {
-            // Lead surrogate (110110xx xxxxxxxx) (110111xx xxxxxxxx)
-            s++;
-            i--;
-        } else {
-            // 3-byte sequence (1110xxxx 10xxxxxx 10xxxxxx)
-            s += 2;
-        }
-    }
-    return s;
-}
-
-console.log(firebase);
-
-// Toggle the clicked class on image input click
-const imageInput = document.querySelector('.image-input');
-imageInput.addEventListener('click', function(event) {
-	const target = event.target;
-	if (target.tagName === 'DIV' || target.tagName === 'INPUT') {
-		pictureInput.click();
-	}
-});
 
 document.getElementById('backButton').addEventListener('click', function () {
 	moveToPreviousSet();
-	console.log(formData.price.length);
-	console.log(firebase);
+	console.log(formData);
 });
 
 document.getElementById('nextButton').addEventListener('click', function () {
         moveToNextSet();
-	console.log(formData.price.length);
-	console.log(firebase);
+	console.log(formData);
 });
 
 window.onload = populateFormFields;
 
-Telegram.WebApp.ready();
+const finishButton = document.getElementById("finishButton");
+finishButton.addEventListener('click', function() {
+	moveToNextSet();
+        formData['formname'] = 'Material Entry';
+        var jsonString = JSON.stringify(formData);
+	console.log(jsonString)
+	const entryLength = formData.price.length;
+	//const storage = getStorage();
+	var uploaded = true;
+	const auth = getAuth();
+        signInWithEmailAndPassword(auth, username, password)
+        .then((userCredential) => {
+	const user = userCredential.user;
+	for (let i = 0; i < entryLength; i++) {
+                /*for (let key in formData) {
+                        if (key=='picture') {
+                                formData[key][i] = '';
+                        }
+                }*/
+		const picname = formData['prepic'][i];
+		//const storageRef = ref(storage,'user/'+user.uid+'/'+picname);
+		const picurl = formData['picture'][i];
+		if (picurl != '#') {
+			const storage = getStorage();
+			const storageRef = ref(storage,'user/'+user.uid+'/'+picname);
+			uploadString(storageRef, picurl, 'data_url').then((snapshot) => {
+				const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+				console.log('Upload is ' + progress + '% done');
+				getDownloadURL(snapshot.ref).then((downloadURL) => {
+				const URLparts = downloadURL.split('token=');
+				const token = URLparts.length > 1 ? URLparts[URLparts.length - 1] : null;
+				formData['picture'][i] = token;
+				});
+			})
+			.catch((error) => {
+				uploaded = false;
+				alert("Image not uploaded!\nPlease try again.");
+				//Telegram.WebApp.close();
+			});
+		};
+		//});
+        };
+	});
+	//if (uploaded) {
+	//	delete formData['prepic'];
+	//};
+	console.log(formData);
+});
+
+/*Telegram.WebApp.ready();
 Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
 	moveToNextSet();
 	const entryLength = formData.price.length;
 	for (let i = 0; i < entryLength; i++) {
-    		let dataPack = {};
     		for (let key in formData) {
-        		if (formData.hasOwnProperty(key)) {
-				dataPack[key] = [formData[key][i]];
-        		}
-    		}
-		dataPack['formname'] = 'Material Entry';
-    		var jsonString = JSON.stringify(dataPack);
-		console.log(strLength);
-	}
-	Telegram.WebApp.sendData('OK');
-	Telegram.WebApp.close();
-	//var jsonString = JSON.stringify(formData);
-        //Telegram.WebApp.sendData(jsonString);
-        //Telegram.WebApp.close();
+			if (key=='picture') {
+				formData[key][i] = '';
+			}
+        	}
+    	}
+	formData['formname'] = 'Material Entry';
+	var jsonString = JSON.stringify(formData);
+        Telegram.WebApp.sendData(jsonString);
+        Telegram.WebApp.close();
 });
-Telegram.WebApp.expand();
+Telegram.WebApp.expand();*/

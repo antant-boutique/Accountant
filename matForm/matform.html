@@ -3,7 +3,7 @@
 <head>
 	<title>Material Form</title>
 	<!-- CSS script for styling -->
-	<link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="styles/MATstyles.css">
 </head>
 <body>
 	<h2>Material Form</h2>
@@ -16,6 +16,9 @@
 				<img id="preview" class="image-preview">
 			</div>
 		</div>
+
+		<!-- Hidden input placeholder -->
+		<input type="hidden" id="prepic" name="prepic" value="x">
 
 		<!-- Text and number entries in the form -->
 		<label for="source">Source</label>
@@ -38,9 +41,14 @@
 			<button type="button" id="backButton" style="display: none;">&lt;</button>
 			<button type="button" id="nextButton">&gt;</button>
 		</div>
+
+		<!-- Test button to simulate telegram button functionalities -->
+		<div class="button-container">
+			<button type="button" id="finishButton">Finish</button>
+		</div>
 	</form>
 	<script src="https://telegram.org/js/telegram-web-app.js"></script>
-	<script src="script.js"></script>
+	<script type="module" src="scripts/MATscript.js"></script>
 </body>
 </html>
 
