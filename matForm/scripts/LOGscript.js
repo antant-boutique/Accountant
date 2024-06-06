@@ -41,9 +41,8 @@ themeButton.addEventListener('click', function() {
 
 //const loginButton = document.getElementById("loginButton");
 //loginButton.addEventListener('click', function() {
-const TW = Telegram.WebApp;
-TW.ready();
-const MainButton = TW.MainButton.setParams({text:'Login',color='#222',text_color='#fff'});
+Telegram.WebApp.ready();
+const MainButton = Telegram.WebApp.MainButton.setParams({text:'Login',color='#222',text_color='#fff'});
 MainButton.show().onClick(function () {
 	var username = document.getElementById('username').value;
         var password = document.getElementById('password').value;
@@ -59,8 +58,8 @@ MainButton.show().onClick(function () {
                 window.location.href = 'matform.html';
         })
         .catch((error) => {
-                TW.showPopup({message:"Incorrect username or password!\nSession closed!"});
-                TW.close();
+                Telegram.WebApp.showPopup({message:"Incorrect username or password!\nSession closed!"});
+                Telegram.WebApp.close();
         });
 });
 
