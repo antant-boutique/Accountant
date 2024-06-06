@@ -43,8 +43,8 @@ themeButton.addEventListener('click', function() {
 //loginButton.addEventListener('click', function() {
 const TW = Telegram.WebApp;
 TW.ready();
-const MainButton = TW.MainButton;
-MainButton.setParams({text:'Login',color='#222',text_color='#fff'}).show().onClick(function () {
+const MainButton = TW.MainButton.setParams({text:'Login',color='#222',text_color='#fff'});
+MainButton.show().onClick(function () {
 	var username = document.getElementById('username').value;
         var password = document.getElementById('password').value;
 
