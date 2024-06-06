@@ -43,7 +43,6 @@ themeButton.addEventListener('click', function() {
 //loginButton.addEventListener('click', function() {
 Telegram.WebApp.ready();
 Telegram.WebApp.MainButton.setText('Login').show().onClick(function () {
-	mainButton.hide();
 	var username = document.getElementById('username').value;
         var password = document.getElementById('password').value;
 
