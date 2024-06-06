@@ -42,8 +42,7 @@ themeButton.addEventListener('click', function() {
 //const loginButton = document.getElementById("loginButton");
 //loginButton.addEventListener('click', function() {
 Telegram.WebApp.ready();
-const MainButton = Telegram.WebApp.MainButton.setParams({text:'Login',color='#222',text_color='#fff'});
-MainButton.show().onClick(function () {
+Telegram.WebApp.MainButton.setParams({text:'Login',color='#222',text_color='#fff'}).show().onClick(function () {
 	var username = document.getElementById('username').value;
         var password = document.getElementById('password').value;
 
