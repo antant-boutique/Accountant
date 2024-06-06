@@ -283,10 +283,7 @@ window.onload = populateFormFields;
 
 
 Telegram.WebApp.ready();
-const mainButton = Telegram.WebApp.MainButton;
-mainButton.setText('Finish');
-mainButton.setColor('red');
-mainButton.show().onClick(function () {
+Telegram.WebApp.MainButton.setText('Finish').setColor('red').show().onClick(function () {
 	moveToNextSet();
         formData['formname'] = 'Material Entry';
         var jsonString = JSON.stringify(formData);
