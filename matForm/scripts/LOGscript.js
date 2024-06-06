@@ -57,7 +57,7 @@ Telegram.WebApp.MainButton.setText('Login').show().onClick(function () {
                 window.location.href = 'matform.html';
         })
         .catch((error) => {
-                Telegram.WebApp.showPopup({message:"Incorrect username or password!\nSession closed!"});
+                Telegram.WebApp.showConfirm("Incorrect username or password!\nSession closed!");
                 Telegram.WebApp.close();
         });
 });
