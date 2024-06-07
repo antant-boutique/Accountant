@@ -293,8 +293,8 @@ TW.MainButton.textColor = '#ffffff';
 TW.MainButton.show().onClick(function () {
 	moveToNextSet();
         formData['formname'] = 'Material Entry';
-        var jsonString = JSON.stringify(formData);
-	console.log(jsonString)
+        //var jsonString = JSON.stringify(formData);
+	//console.log(jsonString)
 	const entryLength = formData.price.length;
 	//const storage = getStorage();
 	//var uploaded = true;
