@@ -288,7 +288,7 @@ TW.enableClosingConfirmation();
 
 TW.MainButton.text = 'Finish';
 TW.MainButton.Color = '#eb4034';
-TW.MainButton.textColor = '#fff';
+TW.MainButton.textColor = '#ffffff';
 
 TW.MainButton.show().onClick(function () {
 	moveToNextSet();
