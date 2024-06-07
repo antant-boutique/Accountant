@@ -338,6 +338,7 @@ TW.MainButton.show().onClick(function () {
         });
 
 	var jsonString = JSON.stringify(formData);
+	console.log(jsonString);
         TW.sendData(jsonString);
 	TW.close();
 });
