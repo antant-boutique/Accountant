@@ -322,6 +322,12 @@ TW.MainButton.show().onClick(function () {
 				const URLparts = downloadURL.split('token=');
 				const token = URLparts.length > 1 ? URLparts[URLparts.length - 1] : null;
 				formData['picture'][i] = token;
+				count = count + 1;
+				if (count == entryLength) {
+                		var jsonString = JSON.stringify(formData);
+                		TW.sendData(jsonString);
+                		TW.close();
+                		};
 				});
 			})
 			.catch((error) => {
@@ -330,14 +336,6 @@ TW.MainButton.show().onClick(function () {
 				//Telegram.WebApp.close();
 			});
 		};
-		count = count + 1;
-		//if (count == entryLength) {
-                //var jsonString = JSON.stringify(formData);
-                //console.log(jsonString);
-                //TW.sendData(jsonString);
-                //TW.close();
-        	//};
-		//});
         };
 	})
 	.catch((error) => {
@@ -345,10 +343,6 @@ TW.MainButton.show().onClick(function () {
                 TW.close();
         });
 
-	var jsonString = JSON.stringify(formData);
-	console.log(jsonString);
-	TW.sendData(jsonString);
-	TW.close();
 });
 TW.expand();
 
