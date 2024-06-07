@@ -292,6 +292,7 @@ TW.MainButton.textColor = '#ffffff';
 
 TW.MainButton.show().onClick(function () {
 	moveToNextSet();
+	TW.MainButton.hide();
         formData['formname'] = 'Material Entry';
         //var jsonString = JSON.stringify(formData);
 	//console.log(jsonString)
@@ -326,6 +327,7 @@ TW.MainButton.show().onClick(function () {
 				if (count == entryLength) {
                 		var jsonString = JSON.stringify(formData);
                 		TW.sendData(jsonString);
+				TW.showPopup({message:"Materials informations are now sent to the BOT!"});
                 		TW.close();
                 		};
 				});
