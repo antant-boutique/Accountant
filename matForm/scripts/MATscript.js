@@ -296,8 +296,13 @@ TW.MainButton.show().onClick(function () {
 	document.getElementById('loading-overlay').style.display = 'flex';
         formData['formname'] = 'Material Entry';
         //var jsonString = JSON.stringify(formData);
-	//console.log(jsonString)
-	const entryLength = formData.price.length;
+	//console.log(jsonString)i
+	try {
+		const entryLength = formData.price.length;
+	} catch (error) {
+		TW.showPopup({message:"Session terminated!"});
+                TW.close();
+	}
 	//const storage = getStorage();
 	//var uploaded = false;
 	const auth = getAuth();
@@ -342,7 +347,7 @@ TW.MainButton.show().onClick(function () {
         };
 	})
 	.catch((error) => {
-                TW.showPopup({message:"Incorrect username or password!\nSession closed!"});
+                TW.showPopup({message:"Incorrect username or password!\nSession terminated!"});
                 TW.close();
         });
 
