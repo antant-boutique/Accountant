@@ -331,6 +331,12 @@ TW.MainButton.show().onClick(function () {
 			});
 		};
 		count = count + 1;
+		if (count == entryLength) {
+                var jsonString = JSON.stringify(formData);
+                console.log(jsonString);
+                TW.sendData(jsonString);
+                TW.close();
+        	};
 		//});
         };
 	})
@@ -339,12 +345,12 @@ TW.MainButton.show().onClick(function () {
                 TW.close();
         });
 
-	if (count == entryLength) {
-		var jsonString = JSON.stringify(formData);
-		console.log(jsonString);
-        	TW.sendData(jsonString);
-		TW.close();
-	};
+	//if (count == entryLength) {
+	//	var jsonString = JSON.stringify(formData);
+	//	console.log(jsonString);
+        //	TW.sendData(jsonString);
+	//	TW.close();
+	//};
 });
 TW.expand();
 
