@@ -297,11 +297,12 @@ TW.MainButton.show().onClick(function () {
 	//console.log(jsonString)
 	const entryLength = formData.price.length;
 	//const storage = getStorage();
-	//var uploaded = true;
+	//var uploaded = false;
 	const auth = getAuth();
         signInWithEmailAndPassword(auth, username, password)
         .then((userCredential) => {
 	const user = userCredential.user;
+	var count = 0;
 	for (let i = 0; i < entryLength; i++) {
                 /*for (let key in formData) {
                         if (key=='picture') {
@@ -329,6 +330,7 @@ TW.MainButton.show().onClick(function () {
 				//Telegram.WebApp.close();
 			});
 		};
+		count = count + 1;
 		//});
         };
 	})
@@ -337,10 +339,12 @@ TW.MainButton.show().onClick(function () {
                 TW.close();
         });
 
-	var jsonString = JSON.stringify(formData);
-	console.log(jsonString);
-        TW.sendData(jsonString);
-	TW.close();
+	if (count == entryLength) {
+		var jsonString = JSON.stringify(formData);
+		console.log(jsonString);
+        	TW.sendData(jsonString);
+		TW.close();
+	};
 });
 TW.expand();
 
