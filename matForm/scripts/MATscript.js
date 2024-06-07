@@ -282,8 +282,15 @@ document.getElementById('nextButton').addEventListener('click', function () {
 window.onload = populateFormFields;
 
 
-Telegram.WebApp.ready();
-Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
+const TW = Telegram.WebApp;
+TW.ready();
+TW.enableClosingConfirmation();
+
+TW.MainButton.text = 'Finish';
+TW.MainButton.Color = '#eb4034';
+TW.MainButton.textColor = '#fff';
+
+TW.MainButton.show().onClick(function () {
 	moveToNextSet();
         formData['formname'] = 'Material Entry';
         var jsonString = JSON.stringify(formData);
@@ -326,8 +333,8 @@ Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
         };
 	});
 	var jsonString = JSON.stringify(formData);
-        Telegram.WebApp.sendData(jsonString);
-	Telegram.WebApp.close();
+        TW.sendData(jsonString);
+	TW.close();
 });
-Telegram.WebApp.expand();
+TW.expand();
 
