@@ -297,7 +297,7 @@ TW.MainButton.show().onClick(function () {
 	console.log(jsonString)
 	const entryLength = formData.price.length;
 	//const storage = getStorage();
-	var uploaded = true;
+	//var uploaded = true;
 	const auth = getAuth();
         signInWithEmailAndPassword(auth, username, password)
         .then((userCredential) => {
@@ -315,8 +315,8 @@ TW.MainButton.show().onClick(function () {
 			const storage = getStorage();
 			const storageRef = ref(storage,'user/'+user.uid+'/'+picname);
 			uploadString(storageRef, picurl, 'data_url').then((snapshot) => {
-				const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-				console.log('Upload is ' + progress + '% done');
+				//const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+				//console.log('Upload is ' + progress + '% done');
 				getDownloadURL(snapshot.ref).then((downloadURL) => {
 				const URLparts = downloadURL.split('token=');
 				const token = URLparts.length > 1 ? URLparts[URLparts.length - 1] : null;
@@ -324,14 +324,19 @@ TW.MainButton.show().onClick(function () {
 				});
 			})
 			.catch((error) => {
-				uploaded = false;
-				alert("Image not uploaded!\nPlease try again.");
+				//uploaded = false;
+				TW.showPopup({message:"Image not uploaded!\nPlease try again."});
 				//Telegram.WebApp.close();
 			});
 		};
 		//});
         };
-	});
+	})
+	.catch((error) => {
+                TW.showPopup({message:"Incorrect username or password!\nSession closed!"});
+                TW.close();
+        });
+
 	var jsonString = JSON.stringify(formData);
         TW.sendData(jsonString);
 	TW.close();
