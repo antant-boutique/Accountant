@@ -188,7 +188,7 @@ label, input, select {
 
 .loading-spinner {
     border: 8px solid rgba(0, 0, 0, 0.1);
-    border-top: 8px solid red;
+    border-top: 8px solid #eb4034;
     border-radius: 50%;
     width: 60px;
     height: 60px;
