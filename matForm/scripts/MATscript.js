@@ -297,12 +297,14 @@ TW.MainButton.show().onClick(function () {
         formData['formname'] = 'Material Entry';
         //var jsonString = JSON.stringify(formData);
 	//console.log(jsonString)i
-	try {
-		const entryLength = formData.price.length;
-	} catch (error) {
+	if (formData.price === undefined) {
+		//const entryLength = formData.price.length;
 		TW.showPopup({message:"Session terminated!"});
                 TW.close();
 	}
+	const entryLength = formData.price.length;
+	//TW.showPopup({message:"Session terminated!"});
+        //TW.close();
 	//const storage = getStorage();
 	//var uploaded = false;
 	const auth = getAuth();
