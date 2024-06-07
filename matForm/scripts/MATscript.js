@@ -293,6 +293,7 @@ TW.MainButton.textColor = '#ffffff';
 TW.MainButton.show().onClick(function () {
 	moveToNextSet();
 	TW.MainButton.hide();
+	document.getElementById('loading-overlay').style.display = 'flex';
         formData['formname'] = 'Material Entry';
         //var jsonString = JSON.stringify(formData);
 	//console.log(jsonString)
