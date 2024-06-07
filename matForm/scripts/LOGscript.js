@@ -43,7 +43,7 @@ const TW = Telegram.WebApp;
 TW.ready();
 
 TW.MainButton.text = 'Login';
-TW.MainButton.Color = '#222222';
+TW.MainButton.color = '#222222';
 TW.MainButton.textColor = '#ffffff';
 
 TW.MainButton.show().onClick(function () {
