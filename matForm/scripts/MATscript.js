@@ -321,7 +321,8 @@ TW.MainButton.show().onClick(function () {
 		const picname = formData['prepic'][i];
 		//const storageRef = ref(storage,'user/'+user.uid+'/'+picname);
 		const picurl = formData['picture'][i];
-		if (picurl != '#') {
+		console.log(picurl);
+		if (picurl != '#' && picurl != '') {
 			const storage = getStorage();
 			const storageRef = ref(storage,'user/'+user.uid+'/'+picname);
 			uploadString(storageRef, picurl, 'data_url').then((snapshot) => {
