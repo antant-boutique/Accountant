@@ -346,12 +346,14 @@ TW.MainButton.show().onClick(function () {
 				//Telegram.WebApp.close();
 			});
 		} else {
+			count = count + 1;
+			if (count == entryLength) {
 			var jsonString = JSON.stringify(formData);
 			TW.sendData(jsonString);
 			TW.showPopup({message:"Materials informations are now sent to the BOT!"});
                         TW.close();
-			break;
-		}
+			};
+		};
         };
 	})
 	.catch((error) => {
