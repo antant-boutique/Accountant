@@ -350,6 +350,7 @@ TW.MainButton.show().onClick(function () {
 			TW.sendData(jsonString);
 			TW.showPopup({message:"Materials informations are now sent to the BOT!"});
                         TW.close();
+			break;
 		}
         };
 	})
