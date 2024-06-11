@@ -345,7 +345,12 @@ TW.MainButton.show().onClick(function () {
 				TW.showPopup({message:"Image not uploaded!\nPlease try again."});
 				//Telegram.WebApp.close();
 			});
-		};
+		} else {
+			var jsonString = JSON.stringify(formData);
+			TW.sendData(jsonString);
+			TW.showPopup({message:"Materials informations are now sent to the BOT!"});
+                        TW.close();
+		}
         };
 	})
 	.catch((error) => {
