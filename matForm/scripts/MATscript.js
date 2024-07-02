@@ -56,11 +56,17 @@ function populateFormFields() {
 	var urlParams = getURLParameters();
 	var inputFields = document.querySelectorAll('input[name]');
 	console.log(inputFields)
+	var inputImage = document.getElementById('preview');
 	inputFields.forEach(function(inputField) {
 		var key = inputField.name;
 		var values = urlParams[key];
 		if (values && values.length > 0) {
-			inputField.value = values[0];
+			if (key != 'picture') {
+				inputField.value = values[0];
+			} else {
+				inputField.src = values[0];
+				inputImage.src = values[0];
+			}
 		} else {
   			inputField.value = '';
 		}

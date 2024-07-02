@@ -41,10 +41,12 @@
         	<tbody>
           	<tr>
             		<td><input type="text" name="models[]" required></td>
-            		<td><input type="number" name="quantities[]" required></td>
+            		<td><input type="number" name="quantities[]" required oninput="calculateTotal()"></td>
           	</tr>
         	</tbody>
       		</table>
+		<label for="total">Total (INR):</label>
+        	<input type="number" id="total" name="total" readonly><br><br>
       		<div class="btn-container">
         		<button type="button" id="rmvRowButton" onclick="deleteRow()" class="btn">-</button>
 			<button type="button" id="addRowButton" onclick="addRow()" class="btn">+</button>
@@ -63,9 +65,11 @@
         		<label class="rounded-checkbox">
         		<input type="checkbox" name="discount" value="on" onchange="toggleCostInput(this, 'addDiscount')">
         		</label>
-        		<span id="checkLabel"> Add Discount (%)</span>
-        		<input type="number" id="inputCost" name="addDiscount" value="5.0" disabled>
+        		<span id="checkLabel"> Add Discount (%): </span>
+        		<input type="number" id="discount" name="addDiscount" value="5.0" oninput="calculatePayable()" disabled>
       		</div>
+		<label for="payable">Payable Amount (INR): </label>
+                <input type="number" id="payable" name="payable" readonly><br><br>
 		<div class="rounded-checkbox-container">
                         <label class="rounded-checkbox">
                         <!-- input type="checkbox" name="fullpaid" value="fullpaid" onchange="togglePaidInput(this, 'paidAmount')" -->

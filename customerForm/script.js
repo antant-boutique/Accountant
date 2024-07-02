@@ -7,7 +7,7 @@ function addRow() {
   var cell1 = newRow.insertCell(0);
   var cell2 = newRow.insertCell(1);
   cell1.innerHTML = '<input type="text" name="models[]" required>';
-  cell2.innerHTML = '<input type="number" name="quantities[]" required>';
+  cell2.innerHTML = '<input type="number" name="quantities[]" required oninput="calculateTotal()">';
   cell1.parentNode.parentNode.setAttribute('prefilled', 'false');
 }
 
@@ -21,6 +21,7 @@ function deleteRow(button) {
   if (row.getAttribute('prefilled') !== 'true') {
     table.deleteRow(rowIndex);
   }
+  calculateTotal();
 }
 
 
@@ -28,6 +29,7 @@ function goToPage(page) {
   document.getElementById('page1').style.display = page === 1 ? 'block' : 'none';
   document.getElementById('page2').style.display = page === 2 ? 'block' : 'none';
   document.getElementById('page3').style.display = page === 3 ? 'block' : 'none';
+  calculatePayable();
 }
 
 function finishPage(page) {
@@ -46,6 +48,7 @@ function finishPage(page) {
 function toggleCostInput(checkbox, inputName) {
   var costInput = document.querySelector('input[name="' + inputName + '"]');
   costInput.disabled = !checkbox.checked;
+  calculatePayable();
 }
 
 function togglePaidInput(checkbox, inputName) {
@@ -67,6 +70,34 @@ function getParameterByName(name, url) {
   if (!results) return null;
   if (!results[2]) return '';
   return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+function calculateTotal() {
+	const quantities = document.querySelectorAll('input[name="quantities[]"]');
+	let total = 0;
+
+	for (let i = 0; i < quantities.length; i++) {
+		const value = parseFloat(quantities[i].value) || 0;
+		total += value;
+	}
+
+	document.getElementById('total').value = total.toFixed(2);
+}
+
+function calculatePayable() {
+	const total = parseFloat(document.getElementById('total').value);
+	const checkboxes = document.querySelectorAll('input[name="discount"]');
+	var checkbox = Array.from(checkboxes).find((checkbox) => checkbox.value === 'on');
+	let payable = total;
+
+	console.log(checkbox.checked);
+
+	if (checkbox.checked) {
+		const discount = parseFloat(document.getElementById('discount').value) || 0;
+		payable -= payable*(discount/100);
+	}
+
+	document.getElementById('payable').value = Math.round(payable).toFixed(2);
 }
 
 // Function to prefill entries from URL
@@ -165,8 +196,22 @@ function prefillFormFromUrl() {
 
 }
 
+//function addInputListeners() {
+//            const quantities = document.getElementsByName('quantities[]');
+//            for (let i = 0; i < quantities.length; i++) {
+//                quantities[i].addEventListener('input', calculateTotal);
+//            }
+//        }
+
+// Add event listeners on page load
+//window.onload = addInputListeners;
+//document.addEventListener('DOMContentLoaded', prefillFormFromUrl);
 // Call the function to prefill the form when the page loads
-document.addEventListener('DOMContentLoaded', prefillFormFromUrl);
+document.addEventListener('DOMContentLoaded', () => {
+	prefillFormFromUrl();
+	calculateTotal();
+	calculatePayable();
+});
 
 Telegram.WebApp.ready();
 Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {

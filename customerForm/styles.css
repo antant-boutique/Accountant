@@ -142,12 +142,20 @@ th {
 
 #checkLabel {
   margin-left: 10px;
+  margin-right: 10px;
   user-select: none;
 }
 
 .input-label {
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+#total, #payable {
+  margin-left: 10px;
+  margin-top: 10px;
+  border: none;
+  user-select: none;
 }
 
 
