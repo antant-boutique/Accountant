@@ -110,6 +110,7 @@ function prefillFormFromUrl() {
   var quantityValues = getParameterByName('quantities');
   var artworkValues = getParameterByName('artwork');
   var addDiscountValue = getParameterByName('addDiscount');
+  var payableAmountValue = getParameterByName('payableAmount');
   var paidAmountValue = getParameterByName('paidAmount');
   var fullpaidOption = getParameterByName('fullpaid');
   var upiQRpayment = getParameterByName('upiQR');
@@ -176,6 +177,10 @@ function prefillFormFromUrl() {
     checkbox.checked = true;
     toggleCostInput(checkbox, 'addDiscount')
     document.querySelector('input[name="addDiscount"]').value = addDiscountValue;
+  }
+
+  if (payableAmountValue) {
+	document.getElementById('payable').value = payableAmountValue;
   }
 
   if (paidAmountValue) {
