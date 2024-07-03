@@ -46,7 +46,7 @@
           	</tr>
         	</tbody>
       		</table>
-		<div class="pay-container">
+		<div id="total-container">
 			<label for="total">Total (INR):</label>
         		<input type="number" id="total" name="total" readonly><br><br>
 		</div>
@@ -71,7 +71,7 @@
         		<span id="checkLabel"> Add Discount (%): </span>
         		<input type="number" id="discount" name="addDiscount" value="5.0" oninput="calculatePayable()" disabled>
       		</div>
-		<div class="pay-container">
+		<div id="pay-container">
 			<label for="payable">Payable Amount (INR): </label>
                 	<input type="number" id="payable" name="payable" readonly><br><br>
 		</div>

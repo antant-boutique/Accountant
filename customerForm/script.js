@@ -93,12 +93,16 @@ function calculatePayable() {
 
 	console.log(checkbox.checked);
 
-	if (checkbox.checked) {
+	const totalAmountValue = parseFloat(getParameterByName('totalAmount')) || 0;
+	const payableAmountValue = parseFloat(getParameterByName('payableAmount')) || 0;
+
+	let paid = totalAmountValue-payableAmountValue;
+
+	if (checkbox.checked && paid<0.5) {
 		const discount = parseFloat(document.getElementById('discount').value) || 0;
 		payable -= payable*(discount/100);
+		document.getElementById('payable').value = Math.round(payable).toFixed(2);
 	}
-
-	document.getElementById('payable').value = Math.round(payable).toFixed(2);
 }
 
 // Function to prefill entries from URL
@@ -175,7 +179,7 @@ function prefillFormFromUrl() {
 
   if (totalAmountValue) {
         document.getElementById('total').value = totalAmountValue;
-        document.getElementByClassName('pay-container').style.display = 'block';
+        document.getElementById('total-container').style.display = 'block';
   }
 
   if (addDiscountValue) {
@@ -188,7 +192,7 @@ function prefillFormFromUrl() {
 
   if (payableAmountValue) {
 	document.getElementById('payable').value = payableAmountValue;
-	document.getElementByClassName('pay-container').style.display = 'block';
+	document.getElementById('pay-container').style.display = 'block';
   }
 
   if (paidAmountValue) {
@@ -223,7 +227,7 @@ function prefillFormFromUrl() {
 document.addEventListener('DOMContentLoaded', () => {
 	prefillFormFromUrl();
 	//calculateTotal();
-	calculatePayable();
+	//calculatePayable();
 });
 
 Telegram.WebApp.ready();
