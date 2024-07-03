@@ -49,7 +49,7 @@ function finishPage(page) {
 function toggleCostInput(checkbox, inputName) {
   var costInput = document.querySelector('input[name="' + inputName + '"]');
   costInput.disabled = !checkbox.checked;
-  calculatePayable();
+  //calculatePayable();
 }
 
 function togglePaidInput(checkbox, inputName) {
@@ -223,7 +223,7 @@ function prefillFormFromUrl() {
 document.addEventListener('DOMContentLoaded', () => {
 	prefillFormFromUrl();
 	//calculateTotal();
-	//calculatePayable();
+	calculatePayable();
 });
 
 Telegram.WebApp.ready();
