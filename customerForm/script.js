@@ -7,7 +7,8 @@ function addRow() {
   var cell1 = newRow.insertCell(0);
   var cell2 = newRow.insertCell(1);
   cell1.innerHTML = '<input type="text" name="models[]" required>';
-  cell2.innerHTML = '<input type="number" name="quantities[]" required oninput="calculateTotal()">';
+  //cell2.innerHTML = '<input type="number" name="quantities[]" required oninput="calculateTotal()">';
+  cell2.innerHTML = '<input type="number" name="quantities[]" required>';
   cell1.parentNode.parentNode.setAttribute('prefilled', 'false');
 }
 
@@ -21,7 +22,7 @@ function deleteRow(button) {
   if (row.getAttribute('prefilled') !== 'true') {
     table.deleteRow(rowIndex);
   }
-  calculateTotal();
+  //calculateTotal();
 }
 
 
@@ -109,6 +110,7 @@ function prefillFormFromUrl() {
   var modelValues = getParameterByName('models');
   var quantityValues = getParameterByName('quantities');
   var artworkValues = getParameterByName('artwork');
+  var totalAmountValue = getParameterByName('totalAmount');
   var addDiscountValue = getParameterByName('addDiscount');
   var payableAmountValue = getParameterByName('payableAmount');
   var paidAmountValue = getParameterByName('paidAmount');
@@ -171,6 +173,11 @@ function prefillFormFromUrl() {
     });
   }
 
+  if (totalAmountValue) {
+        document.getElementById('total').value = totalAmountValue;
+        document.getElementById('total').style.display = 'flex';
+  }
+
   if (addDiscountValue) {
     var artworkCheckboxes = document.querySelectorAll('input[name="discount"]');
     var checkbox = Array.from(artworkCheckboxes).find((checkbox) => checkbox.value === 'on');
@@ -215,7 +222,7 @@ function prefillFormFromUrl() {
 // Call the function to prefill the form when the page loads
 document.addEventListener('DOMContentLoaded', () => {
 	prefillFormFromUrl();
-	calculateTotal();
+	//calculateTotal();
 	//calculatePayable();
 });
 
