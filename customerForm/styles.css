@@ -152,9 +152,12 @@ th {
   margin-bottom: 10px;
 }
 
+.pay-container {
+  margin-top: 10px;
+}
+
 #total, #payable {
   margin-left: 10px;
-  margin-top: 10px;
   border: none;
   user-select: none;
   display: none;
