@@ -175,7 +175,7 @@ function prefillFormFromUrl() {
 
   if (totalAmountValue) {
         document.getElementById('total').value = totalAmountValue;
-        document.getElementById('total').style.display = 'flex';
+        document.getElementById('pay-container').style.display = 'flex';
   }
 
   if (addDiscountValue) {
@@ -188,7 +188,7 @@ function prefillFormFromUrl() {
 
   if (payableAmountValue) {
 	document.getElementById('payable').value = payableAmountValue;
-	document.getElementById('payable').style.display = 'flex';
+	document.getElementById('pay-container').style.display = 'flex';
   }
 
   if (paidAmountValue) {

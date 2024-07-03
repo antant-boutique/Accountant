@@ -154,13 +154,13 @@ th {
 
 .pay-container {
   margin-top: 10px;
+  display: none
 }
 
 #total, #payable {
   margin-left: 10px;
   border: none;
   user-select: none;
-  display: none;
 }
 
 
