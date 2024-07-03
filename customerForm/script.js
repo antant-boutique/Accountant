@@ -181,7 +181,7 @@ function prefillFormFromUrl() {
 
   if (payableAmountValue) {
 	document.getElementById('payable').value = payableAmountValue;
-	document.getElementById('payable').style.display = 'block';
+	document.getElementById('payable').style.display = 'flex';
   }
 
   if (paidAmountValue) {
