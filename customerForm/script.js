@@ -29,7 +29,7 @@ function goToPage(page) {
   document.getElementById('page1').style.display = page === 1 ? 'block' : 'none';
   document.getElementById('page2').style.display = page === 2 ? 'block' : 'none';
   document.getElementById('page3').style.display = page === 3 ? 'block' : 'none';
-  calculatePayable();
+  //calculatePayable();
 }
 
 function finishPage(page) {
@@ -48,7 +48,7 @@ function finishPage(page) {
 function toggleCostInput(checkbox, inputName) {
   var costInput = document.querySelector('input[name="' + inputName + '"]');
   costInput.disabled = !checkbox.checked;
-  calculatePayable();
+  //calculatePayable();
 }
 
 function togglePaidInput(checkbox, inputName) {
@@ -181,6 +181,7 @@ function prefillFormFromUrl() {
 
   if (payableAmountValue) {
 	document.getElementById('payable').value = payableAmountValue;
+	document.getElementById('payable').style.display = 'block';
   }
 
   if (paidAmountValue) {
@@ -215,7 +216,7 @@ function prefillFormFromUrl() {
 document.addEventListener('DOMContentLoaded', () => {
 	prefillFormFromUrl();
 	calculateTotal();
-	calculatePayable();
+	//calculatePayable();
 });
 
 Telegram.WebApp.ready();
