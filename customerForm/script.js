@@ -242,6 +242,10 @@ Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
     	  formData[key].push(value);
         });
         formData['formname'] = 'Billing'
+	const INVCno = getParameterByName('INVCno');
+	if (INVCno) {
+		formData['INVCno'] = INVCno;
+	}
         var jsonString = JSON.stringify(formData);
         Telegram.WebApp.sendData(jsonString);
         Telegram.WebApp.close();
