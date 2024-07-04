@@ -10,6 +10,8 @@ function addRow() {
   //cell2.innerHTML = '<input type="number" name="quantities[]" required oninput="calculateTotal()">';
   cell2.innerHTML = '<input type="number" name="quantities[]" required>';
   cell1.parentNode.parentNode.setAttribute('prefilled', 'false');
+  document.getElementById('total-container').style.display = 'none';
+  document.getElementById('pay-container').style.display = 'none';
 }
 
 // Function to delete a row from the table
@@ -21,6 +23,9 @@ function deleteRow(button) {
   // Check if the row is prefilled
   if (row.getAttribute('prefilled') !== 'true') {
     table.deleteRow(rowIndex);
+  } else {
+    document.getElementById('total-container').style.display = 'block';
+    document.getElementById('pay-container').style.display = 'block';
   }
   //calculateTotal();
 }
