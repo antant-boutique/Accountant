@@ -146,8 +146,8 @@ th {
 
 #inputCost {
   /*margin-left: 10px;*/
-  margin-right: auto;
-  width: 75px;
+  margin-right: 20px;
+  width: 50%;
 }
 
 #inputCostHB {
