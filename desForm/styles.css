@@ -99,6 +99,12 @@ th {
       user-select: none;
 }
 
+.rounded-cashbox-container {
+      display: flex;
+      margin-left: auto;
+      user-select: none;
+}
+
 .rounded-checkbox {
       position: relative;
 }
@@ -132,8 +138,20 @@ th {
       user-select: none;
 }
 
+.inputCost {
+  margin-right: 20px;
+  display: flex;
+  width: auto;
+}
+
 #inputCost {
-  margin-left: 10px;
+  /*margin-left: 10px;*/
+  margin-right: auto;
+  width: 75px;
+}
+
+#inputCostHB {
+  width: auto;
 }
 
 #inputText {
@@ -142,11 +160,28 @@ th {
 
 #checkLabel {
   margin-left: 10px;
+  margin-right: 10px;
+  white-space: nowrap;
   user-select: none;
 }
 
 .input-label {
   margin-bottom: 10px;
+}
+
+#materials, #measures {
+  width: 165px;
+}
+
+#cash {
+  margin-left: auto;
+  user-select: none;
+}
+
+#checkMODE {
+  margin-left: 10px;
+  margin-right: 10px;
+  user-select: none;
 }
 
 

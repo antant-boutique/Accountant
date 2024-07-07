@@ -23,8 +23,8 @@
         </thead>
         <tbody>
           <tr>
-            <td><input type="text" name="materials[]" placeholder="parent" required></td>
-            <td><input type="number" name="measures[]" placeholder="parent" required></td>
+            <td><input type="text" id="materials" name="materials[]" placeholder="parent" required></td>
+            <td><input type="number" id="measures" name="measures[]" placeholder="parent" required></td>
           </tr>
         </tbody>
       </table>
@@ -47,7 +47,11 @@
 	<input type="checkbox" name="artwork[]" value="handBlock" onchange="toggleCostInput(this, 'handBlockCost')">
 	</label>
 	<span id="checkLabel"> Hand-block</span>
-        <input type="number" id="inputCost" name="handBlockCost" placeholder="Cost in Rupees" disabled>
+        <input type="number" id="inputCost" name="handBlockCost" placeholder="Cost in INR" disabled>
+	<label class="rounded-checkbox">
+        <input type="checkbox" id="cash" name="cash" value="on">
+        </label>
+        <span id="checkMODE"> Cash</span>
       </div>
       
       <div class="rounded-checkbox-container">
@@ -55,7 +59,11 @@
 	<input type="checkbox" name="artwork[]" value="handPaint" onchange="toggleCostInput(this, 'handPaintCost')">
 	</label>
 	<span id="checkLabel"> Hand-paint</span>
-        <input type="number" id="inputCost" name="handPaintCost" placeholder="Cost in Rupees" disabled>
+        <input type="number" id="inputCost" name="handPaintCost" placeholder="Cost in INR" disabled>
+        <label class="rounded-checkbox">
+        <input type="checkbox" id="cash" name="cash" value="on">
+        </label>
+        <span id="checkMODE"> Cash</span>
       </div>
       
       <div class="rounded-checkbox-container">
@@ -63,7 +71,11 @@
         <input type="checkbox" name="artwork[]" value="handEmbroidery" onchange="toggleCostInput(this, 'handEmbroideryCost')">
 	</label>
 	<span id="checkLabel"> Hand-embroidery</span>
-        <input type="number" id="inputCost" name="handEmbroideryCost" placeholder="Cost in Rupees" disabled>
+        <input type="number" id="inputCost" name="handEmbroideryCost" placeholder="Cost in INR" disabled>
+        <label class="rounded-checkbox">
+        <input type="checkbox" id="cash" name="cash" value="on">
+        </label>
+        <span id="checkMODE"> Cash</span>
       </div>
       
       <div class="rounded-checkbox-container">
@@ -71,7 +83,11 @@
 	<input type="checkbox" name="artwork[]" value="handApplique" onchange="toggleCostInput(this, 'handAppliqueCost')">
 	</label>
 	<span id="checkLabel"> Hand-applique</span>
-        <input type="number" id="inputCost" name="handAppliqueCost" placeholder="Cost in Rupees" disabled>
+        <input type="number" id="inputCost" name="handAppliqueCost" placeholder="Cost in INR" disabled>
+        <label class="rounded-checkbox">
+        <input type="checkbox" id="cash" name="cash" value="on">
+        </label>
+        <span id="checkMODE"> Cash</span>
       </div>
 
       <div class="rounded-checkbox-container">
@@ -79,7 +95,11 @@
 	<input type="checkbox" name="artwork[]" value="tailoring" onchange="toggleCostInput(this, 'tailoringCost')">
 	</label>
 	<span id="checkLabel"> Tailoring</span>
-        <input type="number" id="inputCost" name="tailoringCost" placeholder="Cost in Rupees" disabled>
+        <input type="number" id="inputCost" name="tailoringCost" placeholder="Cost in INR" disabled>
+        <label class="rounded-checkbox">
+        <input type="checkbox" id="cash" name="cash" value="on">
+        </label>
+        <span id="checkMODE"> Cash</span>
       </div>
 
       <div class="rounded-checkbox-container">
@@ -106,7 +126,7 @@
         <label>Combine with: <input type="text" id="inputText" name="combineWith"></label><br>
       </div>
       <div class="input-label">
-        <label>Product price: <input type="number" id="inputText" name="productPrice" placeholder="Cost in Rupees"></label><br>
+        <label>Product price: <input type="number" id="inputText" name="productPrice" placeholder="Cost in INR"></label><br>
       </div>
       <div class="rounded-checkbox-container">
         <label class="rounded-checkbox">
