@@ -178,7 +178,11 @@ th {
 }
 
 #materials, #measures {
-  width: 165px;
+  /*width: 165px;*/
+  width: 98%;
+  border: none;
+  border-bottom: 2px solid black;
+  outline: none;
 }
 
 #cash {
@@ -208,6 +212,11 @@ th {
   }
 }
 */
+
+#fileInput {
+    display: none;
+}
+
 
 
 /* Mobile responsiveness */
