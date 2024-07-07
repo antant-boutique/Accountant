@@ -47,7 +47,7 @@
 	<input type="checkbox" name="artwork[]" value="handBlock" onchange="toggleCostInput(this, 'handBlockCost')">
 	</label>
 	<!--<span id="checkLabel"> Hand-block</span>-->
-	<label id="checkLabel" for="fileInput"> Hand-block </label>
+	<label id="checkLabel" onclick="goToPage(4)"> Hand-block </label>
 	<input type="file" id="fileInput" name="images[]" multiple>
         <input type="number" id="inputCost" name="handBlockCost" placeholder="Cost in INR" disabled>
 	<label class="rounded-checkbox">
@@ -146,6 +146,16 @@
         <button type="button" id="backButton" onclick="goToPage(2)" class="btn">&lt;</button>
         <!-- <button type="button" onclick="finishPage(3)" class="btn">Finish</button> -->
       </div>
+    </div>
+
+    <!-- Page 2HB: Finishing -->
+    <div id="page2HB" style="display: none;">
+      <h2>Hand-Block</h2>
+      <div class="upload-btn-wrapper">
+        <button class="ubtn"></button>
+        <input type="file" id="images" name="images[]" multiple onchange="previewImages(event)"><br><br>
+      </div>
+      <div id="preview"></div><br>
     </div>
     
   </form>

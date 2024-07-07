@@ -28,6 +28,7 @@ function goToPage(page) {
   document.getElementById('page1').style.display = page === 1 ? 'block' : 'none';
   document.getElementById('page2').style.display = page === 2 ? 'block' : 'none';
   document.getElementById('page3').style.display = page === 3 ? 'block' : 'none';
+  document.getElementById('page2HB').style.display = page === 4 ? 'block' : 'none';
 }
 
 function finishPage(page) {
@@ -165,6 +166,29 @@ function prefillFormFromUrl() {
 
 // Call the function to prefill the form when the page loads
 document.addEventListener('DOMContentLoaded', prefillFormFromUrl);
+
+
+function previewImages(event) {
+            var preview = document.getElementById('preview');
+            preview.innerHTML = '';
+
+            var files = event.target.files;
+
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    var img = document.createElement('img');
+                    img.className = 'preview-image';
+                    img.src = e.target.result;
+                    preview.appendChild(img);
+                }
+
+                reader.readAsDataURL(file);
+            }
+        }
+
 
 Telegram.WebApp.ready();
 Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
