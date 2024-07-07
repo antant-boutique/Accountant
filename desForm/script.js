@@ -29,6 +29,9 @@ function goToPage(page) {
   document.getElementById('page2').style.display = page === 2 ? 'block' : 'none';
   document.getElementById('page3').style.display = page === 3 ? 'block' : 'none';
   document.getElementById('page2HB').style.display = page === 4 ? 'block' : 'none';
+  document.getElementById('page2HP').style.display = page === 5 ? 'block' : 'none';
+  document.getElementById('page2HE').style.display = page === 6 ? 'block' : 'none';
+  document.getElementById('page2HA').style.display = page === 7 ? 'block' : 'none';
 }
 
 function finishPage(page) {
@@ -168,8 +171,8 @@ function prefillFormFromUrl() {
 document.addEventListener('DOMContentLoaded', prefillFormFromUrl);
 
 
-function previewImages(event) {
-            var preview = document.getElementById('preview');
+function previewImagesHB(event) {
+            var preview = document.getElementById('previewHB');
             preview.innerHTML = '';
 
             var files = event.target.files;
@@ -188,6 +191,90 @@ function previewImages(event) {
                 reader.readAsDataURL(file);
             }
         }
+
+function previewImagesHP(event) {
+            var preview = document.getElementById('previewHP');
+            preview.innerHTML = '';
+
+            var files = event.target.files;
+
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    var img = document.createElement('img');
+                    img.className = 'preview-image';
+                    img.src = e.target.result;
+                    preview.appendChild(img);
+                }
+
+                reader.readAsDataURL(file);
+            }
+        }
+
+function previewImagesHE(event) {
+            var preview = document.getElementById('previewHE');
+            preview.innerHTML = '';
+
+            var files = event.target.files;
+
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    var img = document.createElement('img');
+                    img.className = 'preview-image';
+                    img.src = e.target.result;
+                    preview.appendChild(img);
+                }
+
+                reader.readAsDataURL(file);
+            }
+        }
+
+function previewImagesHA(event) {
+            var preview = document.getElementById('previewHA');
+            preview.innerHTML = '';
+
+            var files = event.target.files;
+
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    var img = document.createElement('img');
+                    img.className = 'preview-image';
+                    img.src = e.target.result;
+                    preview.appendChild(img);
+                }
+
+                reader.readAsDataURL(file);
+            }
+        }
+
+
+function openFileBrowserHB(event) {
+	const fileInput = document.getElementById('HBimages');
+	fileInput.click();
+}
+
+function openFileBrowserHP(event) {
+        const fileInput = document.getElementById('HPimages');
+        fileInput.click();
+}
+
+function openFileBrowserHE(event) {
+        const fileInput = document.getElementById('HEimages');
+        fileInput.click();
+}
+
+function openFileBrowserHA(event) {
+        const fileInput = document.getElementById('HAimages');
+        fileInput.click();
+}
 
 
 Telegram.WebApp.ready();

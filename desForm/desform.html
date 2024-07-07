@@ -47,8 +47,8 @@
 	<input type="checkbox" name="artwork[]" value="handBlock" onchange="toggleCostInput(this, 'handBlockCost')">
 	</label>
 	<!--<span id="checkLabel"> Hand-block</span>-->
+	<!--<input type="file" id="fileInput" name="images[]" multiple>-->
 	<label id="checkLabel" onclick="goToPage(4)"> Hand-block </label>
-	<input type="file" id="fileInput" name="images[]" multiple>
         <input type="number" id="inputCost" name="handBlockCost" placeholder="Cost in INR" disabled>
 	<label class="rounded-checkbox">
         <input type="checkbox" id="cash" name="cash" value="on">
@@ -61,8 +61,9 @@
 	<input type="checkbox" name="artwork[]" value="handPaint" onchange="toggleCostInput(this, 'handPaintCost')">
 	</label>
 	<!--<span id="checkLabel"> Hand-paint</span>-->
-	<label id="checkLabel" for="fileInput"> Hand-paint </label>
-        <input type="file" id="fileInput" name="images[]" multiple>
+	<label id="checkLabel" onclick="goToPage(5)"> Hand-paint </label>
+	<!--<label id="checkLabel" for="fileInput"> Hand-paint </label>
+	<input type="file" id="fileInput" name="images[]" multiple>-->
         <input type="number" id="inputCost" name="handPaintCost" placeholder="Cost in INR" disabled>
         <label class="rounded-checkbox">
         <input type="checkbox" id="cash" name="cash" value="on">
@@ -75,8 +76,9 @@
         <input type="checkbox" name="artwork[]" value="handEmbroidery" onchange="toggleCostInput(this, 'handEmbroideryCost')">
 	</label>
 	<!--<span id="checkLabel"> Hand-embroidery</span>-->
-	<label id="checkLabel" for="fileInput"> Hand-embroidery </label>
-        <input type="file" id="fileInput" name="images[]" multiple>
+	<label id="checkLabel" onclick="goToPage(6)"> Hand-embroidery </label>
+	<!--<label id="checkLabel" for="fileInput"> Hand-embroidery </label>
+	<input type="file" id="fileInput" name="images[]" multiple>-->
         <input type="number" id="inputCost" name="handEmbroideryCost" placeholder="Cost in INR" disabled>
         <label class="rounded-checkbox">
         <input type="checkbox" id="cash" name="cash" value="on">
@@ -89,8 +91,9 @@
 	<input type="checkbox" name="artwork[]" value="handApplique" onchange="toggleCostInput(this, 'handAppliqueCost')">
 	</label>
 	<!--<span id="checkLabel"> Hand-applique</span>-->
-	<label id="checkLabel" for="fileInput"> Hand-applique </label>
-        <input type="file" id="fileInput" name="images[]" multiple>
+	<label id="checkLabel" onclick="goToPage(7)"> Hand-applique </label>
+	<!--<label id="checkLabel" for="fileInput"> Hand-applique </label>
+	<input type="file" id="fileInput" name="images[]" multiple>-->
         <input type="number" id="inputCost" name="handAppliqueCost" placeholder="Cost in INR" disabled>
         <label class="rounded-checkbox">
         <input type="checkbox" id="cash" name="cash" value="on">
@@ -150,12 +153,54 @@
 
     <!-- Page 2HB: Finishing -->
     <div id="page2HB" style="display: none;">
-      <h2>Hand-Block</h2>
-      <div class="upload-btn-wrapper">
-        <button class="ubtn"></button>
-        <input type="file" id="images" name="images[]" multiple onchange="previewImages(event)"><br><br>
+      <h2>Hand-Block Art</h2>
+      Why did the hand block print take up yoga? 
+      XD It wanted to master the art of staying perfectly aligned on fabric!
+      <input type="file" id="HBimages" name="images[]" multiple onchange="previewImagesHB(event)"><br><br>
+      <div class="btn-container">
+        <button type="button" id="backButton" onclick="goToPage(2)" class="btn">&lt;</button>
+	<button for="images" type="button" class="btn" id="HBuploadButton" onclick="openFileBrowserHB()">+</button>
       </div>
-      <div id="preview"></div><br>
+      <div id="previewHB"></div><br>
+    </div>
+
+    <!-- Page 2HP: Finishing -->
+    <div id="page2HP" style="display: none;">
+      <h2>Hand-Paint Art</h2>
+      Why did the hand block print take up yoga?
+      XD It wanted to master the art of staying perfectly aligned on fabric!
+      <input type="file" id="HPimages" name="images[]" multiple onchange="previewImagesHP(event)"><br><br>
+      <div class="btn-container">
+        <button type="button" id="backButton" onclick="goToPage(2)" class="btn">&lt;</button>
+        <button for="images" type="button" class="btn" id="HPuploadButton" onclick="openFileBrowserHP()">+</button>
+      </div>
+      <div id="previewHP"></div><br>
+    </div>
+
+    <!-- Page 2HE: Finishing -->
+    <div id="page2HE" style="display: none;">
+      <h2>Hand-Embroidery Art</h2>
+      Why did the hand block print take up yoga?
+      XD It wanted to master the art of staying perfectly aligned on fabric!
+      <input type="file" id="HEimages" name="images[]" multiple onchange="previewImagesHE(event)"><br><br>
+      <div class="btn-container">
+        <button type="button" id="backButton" onclick="goToPage(2)" class="btn">&lt;</button>
+        <button for="images" type="button" class="btn" id="HEuploadButton" onclick="openFileBrowserHE()">+</button>
+      </div>
+      <div id="previewHE"></div><br>
+    </div>
+
+    <!-- Page 2HA: Finishing -->
+    <div id="page2HA" style="display: none;">
+      <h2>Hand-Applique Art</h2>
+      Why did the hand block print take up yoga?
+      XD It wanted to master the art of staying perfectly aligned on fabric!
+      <input type="file" id="HAimages" name="images[]" multiple onchange="previewImagesHA(event)"><br><br>
+      <div class="btn-container">
+        <button type="button" id="backButton" onclick="goToPage(2)" class="btn">&lt;</button>
+        <button for="images" type="button" class="btn" id="HAuploadButton" onclick="openFileBrowserHA()">+</button>
+      </div>
+      <div id="previewHA"></div><br>
     </div>
     
   </form>
