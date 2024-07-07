@@ -148,6 +148,9 @@ th {
   /*margin-left: 10px;*/
   margin-right: 20px;
   width: 50%;
+  border: none;
+  border-bottom: 2px solid black;
+  outline: none;
 }
 
 #inputCostHB {
@@ -156,6 +159,11 @@ th {
 
 #inputText {
   margin-left: 10px;
+  margin-right: 10px;
+  width: 50%;
+  border: none;
+  border-bottom: 2px solid black;
+  outline: none;
 }
 
 #checkLabel {
@@ -200,6 +208,7 @@ th {
   }
 }
 */
+
 
 /* Mobile responsiveness */
 @media screen and (max-width: 600px) {
