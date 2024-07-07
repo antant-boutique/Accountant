@@ -173,7 +173,9 @@ document.addEventListener('DOMContentLoaded', prefillFormFromUrl);
 
 function previewImagesHB(event) {
             var preview = document.getElementById('previewHB');
-            preview.innerHTML = '';
+	    console.log(preview);
+            //preview.innerHTML = '';
+	    console.log(preview);
 
             var files = event.target.files;
 

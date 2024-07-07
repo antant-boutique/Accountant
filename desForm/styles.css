@@ -231,7 +231,18 @@ th {
         .preview-image {
             max-width: 100px;
             max-height: 100px;
+	    margin: 10px;
+	    justify-content: center;
         }
+
+	.preview-image::after {
+  	    content: "Your Text";
+	    position: relative;
+	    display: flex;
+	    color: white;
+	    opacity: 1;
+  	}
+
         .upload-btn-wrapper {
             position: relative;
             overflow: hidden;
