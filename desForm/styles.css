@@ -58,6 +58,10 @@ th {
   outline: none;
   box-shadow: none;
 }
+.btn:active {
+  outline: none;
+  box-shadow: none;
+}
 
 #backButton, #nextButton, #addRowButton, #rmvRowButton, #HBuploadButton, #HPuploadButton, #HEuploadButton, #HAuploadButton {
         display: flex;
@@ -235,21 +239,21 @@ th {
             gap: 10px;
         }
         .preview-image {
-	    content: "Text";
             max-width: 100px;
             max-height: 100px;
 	    margin: 10px;
 	    align-items: center;
-	    justify-content: center;
 	    border: 2px solid black;
+	    z-index: 1;
         }
 
-	.preview-image::after {
-  	    content: "Your Text";
+	.preview-image::before {
+  	    content: "-";
 	    position: relative;
 	    display: flex;
 	    color: white;
-	    opacity: 1;
+	    align-text: center;
+	    z-index: 2;
   	}
 
         .upload-btn-wrapper {

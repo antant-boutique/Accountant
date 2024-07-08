@@ -185,6 +185,10 @@ function previewImagesHB(event) {
 
                 reader.onload = function(e) {
                     var img = document.createElement('img');
+		    img.addEventListener('click', function() {
+			preview.removeChild(img);
+		    }
+		    )
                     img.className = 'preview-image';
                     img.src = e.target.result;
                     preview.appendChild(img);
