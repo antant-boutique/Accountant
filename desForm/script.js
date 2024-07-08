@@ -184,14 +184,18 @@ function previewImagesHB(event) {
                 var reader = new FileReader();
 
                 reader.onload = function(e) {
+                    var container = document.createElement('div');
+                    container.className = 'preview-container';
+
                     var img = document.createElement('img');
-		    img.addEventListener('click', function() {
-			preview.removeChild(img);
-		    }
-		    );
                     img.className = 'preview-image';
                     img.src = e.target.result;
-                    preview.appendChild(img);
+
+                    container.addEventListener('click', function() {
+                            preview.removeChild(container);
+                    });
+                    container.appendChild(img);
+                    preview.appendChild(container);
                 }
 
                 reader.readAsDataURL(file);
@@ -238,10 +242,18 @@ function previewImagesHE(event) {
                 var reader = new FileReader();
 
                 reader.onload = function(e) {
+		    var container = document.createElement('div');
+                    container.className = 'preview-container';
+
                     var img = document.createElement('img');
                     img.className = 'preview-image';
                     img.src = e.target.result;
-                    preview.appendChild(img);
+
+                    container.addEventListener('click', function() {
+                            preview.removeChild(container);
+                    });
+                    container.appendChild(img);
+                    preview.appendChild(container);
                 }
 
                 reader.readAsDataURL(file);
@@ -259,10 +271,18 @@ function previewImagesHA(event) {
                 var reader = new FileReader();
 
                 reader.onload = function(e) {
+                    var container = document.createElement('div');
+                    container.className = 'preview-container';
+
                     var img = document.createElement('img');
                     img.className = 'preview-image';
                     img.src = e.target.result;
-                    preview.appendChild(img);
+
+                    container.addEventListener('click', function() {
+                            preview.removeChild(container);
+                    });
+                    container.appendChild(img);
+                    preview.appendChild(container);
                 }
 
                 reader.readAsDataURL(file);
