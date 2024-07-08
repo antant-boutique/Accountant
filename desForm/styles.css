@@ -57,10 +57,18 @@ th {
 .btn:focus {
   outline: none;
   box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
 }
 .btn:active {
   outline: none;
   box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+input[type="file"]:focus {
+  outline: none;
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 #backButton, #nextButton, #addRowButton, #rmvRowButton, #HBuploadButton, #HPuploadButton, #HEuploadButton, #HAuploadButton {
@@ -86,10 +94,14 @@ th {
 	margin-right: 10px;
 	margin-left: auto;
 	margin-bottom: 20px;
+	outline: none;
+	box-shadow: none;
 }
 
 #HBimages, #HPimages, #HEimages, #HAimages {
 	display: none;
+	outline: none;
+        box-shadow: none;
 }
 
 
