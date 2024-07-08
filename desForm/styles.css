@@ -243,17 +243,9 @@ th {
             max-height: 100px;
 	    margin: 10px;
 	    align-items: center;
+	    vertical-align: middle;
 	    border: 2px solid black;
         }
-
-	/*.preview-image::after {
-  	    content: "-";
-	    position: absolute;
-	    display: flex;
-	    color: white;
-	    align-text: center;
-	    z-index: 2;
-  	}*/
 
         .upload-btn-wrapper {
             position: relative;

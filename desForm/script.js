@@ -188,7 +188,7 @@ function previewImagesHB(event) {
 		    img.addEventListener('click', function() {
 			preview.removeChild(img);
 		    }
-		    )
+		    );
                     img.className = 'preview-image';
                     img.src = e.target.result;
                     preview.appendChild(img);
@@ -200,7 +200,7 @@ function previewImagesHB(event) {
 
 function previewImagesHP(event) {
             var preview = document.getElementById('previewHP');
-            preview.innerHTML = '';
+            //preview.innerHTML = '';
 
             var files = event.target.files;
 
@@ -209,10 +209,18 @@ function previewImagesHP(event) {
                 var reader = new FileReader();
 
                 reader.onload = function(e) {
+		    var container = document.createElement('div');
+		    container.className = 'preview-container';
+
                     var img = document.createElement('img');
                     img.className = 'preview-image';
                     img.src = e.target.result;
-                    preview.appendChild(img);
+
+		    container.addEventListener('click', function() {
+			    preview.removeChild(container);
+		    });
+		    container.appendChild(img);
+                    preview.appendChild(container);
                 }
 
                 reader.readAsDataURL(file);
