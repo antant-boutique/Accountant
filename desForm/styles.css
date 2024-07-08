@@ -239,6 +239,7 @@ th {
             gap: 10px;
         }
         .preview-image {
+	    display: flex;
             max-width: 100px;
             max-height: 100px;
 	    margin: 10px;
