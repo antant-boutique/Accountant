@@ -244,17 +244,16 @@ th {
 	    margin: 10px;
 	    align-items: center;
 	    border: 2px solid black;
-	    z-index: 1;
         }
 
-	.preview-image::before {
+	/*.preview-image::after {
   	    content: "-";
-	    position: relative;
+	    position: absolute;
 	    display: flex;
 	    color: white;
 	    align-text: center;
 	    z-index: 2;
-  	}
+  	}*/
 
         .upload-btn-wrapper {
             position: relative;
