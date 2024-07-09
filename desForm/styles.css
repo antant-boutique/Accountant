@@ -269,16 +269,19 @@ input[type="file"]:focus {
 	    justify-content: center;
             vertical-align: middle;
 	    align-items: center;
-	    margin: 10px;
-            line-height: 100px;
-        }
-        .preview-image {
-            max-width: 100%;
-            max-height: 100%;
-	    justify-content: center;
-	    align-items: center;
-            vertical-align: middle;
+	    margin: 5px;
+            line-height: 96px;
 	    border: 2px solid black;
+	    background-color: lightseagreen;
+        }
+        
+	.preview-image {
+            max-width: 100px;
+            max-height: 100px;
+	    /*border: 2px solid black;*/
+	    justify-content: center;
+            align-items: center;
+            vertical-align: middle;
         }
         
 	.preview-container::before {
@@ -288,8 +291,6 @@ input[type="file"]:focus {
 	    font-weight: bold;
             position: absolute;
 	    display: flex;
-            /*top: 5px;
-            right: 5px;*/
 	    top: 34px;
 	    left: 34px;
 	    width: 30px;
@@ -304,7 +305,7 @@ input[type="file"]:focus {
 	    border-radius: 50%;
 	    justify-content: center;
 	    align-items: center;
-	    /*vertical-align: middle;*/
+	    vertical-align: middle;
             user-select: none;
         }
 
