@@ -1,5 +1,5 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+/*import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getStorage, ref, uploadString, getDownloadURL, updateMetadata } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -18,7 +18,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);*/
 
 var materialsInputs = document.querySelectorAll('input[name="materials[]"]');
 materialsInputs[0].parentNode.parentNode.setAttribute('prefilled', 'true');
@@ -397,14 +397,12 @@ Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
           }
     	  formData[key].push(value);
         });
-	const auth = getAuth();
-	const username = 'antant.boutique@gmail.com';
-	const password = 'EntEntE@2024';
+	/*const auth = getAuth();
         signInWithEmailAndPassword(auth, username, password)
         .then((userCredential) => {
         	const useri = userCredential.user;
 		var formData = uploadImages(useri, 'previewHB', formData);
-	});
+	});*/
         formData['formname'] = 'Textile Design';
         var jsonString = JSON.stringify(formData);
         Telegram.WebApp.sendData(jsonString);
