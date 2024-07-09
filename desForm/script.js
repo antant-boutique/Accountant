@@ -403,9 +403,9 @@ Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
         signInWithEmailAndPassword(auth, username, password)
         .then((userCredential) => {
         	const user = userCredential.user;
-		var formData = uploadImages(user, 'previewHB', formData)
+		var formData = uploadImages(user, 'previewHB', formData);
 	}
-        formData['formname'] = 'Textile Design'
+        formData['formname'] = 'Textile Design';
         var jsonString = JSON.stringify(formData);
         Telegram.WebApp.sendData(jsonString);
         Telegram.WebApp.close();
