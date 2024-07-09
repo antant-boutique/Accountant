@@ -47,9 +47,19 @@ function finishPage(page) {
   console.log(formData); // Replace with your desired action (e.g., send to server)
 }
 
-function toggleCostInput(checkbox, inputName) {
+function toggleCostInput(checkbox, inputName, inputCash, labelID, page) {
   var costInput = document.querySelector('input[name="' + inputName + '"]');
+  var cashInput = document.querySelector('input[name="' + inputCash + '"]');
+  var label = document.getElementById(labelID);
   costInput.disabled = !checkbox.checked;
+  cashInput.disabled = !checkbox.checked;
+  if (checkbox.checked) {
+    label.onclick = function() {
+      goToPage(page);
+    };
+  } else {
+    label.onclick = null;
+  }
 }
 
 //function toggleProdPrice(checkbox) {

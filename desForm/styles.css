@@ -149,6 +149,7 @@ input[type="file"]:focus {
       cursor: pointer;
       position: relative; /* Added position relative for the ::before and ::after elements */
       user-select: none;
+      -webkit-tap-highlight-color: transparent;
 }
 
 /* Style for the inner circle when checked */
@@ -163,6 +164,7 @@ input[type="file"]:focus {
       left: 50%;
       transform: translate(-50%, -50%);
       user-select: none;
+      -webkit-tap-highlight-color: transparent;
 }
 
 .inputCost {
@@ -193,7 +195,7 @@ input[type="file"]:focus {
   outline: none;
 }
 
-#checkLabel {
+#checkLabel, #HBcheckLabel, #HPcheckLabel, #HEcheckLabel, #HAcheckLabel, #TLcheckLabel {
   margin-left: 10px;
   margin-right: 10px;
   white-space: nowrap;
