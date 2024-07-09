@@ -1,3 +1,25 @@
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getStorage, ref, uploadString, getDownloadURL, updateMetadata } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+        apiKey: "AIzaSyDcHo4rDarasQ6vpTjtVYT0xu8T43AI4B8",
+        authDomain: "test1-1e3d0.firebaseapp.com",
+        projectId: "test1-1e3d0",
+        storageBucket: "test1-1e3d0.appspot.com",
+        messagingSenderId: "31521875447",
+        appId: "1:31521875447:web:866af9b76ad347441ffaf2",
+        measurementId: "G-C2WHYVRCSD"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
 var materialsInputs = document.querySelectorAll('input[name="materials[]"]');
 materialsInputs[0].parentNode.parentNode.setAttribute('prefilled', 'true');
 
@@ -180,12 +202,54 @@ function prefillFormFromUrl() {
 // Call the function to prefill the form when the page loads
 document.addEventListener('DOMContentLoaded', prefillFormFromUrl);
 
+function uploadImages(user, previewID, formData) {
+	var preview = document.getElementById(previewID);
+	var images = preview.getElementsByTagName('img');
+	var names = previewID.slice(-2)+"_names"
+	var tokens = previewID.slice(-2)+"_tokens"
+	formData[names] = [];
+	formData[tokens] = [];
+	//var tokens = [];
+	//var names = [];
+
+        for (var i = 0; i < images.length; i++) {
+	    var picurl = images[i].src;
+	    var now = new Date();
+            var year = now.getFullYear().toString().slice(-2); // Last two digits of year
+            var month = (now.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
+            var day = now.getDate().toString().padStart(2, '0');
+            var hour = now.getHours().toString().padStart(2, '0');
+            var minute = now.getMinutes().toString().padStart(2, '0');
+            var second = now.getSeconds().toString().padStart(2, '0');
+            var datetimeStr = `${year}${month}${day}${hour}${minute}${second}`;
+	    //var datetimeStr = new Date().toISOString().replace(/[-:.]/g, "");
+	    var picname = previewID.slice(-2) + "_" + datetimeStr;
+	    formData[names].push(picname);
+
+	    const storage = getStorage();
+            const storageRef = ref(storage,'user/'+user.uid+'/'+picname);
+	    uploadString(storageRef, picurl, 'data_url').then((snapshot) => {
+		getDownloadURL(snapshot.ref).then((downloadURL) => {
+		const URLparts = downloadURL.split('token=');
+		const token = URLparts.length > 1 ? URLparts[URLparts.length - 1] : null;
+		formData[tokens].push(token);
+		});
+	    })
+	    .catch((error) => {
+		//uploaded = false;
+		console.log({message:"Image not uploaded!\nPlease try again."});
+		//Telegram.WebApp.close();
+            });
+        }
+
+	return formData;
+}
+
 
 function previewImagesHB(event) {
+	    uploadImages('previewHB');
             var preview = document.getElementById('previewHB');
-	    console.log(preview);
             //preview.innerHTML = '';
-	    console.log(preview);
 
             var files = event.target.files;
 
@@ -210,6 +274,7 @@ function previewImagesHB(event) {
 
                 reader.readAsDataURL(file);
             }
+	    
         }
 
 function previewImagesHP(event) {
@@ -332,6 +397,14 @@ Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
           }
     	  formData[key].push(value);
         });
+	const auth = getAuth();
+	const username = 'antant.boutique@gmail.com';
+	const password = 'EntEntE@2024';
+        signInWithEmailAndPassword(auth, username, password)
+        .then((userCredential) => {
+        	const user = userCredential.user;
+		var formData = uploadImages(user, 'previewHB', formData)
+	}
         formData['formname'] = 'Textile Design'
         var jsonString = JSON.stringify(formData);
         Telegram.WebApp.sendData(jsonString);
