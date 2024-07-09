@@ -404,7 +404,7 @@ Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
         .then((userCredential) => {
         	const useri = userCredential.user;
 		var formData = uploadImages(useri, 'previewHB', formData);
-	}
+	});
         formData['formname'] = 'Textile Design';
         var jsonString = JSON.stringify(formData);
         Telegram.WebApp.sendData(jsonString);
