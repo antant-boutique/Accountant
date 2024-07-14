@@ -1,0 +1,447 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f7f7f7;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.form-container {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 80%;
+  max-width: 600px;
+}
+h2 {
+  color: #333;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+  justify-content: center;
+}
+table, th, td {
+  border: 1px solid #ddd;
+}
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+th {
+  background-color: #f2f2f2;
+}
+
+.button-container {
+        /*text-align: center;*/
+        /*margin-top: 20px;*/
+        display: flex;
+        justify-content: center; /* Center the buttons horizontally */
+        margin-top: 20px;
+}
+
+#finishButton {
+        display: flex;
+        width: auto;
+        height: 40px;
+        font-size: 20px;
+        font-weight: bold;
+        background-color: green;
+        color: white;
+        border: 2px solid black;
+        padding: 10px 10px;
+        border-radius: 50%;
+        cursor: pointer;
+        justify-content: center;
+        align-items: center;
+        user-select: none;
+}
+
+
+.checkbox-container {
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+.btn-container {
+  text-align: center;
+  display: flex;
+  justify-content: center; /* Center the buttons horizontally */
+  margin-top: 20px;
+}
+.btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 0 5px;
+  outline: none;
+  box-shadow: none;
+}
+.btn:focus {
+  outline: none;
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn:active {
+  outline: none;
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+input[type="file"]:focus {
+  outline: none;
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#backButton, #nextButton, #addRowButton, #rmvRowButton, #HBuploadButton, #HPuploadButton, #HEuploadButton, #HAuploadButton {
+        display: flex;
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        font-weight: bold;
+        /* background-color: #ccccff; */
+        /* background-color: #cbb89d; */
+        background-color: white;
+        color: black;
+        border: 2px solid black;
+        padding: 10px 10px;
+        border-radius: 50%;
+        cursor: pointer;
+        justify-content: center;
+        align-items: center;
+        user-select: none;
+}
+
+#nextButton, #HBuploadButton, #HPuploadButton, #HEuploadButton, #HAuploadButton {
+	margin-right: 10px;
+	margin-left: auto;
+	margin-bottom: 20px;
+	outline: none;
+	box-shadow: none;
+}
+
+#HBimages, #HPimages, #HEimages, #HAimages {
+	display: none;
+	outline: none;
+        box-shadow: none;
+}
+
+
+#backButton {
+	margin-left: 10px;
+	margin-right: auto;
+	margin-bottom: 20px;
+}
+
+#addRowButton {
+	margin-right: 20px;
+}
+
+#rmvRowButton {
+	margin-right: 20px;
+}
+
+.rounded-checkbox-container {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+      user-select: none;
+}
+
+.rounded-cashbox-container {
+      display: flex;
+      margin-left: auto;
+      user-select: none;
+}
+
+.rounded-checkbox {
+      position: relative;
+}
+
+.rounded-checkbox input[type="checkbox"] {
+      display: flex;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid #333;
+      outline: none;
+      cursor: pointer;
+      position: relative; /* Added position relative for the ::before and ::after elements */
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+}
+
+/* Style for the inner circle when checked */
+.rounded-checkbox input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute;
+      width: 10px; /* Adjust the size of the inner circle */
+      height: 10px; /* Adjust the size of the inner circle */
+      background-color: black;
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+}
+
+.inputCost {
+  margin-right: 20px;
+  display: flex;
+  width: auto;
+}
+
+#inputCost {
+  /*margin-left: 10px;*/
+  margin-right: 20px;
+  width: 50%;
+  border: none;
+  border-bottom: 2px solid black;
+  outline: none;
+}
+
+#inputCostHB {
+  width: auto;
+}
+
+#inputText {
+  margin-left: 10px;
+  margin-right: 10px;
+  width: 50%;
+  border: none;
+  border-bottom: 2px solid black;
+  outline: none;
+}
+
+#checkLabel, #HBcheckLabel, #HPcheckLabel, #HEcheckLabel, #HAcheckLabel, #TLcheckLabel {
+  margin-left: 10px;
+  margin-right: 10px;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.input-label {
+  margin-bottom: 10px;
+}
+
+#materials, #measures {
+  /*width: 165px;*/
+  width: 98%;
+  border: none;
+  border-bottom: 2px solid black;
+  outline: none;
+}
+
+#cash {
+  margin-left: auto;
+  user-select: none;
+}
+
+#checkMODE {
+  margin-left: 10px;
+  margin-right: 10px;
+  user-select: none;
+}
+
+
+/* Mobile responsiveness */
+/*
+@media screen and (max-width: 600px) {
+  .form-container {
+    width: 100%;
+  }
+  .btn {
+    width: 100%;
+    margin: 5px 0;
+  }
+  table {
+    width: 90%;
+  }
+}
+*/
+
+#fileInput {
+    display: none;
+    margin-left: auto;
+}
+
+#preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        /*.preview-image {
+            max-width: 100px;
+            max-height: 100px;
+	    margin: 10px;
+	    align-items: center;
+	    vertical-align: middle;
+	    border: 2px solid black;
+        }*/
+
+	.preview-container {
+            position: relative;
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            /*margin: 10px;*/
+            text-align: center;
+	    justify-content: center;
+            vertical-align: middle;
+	    align-items: center;
+	    margin: 5px;
+            line-height: 96px;
+	    border: 2px solid black;
+	    background-color: lightseagreen;
+        }
+        
+	.preview-image {
+            max-width: 100px;
+            max-height: 100px;
+	    /*border: 2px solid black;*/
+	    justify-content: center;
+            align-items: center;
+            vertical-align: middle;
+        }
+        
+	.preview-container::before {
+            /*content: 'X';*/
+	    content: '\274C'; /* Unicode for Font Awesome trash icon */
+            /*font-family: "Font Awesome 5 Free";*/
+	    font-weight: bold;
+            position: absolute;
+	    display: flex;
+	    top: 34px;
+	    left: 34px;
+	    width: 30px;
+            height: 30px;
+            background: rgba(255, 0, 0, 0.7);
+	    border: 2px solid black;
+	    background-color: white;
+            color: black;
+            font-size: 10px;
+            cursor: pointer;
+	    opacity: 0.65;
+	    border-radius: 50%;
+	    justify-content: center;
+	    align-items: center;
+	    vertical-align: middle;
+            user-select: none;
+        }
+
+        .upload-btn-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+	    text-align: center;
+  	    justify-content: center; /* Center the buttons horizontally */
+	    opacity: 0.5;
+        }
+
+        .ubtn {
+	    padding: 10px 20px;
+  	    font-size: 16px;
+  	    cursor: pointer;
+  	    margin: 0 5px;
+        }
+
+        /*.upload-btn-wrapper input[type=file] {
+            font-size: 100px;
+            position: absolute;
+	    position: relative;
+            overflow: hidden;
+            display: inline-block;
+            text-align: center;
+            justify-content: center;  Center the buttons horizontally
+            margin-top: 20px;
+            left: auto;
+            top: 0;
+            opacity: 0;
+        }*/
+
+        .ubtn-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .preview-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+
+#loading-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loading-spinner {
+    border: 8px solid rgba(0, 0, 0, 0.1);
+    border-top: 8px solid #eb4034;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* Mobile responsiveness */
+@media screen and (max-width: 600px) {
+  .form-container {
+    width: 100%;
+    overflow-x: auto; /* Enable horizontal scrolling if needed */
+    padding: 0 10px; /* Adjust left and right padding for equal spacing */
+  }
+
+  table {
+    width: 100%;
+  }
+
+  th, td {
+    padding: 8px; /* Adjust padding for smaller screens */
+  }
+
+  th {
+    font-size: 14px; /* Adjust font size for header cells */
+  }
+
+  td {
+    font-size: 12px; /* Adjust font size for data cells */
+  }
+
+  .btn {
+    width: 100%;
+    margin: 5px 0;
+  }
+}
+
+

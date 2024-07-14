@@ -1,12 +1,7 @@
-// Import the functions you need from the SDKs you need
-/*import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getStorage, ref, uploadString, getDownloadURL, updateMetadata } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
         apiKey: "AIzaSyDcHo4rDarasQ6vpTjtVYT0xu8T43AI4B8",
         authDomain: "test1-1e3d0.firebaseapp.com",
@@ -18,7 +13,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);*/
+const app = initializeApp(firebaseConfig);
 
 var materialsInputs = document.querySelectorAll('input[name="materials[]"]');
 materialsInputs[0].parentNode.parentNode.setAttribute('prefilled', 'true');
@@ -202,52 +197,77 @@ function prefillFormFromUrl() {
 // Call the function to prefill the form when the page loads
 document.addEventListener('DOMContentLoaded', prefillFormFromUrl);
 
-function uploadImages(user, previewID, formData) {
-	var preview = document.getElementById(previewID);
+function uploadImages(user) {
+    const previews = ["previewHB", "previewHP", "previewHE", "previewHA"];
+    //var allimg = 0;
+    formData['images'] = {};
+    //var names = "imgName";
+    //var tokens = "";
+	/*var preview = document.getElementById(previewID);
 	var images = preview.getElementsByTagName('img');
-	var names = previewID.slice(-2)+"_names"
+	var names = previewID.slice(-2)+"_name"
 	var tokens = previewID.slice(-2)+"_tokens"
 	formData[names] = [];
-	formData[tokens] = [];
+	formData[tokens] = [];*/
 	//var tokens = [];
 	//var names = [];
-
-        for (var i = 0; i < images.length; i++) {
+    for (var p=0; p < previews.length; p++) {
+	var previewID = previews[p];
+	var preview = document.getElementById(previewID);
+        var images = preview.getElementsByTagName('img');
+        var names = previewID.slice(-2)+"_name"
+        var tokens = previewID.slice(-2)+"_tokens"
+        //formData[names] = [];
+        //formData[tokens] = [];
+	//console.log(images);
+	if (images.length == 0) {
+	    allimg = allimg + 1;
+	    //console.log('from outside');
+	    //console.log(allimg);
+	} else {
+	for (var i = 0; i < images.length; i++) {
 	    var picurl = images[i].src;
-	    var now = new Date();
-            var year = now.getFullYear().toString().slice(-2); // Last two digits of year
-            var month = (now.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
-            var day = now.getDate().toString().padStart(2, '0');
-            var hour = now.getHours().toString().padStart(2, '0');
-            var minute = now.getMinutes().toString().padStart(2, '0');
-            var second = now.getSeconds().toString().padStart(2, '0');
-            var datetimeStr = `${year}${month}${day}${hour}${minute}${second}`;
-	    //var datetimeStr = new Date().toISOString().replace(/[-:.]/g, "");
+	    var datetimeStr = new Date().toISOString().replace(/[-:.]/g, "");
 	    var picname = previewID.slice(-2) + "_" + datetimeStr;
-	    formData[names].push(picname);
-
+	    //formData[names].push(picname);
 	    const storage = getStorage();
-            const storageRef = ref(storage,'user/'+user.uid+'/'+picname);
-	    uploadString(storageRef, picurl, 'data_url').then((snapshot) => {
-		getDownloadURL(snapshot.ref).then((downloadURL) => {
+            const storageRef = ref(storage,'user/'+user+'/'+picname);
+            uploadString(storageRef, picurl, 'data_url').then((snapshot) => {
+                getDownloadURL(snapshot.ref).then((downloadURL) => {
+                console.log(snapshot);
 		const URLparts = downloadURL.split('token=');
-		const token = URLparts.length > 1 ? URLparts[URLparts.length - 1] : null;
-		formData[tokens].push(token);
-		});
-	    })
-	    .catch((error) => {
-		//uploaded = false;
-		console.log({message:"Image not uploaded!\nPlease try again."});
-		//Telegram.WebApp.close();
+                const token = URLparts.length > 1 ? URLparts[URLparts.length - 1] : null;
+		formData['images'][snapshot.metadata.name] = token;
+                //formData[tokens].push(token);
+		//console.log(picname);
+		if (i == images.length) {
+                    allimg = allimg + 1;
+		    //console.log('from inside');
+		    //console.log(allimg);
+                }
+		if (allimg == 4) {
+		    //console.log(formData);
+		    send_formData_to_Bot();
+		}
+                });
+            })
+            .catch((error) => {
+                //uploaded = false;
+                console.log({message:"Image not uploaded!\nPlease try again."});
+		TW.showPopup({message:"Image not uploaded!\nPlease try again."});
+                //Telegram.WebApp.close();
             });
-        }
 
-	return formData;
+        }}
+	if (allimg == 4) {
+            //console.log(formData);
+	    send_formData_to_Bot();
+        }
+    }
 }
 
 
 function previewImagesHB(event) {
-	    uploadImages('previewHB');
             var preview = document.getElementById('previewHB');
             //preview.innerHTML = '';
 
@@ -308,7 +328,7 @@ function previewImagesHP(event) {
 
 function previewImagesHE(event) {
             var preview = document.getElementById('previewHE');
-            preview.innerHTML = '';
+            //preview.innerHTML = '';
 
             var files = event.target.files;
 
@@ -337,7 +357,7 @@ function previewImagesHE(event) {
 
 function previewImagesHA(event) {
             var preview = document.getElementById('previewHA');
-            preview.innerHTML = '';
+            //preview.innerHTML = '';
 
             var files = event.target.files;
 
@@ -385,27 +405,88 @@ function openFileBrowserHA(event) {
         fileInput.click();
 }
 
+window.goToPage = goToPage;
+window.openFileBrowserHB = openFileBrowserHB;
+window.openFileBrowserHP = openFileBrowserHP;
+window.openFileBrowserHE = openFileBrowserHE;
+window.openFileBrowserHA = openFileBrowserHA;
+window.previewImagesHB = previewImagesHB;
+window.previewImagesHP = previewImagesHP;
+window.previewImagesHE = previewImagesHE;
+window.previewImagesHA = previewImagesHA;
+window.toggleCostInput = toggleCostInput;
 
-Telegram.WebApp.ready();
-Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
+function send_formData_to_Bot() {
+	var jsonString = JSON.stringify(formData);
+	console.log(jsonString);
+        TW.sendData(jsonString);
+        TW.showPopup({message:"Design informations are now sent to the BOT!"});
+        TW.close();
+}
+
+let allimg = 0;
+let formData = {};
+
+const TW = Telegram.WebApp;
+TW.ready();
+TW.enableClosingConfirmation();
+
+TW.MainButton.text = 'Finish';
+TW.MainButton.color = '#eb4034';
+TW.MainButton.textColor = '#ffffff';
+
+//Telegram.WebApp.ready();
+//Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
+//TW.MainButton.show().onClick(function () {
+//        TW.MainButton.hide();
+//        document.getElementById('loading-overlay').style.display = 'flex';
+
+//const finishButton = document.getElementById("finishButton");
+//finishButton.addEventListener('click', function() {
+TW.MainButton.show().onClick(function () {
+	TW.MainButton.hide();
+	document.getElementById('loading-overlay').style.display = 'flex';
+	var username = sessionStorage.getItem('username');
+        var password = sessionStorage.getItem('password');
+        sessionStorage.removeItem('username');
+        sessionStorage.removeItem('password');
 	var form = document.getElementById('textileForm');
   	var jsonData = new FormData(form);
-  	var formData = {};
-  	jsonData.forEach((value, key) => {
-    	  if (!formData[key]) {
-      	    formData[key] = [];
-          }
-    	  formData[key].push(value);
-        });
-	/*const auth = getAuth();
+  	//var formData = {};
+	console.log(jsonData);
+	const auth = getAuth();
         signInWithEmailAndPassword(auth, username, password)
         .then((userCredential) => {
-        	const useri = userCredential.user;
-		var formData = uploadImages(useri, 'previewHB', formData);
-	});*/
-        formData['formname'] = 'Textile Design';
+  	jsonData.forEach((value, key) => {
+	  //console.log(value,key);
+	  if (key !== "images[]") {
+          	if (!formData[key]) {
+            		formData[key] = [];
+          	}
+           	formData[key].push(value);
+          }
+	});
+	const userid = userCredential.user.uid;
+	uploadImages(userid);
+	formData['formname'] = 'Textile Design';
         var jsonString = JSON.stringify(formData);
-        Telegram.WebApp.sendData(jsonString);
-        Telegram.WebApp.close();
+	/*if (allimg == 4) {
+            console.log(formData);
+        }*/
+        //console.log(jsonString);
+	})
+        .catch((error) => {
+                console.log("Incorrect username or password!\nSession closed!");
+                TW.showPopup({message:"Incorrect username or password!\nSession closed!"});
+                TW.close();
+        });
+        //formData['formname'] = 'Textile Design';
+        //var jsonString = JSON.stringify(formData);
+	//console.log(jsonString);
+	//localStorage.setItem('formData', jsonString);
+
+    	// Redirect to the authentication page
+        //Telegram.WebApp.sendData(jsonString);
+        //Telegram.WebApp.close();
 });
-Telegram.WebApp.expand();
+TW.expand();

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles/DGNstyles.css">
+  <link rel="stylesheet" href="styles.css">
   <title>Textile Design</title>
 </head>
 <body>
@@ -125,11 +125,6 @@
         <button type="button" id="nextButton" onclick="goToPage(3)" class="btn">&gt;</button>
 	<!-- <button type="button" onclick="finishPage(2)" class="btn">Finish</button> -->
       </div>
-
-      <div class="button-container">
-        <button type="button" id="finishButton">Finish</button>
-      </div>
-
     </div>
 
     <!-- Page 3: Finishing -->
@@ -153,9 +148,6 @@
       <div class="btn-container">
         <button type="button" id="backButton" onclick="goToPage(2)" class="btn">&lt;</button>
         <!-- <button type="button" onclick="finishPage(3)" class="btn">Finish</button> -->
-      </div>
-      <div class="button-container">
-        <button type="button" id="finishButton">Finish</button>
       </div>
     </div>
 
@@ -213,12 +205,9 @@
     
   </form>
 </div>
-<div id="loading-overlay" class="loading-overlay">
-     <div class="loading-spinner"></div>
-</div>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script type="module" src="scripts/DGNscript.js"></script>
+<script src="script.js"></script>
 
 </body>
 </html>
