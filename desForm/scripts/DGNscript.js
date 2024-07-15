@@ -417,6 +417,7 @@ window.previewImagesHA = previewImagesHA;
 window.toggleCostInput = toggleCostInput;
 
 function send_formData_to_Bot() {
+	formData['formname'] = 'Textile Design';
 	var jsonString = JSON.stringify(formData);
 	console.log(jsonString);
         TW.sendData(jsonString);
@@ -468,8 +469,8 @@ TW.MainButton.show().onClick(function () {
 	});
 	const userid = userCredential.user.uid;
 	uploadImages(userid);
-	formData['formname'] = 'Textile Design';
-        var jsonString = JSON.stringify(formData);
+	//formData['formname'] = 'Textile Design';
+        //var jsonString = JSON.stringify(formData);
 	/*if (allimg == 4) {
             console.log(formData);
         }*/
