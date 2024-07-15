@@ -15,6 +15,8 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
+let totalIMG = 0;
+
 var materialsInputs = document.querySelectorAll('input[name="materials[]"]');
 materialsInputs[0].parentNode.parentNode.setAttribute('prefilled', 'true');
 
@@ -199,7 +201,7 @@ document.addEventListener('DOMContentLoaded', prefillFormFromUrl);
 
 function uploadImages(user) {
     const previews = ["previewHB", "previewHP", "previewHE", "previewHA"];
-    //var allimg = 0;
+    //var uploadedIMG = 0;
     formData['images'] = {};
     //var names = "imgName";
     //var tokens = "";
@@ -211,6 +213,10 @@ function uploadImages(user) {
 	formData[tokens] = [];*/
 	//var tokens = [];
 	//var names = [];
+    if (uploadedIMG == totalIMG) {
+        send_formData_to_Bot();
+    } else {
+    document.getElementById('loading-overlay').style.display = 'flex';
     for (var p=0; p < previews.length; p++) {
 	var previewID = previews[p];
 	var preview = document.getElementById(previewID);
@@ -220,11 +226,6 @@ function uploadImages(user) {
         //formData[names] = [];
         //formData[tokens] = [];
 	//console.log(images);
-	if (images.length == 0) {
-	    allimg = allimg + 1;
-	    //console.log('from outside');
-	    //console.log(allimg);
-	} else {
 	for (var i = 0; i < images.length; i++) {
 	    var picurl = images[i].src;
 	    var datetimeStr = new Date().toISOString().replace(/[-:.]/g, "");
@@ -238,15 +239,10 @@ function uploadImages(user) {
 		const URLparts = downloadURL.split('token=');
                 const token = URLparts.length > 1 ? URLparts[URLparts.length - 1] : null;
 		formData['images'][snapshot.metadata.name] = token;
-                //formData[tokens].push(token);
-		//console.log(picname);
-		if (i == images.length) {
-                    allimg = allimg + 1;
-		    //console.log('from inside');
-		    //console.log(allimg);
-                }
-		if (allimg == 4) {
-		    //console.log(formData);
+                
+		uploadedIMG += 1;
+		
+		if (uploadedIMG == totalIMG) {
 		    send_formData_to_Bot();
 		}
                 });
@@ -259,10 +255,6 @@ function uploadImages(user) {
             });
 
         }}
-	if (allimg == 4) {
-            //console.log(formData);
-	    send_formData_to_Bot();
-        }
     }
 }
 
@@ -287,9 +279,11 @@ function previewImagesHB(event) {
 
                     container.addEventListener('click', function() {
                             preview.removeChild(container);
+			    totalIMG -= 1;
                     });
                     container.appendChild(img);
                     preview.appendChild(container);
+		    totalIMG += 1;
                 }
 
                 reader.readAsDataURL(file);
@@ -317,9 +311,11 @@ function previewImagesHP(event) {
 
 		    container.addEventListener('click', function() {
 			    preview.removeChild(container);
+			    totalIMG -= 1;
 		    });
 		    container.appendChild(img);
                     preview.appendChild(container);
+		    totalIMG += 1;
                 }
 
                 reader.readAsDataURL(file);
@@ -346,9 +342,11 @@ function previewImagesHE(event) {
 
                     container.addEventListener('click', function() {
                             preview.removeChild(container);
+			    totalIMG -= 1;
                     });
                     container.appendChild(img);
                     preview.appendChild(container);
+		    totalIMG += 1;
                 }
 
                 reader.readAsDataURL(file);
@@ -375,9 +373,11 @@ function previewImagesHA(event) {
 
                     container.addEventListener('click', function() {
                             preview.removeChild(container);
+			    totalIMG -= 1;
                     });
                     container.appendChild(img);
                     preview.appendChild(container);
+		    totalIMG += 1;
                 }
 
                 reader.readAsDataURL(file);
@@ -425,7 +425,7 @@ function send_formData_to_Bot() {
         TW.close();
 }
 
-let allimg = 0;
+let uploadedIMG = 0;
 let formData = {};
 
 const TW = Telegram.WebApp;
@@ -446,7 +446,7 @@ TW.MainButton.textColor = '#ffffff';
 //finishButton.addEventListener('click', function() {
 TW.MainButton.show().onClick(function () {
 	TW.MainButton.hide();
-	document.getElementById('loading-overlay').style.display = 'flex';
+	//document.getElementById('loading-overlay').style.display = 'flex';
 	var username = sessionStorage.getItem('username');
         var password = sessionStorage.getItem('password');
         sessionStorage.removeItem('username');
@@ -471,7 +471,7 @@ TW.MainButton.show().onClick(function () {
 	uploadImages(userid);
 	//formData['formname'] = 'Textile Design';
         //var jsonString = JSON.stringify(formData);
-	/*if (allimg == 4) {
+	/*if (uploadedIMG == 4) {
             console.log(formData);
         }*/
         //console.log(jsonString);
