@@ -232,7 +232,7 @@ function uploadImages(user) {
 	    var picname = previewID.slice(-2) + "_" + datetimeStr;
 	    //formData[names].push(picname);
 	    const storage = getStorage();
-            const storageRef = ref(storage,'user/'+user+'/'+picname);
+            const storageRef = ref(storage,'user/'+user+'/'+picname+'.png');
             uploadString(storageRef, picurl, 'data_url').then((snapshot) => {
                 getDownloadURL(snapshot.ref).then((downloadURL) => {
                 console.log(snapshot);
