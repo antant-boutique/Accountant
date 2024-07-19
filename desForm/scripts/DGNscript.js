@@ -405,6 +405,8 @@ function openFileBrowserHA(event) {
         fileInput.click();
 }
 
+window.addRow = addRow;
+window.deleteRow = deleteRow;
 window.goToPage = goToPage;
 window.openFileBrowserHB = openFileBrowserHB;
 window.openFileBrowserHP = openFileBrowserHP;
