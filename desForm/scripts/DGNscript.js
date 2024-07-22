@@ -385,6 +385,38 @@ function previewImagesHA(event) {
         }
 
 
+function previewImagesPROD(event) {
+            var preview = document.getElementById('previewPROD');
+            //preview.innerHTML = '';
+
+            var files = event.target.files;
+
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    var container = document.createElement('div');
+                    container.className = 'preview-container';
+
+                    var img = document.createElement('img');
+                    img.className = 'preview-image';
+                    img.src = e.target.result;
+
+                    container.addEventListener('click', function() {
+                            preview.removeChild(container);
+                            totalIMG -= 1;
+                    });
+                    container.appendChild(img);
+                    preview.appendChild(container);
+                    totalIMG += 1;
+                }
+
+                reader.readAsDataURL(file);
+            }
+        }
+
+
 function openFileBrowserHB(event) {
 	const fileInput = document.getElementById('HBimages');
 	fileInput.click();
@@ -405,6 +437,11 @@ function openFileBrowserHA(event) {
         fileInput.click();
 }
 
+function openFileBrowserPROD(event) {
+        const fileInput = document.getElementById('PRODimages');
+        fileInput.click();
+}
+
 window.addRow = addRow;
 window.deleteRow = deleteRow;
 window.goToPage = goToPage;
@@ -412,10 +449,12 @@ window.openFileBrowserHB = openFileBrowserHB;
 window.openFileBrowserHP = openFileBrowserHP;
 window.openFileBrowserHE = openFileBrowserHE;
 window.openFileBrowserHA = openFileBrowserHA;
+window.openFileBrowserPROD = openFileBrowserPROD;
 window.previewImagesHB = previewImagesHB;
 window.previewImagesHP = previewImagesHP;
 window.previewImagesHE = previewImagesHE;
 window.previewImagesHA = previewImagesHA;
+window.previewImagesPROD = previewImagesPROD;
 window.toggleCostInput = toggleCostInput;
 
 function send_formData_to_Bot() {

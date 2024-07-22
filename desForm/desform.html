@@ -146,10 +146,14 @@
         </label>
         <span id="checkLabel"> Suggest Price</span>
       </div>
+      Add images via the <b>+</b>, and go back via the <b>&lt;</b> button.
+      <input type="file" id="PRODimages" name="images[]" accept="image/*;capture=camera" multiple onchange="previewImagesPROD(event)"><br><br>
       <div class="btn-container">
         <button type="button" id="backButton" onclick="goToPage(2)" class="btn">&lt;</button>
+	<button for="PRODimages" type="button" class="btn" id="PRODuploadButton" onclick="openFileBrowserPROD()">+</button>
         <!-- <button type="button" onclick="finishPage(3)" class="btn">Finish</button> -->
       </div>
+      <div id="previewPROD"></div><br>
     </div>
 
     <!-- Page 2HB: Finishing -->
@@ -203,7 +207,7 @@
       </div>
       <div id="previewHA"></div><br>
     </div>
-    
+
   </form>
 </div>
 <div id="loading-overlay" class="loading-overlay">
