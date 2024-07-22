@@ -200,19 +200,10 @@ function prefillFormFromUrl() {
 document.addEventListener('DOMContentLoaded', prefillFormFromUrl);
 
 function uploadImages(user) {
-    const previews = ["previewHB", "previewHP", "previewHE", "previewHA"];
+    const previews = ["previewHB", "previewHP", "previewHE", "previewHA", "previewPROD"];
     //var uploadedIMG = 0;
     formData['images'] = {};
-    //var names = "imgName";
-    //var tokens = "";
-	/*var preview = document.getElementById(previewID);
-	var images = preview.getElementsByTagName('img');
-	var names = previewID.slice(-2)+"_name"
-	var tokens = previewID.slice(-2)+"_tokens"
-	formData[names] = [];
-	formData[tokens] = [];*/
-	//var tokens = [];
-	//var names = [];
+    
     if (uploadedIMG == totalIMG) {
         send_formData_to_Bot();
     } else {
@@ -221,15 +212,15 @@ function uploadImages(user) {
 	var previewID = previews[p];
 	var preview = document.getElementById(previewID);
         var images = preview.getElementsByTagName('img');
-        var names = previewID.slice(-2)+"_name"
-        var tokens = previewID.slice(-2)+"_tokens"
+        var names = previewID.slice(7)+"_name"
+        var tokens = previewID.slice(7)+"_tokens"
         //formData[names] = [];
         //formData[tokens] = [];
 	//console.log(images);
 	for (var i = 0; i < images.length; i++) {
 	    var picurl = images[i].src;
 	    var datetimeStr = new Date().toISOString().replace(/[-:.]/g, "");
-	    var picname = previewID.slice(-2) + "_" + datetimeStr;
+	    var picname = previewID.slice(7) + "_" + datetimeStr;
 	    //formData[names].push(picname);
 	    const storage = getStorage();
             const storageRef = ref(storage,'user/'+user+'/'+picname+'.png');

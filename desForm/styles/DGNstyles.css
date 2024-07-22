@@ -222,11 +222,15 @@ input[type="file"]:focus {
   outline: none;
 }
 
-#checkLabel, #HBcheckLabel, #HPcheckLabel, #HEcheckLabel, #HAcheckLabel, #TLcheckLabel {
+#checkLabel, #SPcheckLabel, #HBcheckLabel, #HPcheckLabel, #HEcheckLabel, #HAcheckLabel, #TLcheckLabel {
   margin-left: 10px;
   margin-right: 10px;
   white-space: nowrap;
   user-select: none;
+}
+
+#SPcheckLabel {
+  margin-bottom: 10px;
 }
 
 .input-label {
