@@ -51,18 +51,33 @@ function getURLParameters() {
 	return params;
 }
 
+// Get Parameters by name
+function getParameterByName(name, url) {
+  if (!url) url = window.location.href;
+  name = name.replace(/[\[\]]/g, "\\$&");
+  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+      results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
 // Function to populate form fields with URL parameter values
 function populateFormFields() {
 	var urlParams = getURLParameters();
 	var inputFields = document.querySelectorAll('input[name]');
 	console.log(inputFields)
 	var inputImage = document.getElementById('preview');
+	const MATcdn = getParameterByName('matcdn');
 	inputFields.forEach(function(inputField) {
 		var key = inputField.name;
 		var values = urlParams[key];
 		if (values && values.length > 0) {
 			if (key != 'picture') {
 				inputField.value = values[0];
+				if (MATcdn) {
+					inputField.readOnly = true;
+				}
 			} else {
 				inputField.src = values[0];
 				inputImage.src = values[0];
@@ -301,6 +316,10 @@ TW.MainButton.show().onClick(function () {
 	TW.MainButton.hide();
 	document.getElementById('loading-overlay').style.display = 'flex';
         formData['formname'] = 'Material Entry';
+	const MATcdn = getParameterByName('matcdn');
+        if (MATcdn) {
+                formData['matcdn'] = MATcdn;
+        }
         //var jsonString = JSON.stringify(formData);
 	//console.log(jsonString)i
 	if (formData.price === undefined) {
