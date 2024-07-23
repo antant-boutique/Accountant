@@ -61,7 +61,7 @@ TW.MainButton.show().onClick(function () {
 
 		var indexURL = window.location.href;
                 var idx = indexURL.indexOf("?");
-                var queryStr = indexURL.substring(idx);
+                var queryStr = idx !== -1 ? indexURL.substring(idx) : "";
                 window.location.href = 'matform.html' + queryStr;
         })
         .catch((error) => {
