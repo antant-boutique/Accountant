@@ -58,7 +58,11 @@ TW.MainButton.show().onClick(function () {
                 //sessionStorage.setItem('uid',user.uid);
 		sessionStorage.setItem('username',username);
                 sessionStorage.setItem('password',password);
-                window.location.href = 'matform.html';
+
+		var indexURL = window.location.href;
+		var idx = indexURL.indexOf("?");
+		var queryStr = indexURL.substring(idx);
+                window.location.href = 'matform.html' + queryStr;
         })
         .catch((error) => {
                 TW.showPopup({message:"Incorrect username or password!\nSession closed!"});
