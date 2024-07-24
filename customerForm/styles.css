@@ -140,7 +140,7 @@ th {
       user-select: none;
 }
 
-#inputCost {
+#inputCost, #discount {
   margin-left: 10px;
   margin-right: 10px;
   width: 50%;
