@@ -235,8 +235,14 @@ document.addEventListener('DOMContentLoaded', () => {
 	//calculatePayable();
 });
 
-Telegram.WebApp.ready();
-Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
+const TW = Telegram.WebApp;
+TW.ready();
+
+TW.MainButton.text = 'Login';
+TW.MainButton.color = '#222222';
+TW.MainButton.textColor = '#ffffff';
+
+TW.MainButton.setText('Finish').show().onClick(function () {
 	var form = document.getElementById('billingForm');
   	var jsonData = new FormData(form);
   	var formData = {};
@@ -252,7 +258,7 @@ Telegram.WebApp.MainButton.setText('Finish').show().onClick(function () {
 		formData['INVCno'] = INVCno;
 	}
         var jsonString = JSON.stringify(formData);
-        Telegram.WebApp.sendData(jsonString);
-        Telegram.WebApp.close();
+        TW.sendData(jsonString);
+        TW.close();
 });
-Telegram.WebApp.expand();
+TW.expand();
