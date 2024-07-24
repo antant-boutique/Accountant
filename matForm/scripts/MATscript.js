@@ -69,6 +69,10 @@ function populateFormFields() {
 	console.log(inputFields)
 	var inputImage = document.getElementById('preview');
 	const MATcdn = getParameterByName('matcdn');
+	if (MATcdn) {
+		var nextButton = document.getElementById('nextButton');
+		nextButton.display = 'none';
+	}
 	inputFields.forEach(function(inputField) {
 		var key = inputField.name;
 		var values = urlParams[key];
