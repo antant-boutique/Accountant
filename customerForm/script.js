@@ -6,9 +6,9 @@ function addRow() {
   var newRow = table.insertRow(table.rows.length);
   var cell1 = newRow.insertCell(0);
   var cell2 = newRow.insertCell(1);
-  cell1.innerHTML = '<input type="text" name="models[]" required>';
+  cell1.innerHTML = '<input type="text" name="models[]" id="models" required>';
   //cell2.innerHTML = '<input type="number" name="quantities[]" required oninput="calculateTotal()">';
-  cell2.innerHTML = '<input type="number" name="quantities[]" required>';
+  cell2.innerHTML = '<input type="number" name="quantities[]" id="quantities" required>';
   cell1.parentNode.parentNode.setAttribute('prefilled', 'false');
   document.getElementById('total-container').style.display = 'none';
   document.getElementById('pay-container').style.display = 'none';
