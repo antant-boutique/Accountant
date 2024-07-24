@@ -140,6 +140,15 @@ th {
       user-select: none;
 }
 
+#customerName, #customerContact, #customerAddress {
+  margin-left: 10px;
+  margin-right: 10px;
+  width: auto;
+  border: none;
+  border-bottom: 2px solid black;
+  outline: none;
+}
+
 #inputCost, #discount {
   margin-left: 10px;
   margin-right: 10px;
