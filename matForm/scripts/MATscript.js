@@ -71,7 +71,7 @@ function populateFormFields() {
 	const MATcdn = getParameterByName('matcdn');
 	if (MATcdn) {
 		var nextButton = document.getElementById('nextButton');
-		nextButton.display = 'none';
+		nextButton.style.display = 'none';
 	}
 	inputFields.forEach(function(inputField) {
 		var key = inputField.name;
