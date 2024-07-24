@@ -238,11 +238,11 @@ document.addEventListener('DOMContentLoaded', () => {
 const TW = Telegram.WebApp;
 TW.ready();
 
-TW.MainButton.text = 'Login';
-TW.MainButton.color = '#222222';
+TW.MainButton.text = 'Finish';
+TW.MainButton.color = '#eb4034';
 TW.MainButton.textColor = '#ffffff';
 
-TW.MainButton.setText('Finish').show().onClick(function () {
+TW.MainButton.show().onClick(function () {
 	var form = document.getElementById('billingForm');
   	var jsonData = new FormData(form);
   	var formData = {};
