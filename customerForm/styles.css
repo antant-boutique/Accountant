@@ -143,6 +143,7 @@ th {
 #customerName, #customerContact, #customerAddress {
   margin-left: 10px;
   margin-right: 10px;
+  margin-bottom: 10px;
   width: 100%;
   border: none;
   border-bottom: 2px solid black;
