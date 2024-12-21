@@ -200,13 +200,19 @@ input[type="file"]:focus {
   width: auto;
 }
 
-#inputQty #inputCost {
+#inputCost {
   /*margin-left: 10px;*/
   margin-right: 20px;
   width: 50%;
   border: none;
   border-bottom: 2px solid black;
   outline: none;
+}
+
+#inputQty {
+  margin-right: 20px;
+  display: flex;
+  width: auto;
 }
 
 #inputCostHB {
