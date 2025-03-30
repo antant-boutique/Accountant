@@ -159,16 +159,7 @@ th {
   outline: none;
 }
 
-#inputText {
-  margin-left: 10px;
-  margin-right: 10px;
-  width: 50%;
-  border: none;
-  border-bottom: 2px solid black;
-  outline: none;
-}
-
-#accessories {
+#inputText, #accText {
   margin-left: 10px;
   margin-right: 10px;
   width: 50%;

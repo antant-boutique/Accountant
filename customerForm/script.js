@@ -118,6 +118,7 @@ function prefillFormFromUrl() {
   var customerAddress = getParameterByName('customerAddress');
   var modelValues = getParameterByName('models');
   var quantityValues = getParameterByName('quantities');
+  var accessoriesValue = getParameterByName('accessories');
   var artworkValues = getParameterByName('artwork');
   var totalAmountValue = getParameterByName('totalAmount');
   var addDiscountValue = getParameterByName('addDiscount');
@@ -180,6 +181,10 @@ function prefillFormFromUrl() {
         }
       }
     });
+  }
+
+  if (accessoriesValue) {
+	document.getElementById('accText').value = accessoriesValue;
   }
 
   if (totalAmountValue) {
