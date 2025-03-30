@@ -168,6 +168,15 @@ th {
   outline: none;
 }
 
+#accessories {
+  margin-left: 10px;
+  margin-right: 10px;
+  width: 50%;
+  border: none;
+  border-bottom: 2px solid black;
+  outline: none;
+}
+
 #checkLabel {
   margin-left: 10px;
   margin-right: 10px;
