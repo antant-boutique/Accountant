@@ -148,7 +148,7 @@ function prefillFormFromUrl() {
         // If it's the first value, set it in the default row
         if (modelsInputs[index]) {
           modelsInputs[index].value = value;
-          modelsInputs[index].readOnly = true;
+          // modelsInputs[index].readOnly = true;
         }
       } else {
         // If it's not the first value, add a new row and set the value
@@ -156,7 +156,7 @@ function prefillFormFromUrl() {
         var newRowInputs = document.querySelectorAll('input[name="models[]"]');
         if (newRowInputs[index]) {
           newRowInputs[index].value = value;
-          newRowInputs[index].readOnly = true;
+          // newRowInputs[index].readOnly = true;
     newRowInputs[index].parentNode.parentNode.setAttribute('prefilled', 'true');
         }
       }
