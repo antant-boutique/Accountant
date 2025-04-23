@@ -170,13 +170,13 @@ function prefillFormFromUrl() {
       if (index === 0) {
         if (quantitiesInputs[index]) {
           quantitiesInputs[index].value = value;
-    	  quantitiesInputs[index].readOnly = true;
+    	  //quantitiesInputs[index].readOnly = true;
         }
       } else {
         var newRowInputs = document.querySelectorAll('input[name="quantities[]"]');
         if (newRowInputs[index]) {
           newRowInputs[index].value = value;
-          newRowInputs[index].readOnly = true;
+          //newRowInputs[index].readOnly = true;
     //newRowInputs[index].parentNode.parentNode.classList.add('prefilled');
         }
       }
