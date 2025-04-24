@@ -40,7 +40,7 @@ function goToPage(page) {
 }
 
 function finishPage(page) {
-  var form = document.getElementById('textileForm');
+  var form = document.getElementById('orderForm');
   var jsonData = new FormData(form);
   var formData = {};
   jsonData.forEach((value, key) => {
