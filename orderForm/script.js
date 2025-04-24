@@ -35,7 +35,7 @@ function deleteRow(button) {
 function goToPage(page) {
   document.getElementById('page1').style.display = page === 1 ? 'block' : 'none';
   document.getElementById('page2').style.display = page === 2 ? 'block' : 'none';
-  document.getElementById('page3').style.display = page === 3 ? 'block' : 'none';
+  //document.getElementById('page3').style.display = page === 3 ? 'block' : 'none';
   //calculatePayable();
 }
 
