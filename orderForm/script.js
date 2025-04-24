@@ -9,7 +9,7 @@ function addRow() {
   cell1.innerHTML = '<input type="text" name="models[]" id="models" required>';
   //cell2.innerHTML = '<input type="number" name="quantities[]" required oninput="calculateTotal()">';
   //cell2.innerHTML = '<input type="number" name="quantities[]" id="quantities" required>';
-  cell2.innerHTML = '<label class="rounded-checkbox"><input type="checkbox" name="fullpaid" id="stepbox" value="on"></label>';
+  cell2.innerHTML = '<label class="rounded-checkbox"><input type="checkbox" name="stepboxes[]" id="stepboxes" value="on"></label>';
   cell1.parentNode.parentNode.setAttribute('prefilled', 'false');
   document.getElementById('total-container').style.display = 'none';
   document.getElementById('pay-container').style.display = 'none';
@@ -35,12 +35,12 @@ function deleteRow(button) {
 function goToPage(page) {
   document.getElementById('page1').style.display = page === 1 ? 'block' : 'none';
   document.getElementById('page2').style.display = page === 2 ? 'block' : 'none';
-  //document.getElementById('page3').style.display = page === 3 ? 'block' : 'none';
+  document.getElementById('page3').style.display = page === 3 ? 'block' : 'none';
   //calculatePayable();
 }
 
 function finishPage(page) {
-  var form = document.getElementById('orderForm');
+  var form = document.getElementById('textileForm');
   var jsonData = new FormData(form);
   var formData = {};
   jsonData.forEach((value, key) => {
@@ -79,6 +79,38 @@ function getParameterByName(name, url) {
   return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
+function calculateTotal() {
+	const quantities = document.querySelectorAll('input[name="quantities[]"]');
+	let total = 0;
+
+	for (let i = 0; i < quantities.length; i++) {
+		const value = parseFloat(quantities[i].value) || 0;
+		total += value;
+	}
+
+	document.getElementById('total').value = total.toFixed(2);
+}
+
+function calculatePayable() {
+	const total = parseFloat(document.getElementById('total').value);
+	const checkboxes = document.querySelectorAll('input[name="discount"]');
+	var checkbox = Array.from(checkboxes).find((checkbox) => checkbox.value === 'on');
+	let payable = total;
+
+	console.log(checkbox.checked);
+
+	const totalAmountValue = parseFloat(getParameterByName('totalAmount')) || 0;
+	const payableAmountValue = parseFloat(getParameterByName('payableAmount')) || 0;
+
+	let paid = totalAmountValue-payableAmountValue;
+
+	if (checkbox.checked && paid<0.5) {
+		const discount = parseFloat(document.getElementById('discount').value) || 0;
+		payable -= payable*(discount/100);
+		document.getElementById('payable').value = Math.round(payable).toFixed(2);
+	}
+}
+
 // Function to prefill entries from URL
 function prefillFormFromUrl() {
   // Get values from URL parameters
@@ -86,7 +118,15 @@ function prefillFormFromUrl() {
   var customerContact = getParameterByName('customerContact');
   var customerAddress = getParameterByName('customerAddress');
   var modelValues = getParameterByName('models');
-  var quantityValues = getParameterByName('stepboxes');
+  var quantityValues = getParameterByName('quantities');
+  var accessoriesValue = getParameterByName('accessories');
+  var artworkValues = getParameterByName('artwork');
+  var totalAmountValue = getParameterByName('totalAmount');
+  var addDiscountValue = getParameterByName('addDiscount');
+  var payableAmountValue = getParameterByName('payableAmount');
+  var paidAmountValue = getParameterByName('paidAmount');
+  var fullpaidOption = getParameterByName('fullpaid');
+  var upiQRpayment = getParameterByName('upiQR');
 
   // Prefill values in the form
   if (customerName) {
@@ -125,7 +165,7 @@ function prefillFormFromUrl() {
   }
 
   if (quantityValues) {
-    var quantitiesInputs = document.querySelectorAll('input[name="stepboxes[]"]');
+    var quantitiesInputs = document.querySelectorAll('input[name="quantities[]"]');
     var values = quantityValues.split(',');
     values.forEach((value, index) => {
       if (index === 0) {
@@ -134,7 +174,7 @@ function prefillFormFromUrl() {
     	  //quantitiesInputs[index].readOnly = true;
         }
       } else {
-        var newRowInputs = document.querySelectorAll('input[name="stepboxes[]"]');
+        var newRowInputs = document.querySelectorAll('input[name="quantities[]"]');
         if (newRowInputs[index]) {
           newRowInputs[index].value = value;
           //newRowInputs[index].readOnly = true;
@@ -142,12 +182,47 @@ function prefillFormFromUrl() {
         }
       }
     });
+  }
+
+  if (accessoriesValue) {
+	document.getElementById('accText').value = accessoriesValue;
+  }
+
+  if (totalAmountValue) {
+        document.getElementById('total').value = totalAmountValue;
+        document.getElementById('total-container').style.display = 'block';
+  }
+
+  if (addDiscountValue) {
     var artworkCheckboxes = document.querySelectorAll('input[name="discount"]');
     var checkbox = Array.from(artworkCheckboxes).find((checkbox) => checkbox.value === 'on');
     checkbox.checked = true;
     toggleCostInput(checkbox, 'addDiscount')
     document.querySelector('input[name="addDiscount"]').value = addDiscountValue;
   }
+
+  if (payableAmountValue) {
+	document.getElementById('payable').value = payableAmountValue;
+	document.getElementById('pay-container').style.display = 'block';
+  }
+
+  if (paidAmountValue) {
+	document.querySelector('input[name="paidAmount"]').value = paidAmountValue;
+  }
+
+  if (fullpaidOption) {
+  	var artworkCheckboxes = document.querySelectorAll('input[name="fullpaid"]');
+	var checkbox = Array.from(artworkCheckboxes).find((checkbox) => checkbox.value === 'on');
+	checkbox.checked = true;
+  }
+
+  if (upiQRpayment) {
+        var artworkCheckboxes = document.querySelectorAll('input[name="upiQR"]');
+        var checkbox = Array.from(artworkCheckboxes).find((checkbox) => checkbox.value === 'on');
+        checkbox.checked = true;
+  }
+
+}
 
 //function addInputListeners() {
 //            const quantities = document.getElementsByName('quantities[]');
