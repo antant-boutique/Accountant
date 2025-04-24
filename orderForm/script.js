@@ -63,6 +63,7 @@ function togglePaidInput(checkbox, inputName) {
   costInput.disabled = checkbox.checked;
 }
 
+
 //function toggleProdPrice(checkbox) {
 //  var costInput = document.querySelector('input[name="productPrice"]');
 //  costInput.disabled = checkbox.checked;
@@ -258,6 +259,9 @@ TW.MainButton.show().onClick(function () {
           }
     	  formData[key].push(value);
         });
+	// Overwrite stepboxes manually to ensure true/false values
+    	var checkboxes = document.querySelectorAll('input[name="stepboxes[]"]');
+    	formData["stepboxes"] = Array.from(checkboxes).map(cb => cb.checked);
         formData['formname'] = 'Ordering'
 	const INVCno = getParameterByName('ORDRno');
 	if (INVCno) {
