@@ -9,7 +9,7 @@ function addRow() {
   cell1.innerHTML = '<input type="text" name="models[]" id="models" required>';
   //cell2.innerHTML = '<input type="number" name="quantities[]" required oninput="calculateTotal()">';
   //cell2.innerHTML = '<input type="number" name="quantities[]" id="quantities" required>';
-  cell2.innerHTML = '<label class="rounded-checkbox"><input type="checkbox" name="stepboxes[]" id="stepboxes" value="on"></label>';
+  cell2.innerHTML = '<label class="rounded-checkbox"><input type="checkbox" name="stepboxes[]" id="stepboxes" value="off"></label>';
   cell1.parentNode.parentNode.setAttribute('prefilled', 'false');
   document.getElementById('total-container').style.display = 'none';
   document.getElementById('pay-container').style.display = 'none';
