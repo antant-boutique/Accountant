@@ -261,7 +261,7 @@ TW.MainButton.show().onClick(function () {
         });
 	// Overwrite stepboxes manually to ensure true/false values
     	var checkboxes = document.querySelectorAll('input[name="stepboxes[]"]');
-    	formData["stepboxes"] = Array.from(checkboxes).map(cb => cb.checked);
+    	formData["stepboxes[]"] = Array.from(checkboxes).map(cb => cb.checked);
         formData['formname'] = 'Ordering'
 	const INVCno = getParameterByName('ORDRno');
 	if (INVCno) {
