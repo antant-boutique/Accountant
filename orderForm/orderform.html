@@ -4,7 +4,8 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="styles.css">
-	<title>Creating Order</title>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,700,1,0" />
+	<title>Product Billing</title>
 </head>
 <body>
 
@@ -28,39 +29,40 @@
       		</div>
 	</div>
     	
-	<!-- Page 2: Assign Materials -->
+	<!-- Page 2: Add Product -->
     	<div id="page2" style="display: none;">
-      		<h2>Add to Order List</h2>
+      		<h2>Add to Wishlist</h2>
       		<table>
         	<thead>
           	<tr>
-            		<th>Material</th>
-            		<th>Printing</th>
+            		<th>Products</th>
+            		<th style="width: 20%;">Qty</th>
+			<th>Model No</th>
           	</tr>
         	</thead>
         	<tbody>
           	<tr>
-            		<td><input type="text" name="models[]" id="models" required></td>
+            		<td><input type="text" name="products[]" id="products" required></td>
 			<!-- <td><input type="number" name="quantities[]" required oninput="calculateTotal()"></td> -->
-			<!-- <td><input type="number" name="quantities[]" id="quantities" required></td> -->
-			<td><label class="rounded-checkbox"><input type="checkbox" name="stepboxes[]" id="stepboxes"></label>
-			</td>
+			<td><input type="number" name="quantities[]" id="quantities" required></td>
+			<td><input type="text" name="models[]" id="models" required></td>
           	</tr>
         	</tbody>
       		</table>
-		<!-- <div id="total-container">
+		<div id="total-container">
 			<label for="total">Total (INR):</label>
         		<input type="number" id="total" name="total" readonly><br><br>
 		</div>
 		<div class="input-label">
-                        <label>Accessories (INR): <input type="number" id="accText" name="accessories" placeholder="price in INR"></label><br>
-		</div> -->
+                        <label>Accessories: <input type="text" id="accText" name="accessories" placeholder="description"></label><br>
+                </div>
       		<div class="btn-container">
         		<button type="button" id="rmvRowButton" onclick="deleteRow()" class="btn">-</button>
 			<button type="button" id="addRowButton" onclick="addRow()" class="btn">+</button>
       		</div>
       		<div class="btn-container">
 			<button type="button" id="backButton" onclick="goToPage(1)" class="btn">&lt;</button>
+			<!-- <button type="button" id="nextButton" onclick="goToPage(3)" class="btn">&gt;</button> -->
         		<!-- <button type="button" onclick="finishPage(1)" class="btn">Finish</button> -->
       		</div>
     	</div>

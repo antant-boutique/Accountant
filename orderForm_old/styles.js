@@ -53,7 +53,8 @@ th {
   margin: 0 5px;
 }
 
-#models, #quantities, #products {
+
+#models, #quantities {
   /*width: 165px;*/
   width: 98%;
   border: none;
@@ -215,6 +216,7 @@ th {
   }
 }
 */
+
 
 /* Mobile responsiveness */
 @media screen and (max-width: 600px) {
