@@ -254,9 +254,9 @@ TW.MainButton.show().onClick(function () {
     	  formData[key].push(value);
         });
         formData['formname'] = 'Ordering'
-	const INVCno = getParameterByName('INVCno');
-	if (INVCno) {
-		formData['INVCno'] = INVCno;
+	const ORDERno = getParameterByName('ORDERno');
+	if (ORDERno) {
+		formData['ORDERno'] = ORDERno;
 	}
         var jsonString = JSON.stringify(formData);
         TW.sendData(jsonString);
