@@ -198,7 +198,6 @@ function prefillFormFromUrl() {
         }
       } else {
         // If it's not the first value, add a new row and set the value
-        addRow();
         var newRowInputs = document.querySelectorAll('input[name="models[]"]');
         if (newRowInputs[index]) {
           newRowInputs[index].value = value;
