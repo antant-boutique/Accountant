@@ -142,29 +142,6 @@ function prefillFormFromUrl() {
     document.querySelector('input[name="customerAddress"]').value = customerAddress;
   }
 
-  if (modelValues) {
-    var modelsInputs = document.querySelectorAll('input[name="models[]"]');
-    var values = modelValues.split(',');
-    values.forEach((value, index) => {
-      if (index === 0) {
-        // If it's the first value, set it in the default row
-        if (modelsInputs[index]) {
-          modelsInputs[index].value = value;
-          // modelsInputs[index].readOnly = true;
-        }
-      } else {
-        // If it's not the first value, add a new row and set the value
-        addRow();
-        var newRowInputs = document.querySelectorAll('input[name="models[]"]');
-        if (newRowInputs[index]) {
-          newRowInputs[index].value = value;
-          // newRowInputs[index].readOnly = true;
-    newRowInputs[index].parentNode.parentNode.setAttribute('prefilled', 'true');
-        }
-      }
-    });
-  }
-
   if (productValues) {
     var productsInputs = document.querySelectorAll('input[name="products[]"]');
     var values = productValues.split(',');
@@ -203,6 +180,30 @@ function prefillFormFromUrl() {
           newRowInputs[index].value = value;
           //newRowInputs[index].readOnly = true;
     //newRowInputs[index].parentNode.parentNode.classList.add('prefilled');
+        }
+      }
+    });
+  }
+
+  if (modelValues) {
+    var modelsInputs = document.querySelectorAll('input[name="models[]"]');
+    var values = modelValues.split(',');
+    console.log(values)
+    values.forEach((value, index) => {
+      if (index === 0) {
+        // If it's the first value, set it in the default row
+        if (modelsInputs[index]) {
+          modelsInputs[index].value = value;
+          // modelsInputs[index].readOnly = true;
+        }
+      } else {
+        // If it's not the first value, add a new row and set the value
+        addRow();
+        var newRowInputs = document.querySelectorAll('input[name="models[]"]');
+        if (newRowInputs[index]) {
+          newRowInputs[index].value = value;
+          // newRowInputs[index].readOnly = true;
+    newRowInputs[index].parentNode.parentNode.setAttribute('prefilled', 'true');
         }
       }
     });
