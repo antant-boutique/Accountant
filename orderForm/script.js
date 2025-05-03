@@ -12,8 +12,8 @@ function addRow() {
   cell2.innerHTML = '<input type="number" name="quantities[]" id="quantities" required>';
   cell3.innerHTML = '<input type="text" name="models[]" id="models" required>';
   cell1.parentNode.parentNode.setAttribute('prefilled', 'false');
-  document.getElementById('total-container').style.display = 'none';
-  document.getElementById('pay-container').style.display = 'none';
+  //document.getElementById('total-container').style.display = 'none';
+  //document.getElementById('pay-container').style.display = 'none';
 }
 
 // Function to delete a row from the table
